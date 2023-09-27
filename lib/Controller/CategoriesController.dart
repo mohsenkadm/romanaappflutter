@@ -1,6 +1,9 @@
+import 'dart:convert';
+
 import 'package:get/get.dart';
-import 'package:romanaappflutter/Model/CategoriesModel.dart';
-import 'package:romanaappflutter/views/Category.dart'; 
+import 'package:http/http.dart' as http;
+import 'package:romanaappflutter/Model/CategoriesModel.dart';  
+import 'package:romanaappflutter/linkapi.dart'; 
 
 class CategoriesController extends GetxController {
    
@@ -16,13 +19,19 @@ class CategoriesController extends GetxController {
 
 
   Future<void> fetchData() async {
-    
-    isloded.value=true;
-    await Future.delayed(Duration(seconds: 4));
-    itemscategories.add(CategoriesModel( 1, 'assets/images/img1.png','مطاعم'));
-    itemscategories.add(CategoriesModel( 2, 'assets/images/img2.png', 'اسواق'));
-    itemscategories.add(CategoriesModel( 3, 'assets/images/img3.png', 'محلات'));
-    
-    isloded.value=false;
+    try{
+    final response=await http.get(Uri.https(AppLink.apiUrl,AppLink.getAllCategories));
+    if(response.statusCode==200){
+      final result=json.decode(response.body);
+       var data = result['data'];
+      itemscategories.value= data.map((json) => CategoriesModel.fromJson(json)).toList();
+    }
+    else{
+      throw Exception('');
+    }
+    }
+    finally{
+    isloded.value=false; 
+    }
   }
 }

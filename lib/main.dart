@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_time_ago/get_time_ago.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
+import 'package:romanaappflutter/views/AboutApp.dart';
 import 'package:romanaappflutter/views/category.dart';
 import 'package:romanaappflutter/views/homepage.dart';
 import 'package:romanaappflutter/views/myorder.dart';
@@ -21,16 +22,16 @@ class _MyApp extends StatelessWidget {
   
   final List<Widget> tabs = [
     const homepage(),
-    category(),
-    my_order(),
-    profileuser()
+    const category(),
+    const my_order(),
+    const Profileuser()
   ]; 
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp( 
         theme:myTheme,
       debugShowCheckedModeBanner: false,
-      home: new Scaffold( 
+      home: Scaffold( 
       bottomNavigationBar: my_bottom_bar(),
         appBar: my_app_bar(),
         body:  Obx(
@@ -40,9 +41,10 @@ class _MyApp extends StatelessWidget {
       
       ),
       getPages: [
-        GetPage(name: "/notification", page: ()=>notification()),
-        GetPage(name: "/Search", page: ()=>SearchResAndProd()),
-        GetPage(name: "/shoppingcart", page: ()=>shoppingcard()),
+        GetPage(name: "/notification", page: ()=>const notification()),
+        GetPage(name: "/Search", page: ()=>const SearchResAndProd()),
+        GetPage(name: "/shoppingcart", page: ()=>const shoppingcard()),
+        GetPage(name: "/AboutApp", page: ()=>const AboutApp()),
       ],
     );
   }
@@ -57,8 +59,10 @@ class _MyApp extends StatelessWidget {
     selectedIndex: currentIndex.value,
     onTabChange: (index)=> currentIndex.value=index,
        gap: 4,
+        // ignore: deprecated_member_use
         backgroundColor: myTheme.backgroundColor,
         color: myTheme.primaryColor,
+// ignore: deprecated_member_use
 activeColor: myTheme.backgroundColor,
         tabBackgroundColor: myTheme.primaryColor,
         padding: const EdgeInsets.symmetric(horizontal: 16 ,vertical: 10),
@@ -78,7 +82,7 @@ activeColor: myTheme.backgroundColor,
     return AppBar(  
       actions: [
         Container(
-         margin: EdgeInsets.symmetric(horizontal: 5,vertical: 4),
+         margin: const EdgeInsets.symmetric(horizontal: 5,vertical: 4),
            decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(35)
             ,color: myTheme.secondaryHeaderColor),
@@ -89,7 +93,7 @@ activeColor: myTheme.backgroundColor,
           ),
         ),
         Container(
-         margin: EdgeInsets.symmetric(horizontal: 5,vertical: 4),
+         margin: const EdgeInsets.symmetric(horizontal: 5,vertical: 4),
            decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(35)
             ,color: myTheme.secondaryHeaderColor),
@@ -128,6 +132,7 @@ activeColor: myTheme.backgroundColor,
 
 ThemeData myTheme = ThemeData(
   primaryColor: const Color.fromARGB(255, 96, 186, 98),          // Change this to your primary color
+  // ignore: deprecated_member_use
   backgroundColor: Colors.white,  
   secondaryHeaderColor: const Color.fromARGB(50, 96, 186, 98),// Change this to your accent color
   // Add more color properties as needed

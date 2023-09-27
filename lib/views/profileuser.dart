@@ -1,21 +1,17 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart'; 
-import 'package:flutter/widgets.dart'; 
-
-
-class profileuser extends StatefulWidget {
-  const profileuser({Key? key}) : super(key: key);
-
-  @override
-  State<profileuser> createState() => _profileuser();
-}
-class _profileuser extends State<profileuser> {  
+ 
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';  
+ class Profileuser extends StatefulWidget {
+   const Profileuser({ Key? key }) : super(key: key);
+ 
    @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home:  Scaffold(   
-        body: Column(children: [
+   _ProfileuserState createState() => _ProfileuserState();
+ }
+ 
+ class _ProfileuserState extends State<Profileuser> {
+   @override
+   Widget build(BuildContext context) {
+     return Column(children: [
           Container(
             margin: const EdgeInsets.all(10),
             decoration: BoxDecoration(
@@ -23,7 +19,7 @@ class _profileuser extends State<profileuser> {
               color: Theme.of(context).secondaryHeaderColor)
             ,child: ListTile( 
             trailing: Container(
-              padding: EdgeInsets.all(10),
+              padding: const EdgeInsets.all(10),
             decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(35)
             ,color:Theme.of(context).secondaryHeaderColor),
@@ -42,7 +38,7 @@ class _profileuser extends State<profileuser> {
               color: Theme.of(context).secondaryHeaderColor)
             ,child: ListTile( 
             trailing: Container(
-              padding: EdgeInsets.all(10),
+              padding: const EdgeInsets.all(10),
             decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(35)
             ,color:Theme.of(context).secondaryHeaderColor),
@@ -63,7 +59,7 @@ class _profileuser extends State<profileuser> {
                 color: Theme.of(context).secondaryHeaderColor)
                          ,child: ListTile( 
                          trailing: Container(
-                padding: EdgeInsets.all(10),
+                padding: const EdgeInsets.all(10),
                          decoration: BoxDecoration(
                          borderRadius: BorderRadius.circular(35)
                          ,color:Theme.of(context).secondaryHeaderColor),
@@ -75,7 +71,20 @@ class _profileuser extends State<profileuser> {
                          ,),
              ),
              TextButton(
-               onPressed: () {  },
+               onPressed: () { 
+                //if (Platform.isAndroid || Platform.isIOS) {
+                  //  final appId = Platform.isAndroid ? 'YOUR_ANDROID_PACKAGE_ID' : 'YOUR_IOS_APP_ID';
+                    //final url = Uri.parse(
+                 //     Platform.isAndroid
+                   //       ? "market://details?id=$appId"
+                   //       : "https://apps.apple.com/app/id$appId",
+                  //  );
+                  //  launchUrl(
+                  //    url,
+                  //    mode: LaunchMode.externalApplication,
+                  //  );
+               //   }
+                },
                child: Container( 
                 margin: const EdgeInsets.symmetric(horizontal: 0,vertical: 0), 
                           decoration: BoxDecoration(
@@ -83,7 +92,7 @@ class _profileuser extends State<profileuser> {
                 color: Theme.of(context).secondaryHeaderColor)
                          ,child: ListTile( 
                          trailing: Container(
-                padding: EdgeInsets.all(10),
+                padding: const EdgeInsets.all(10),
                          decoration: BoxDecoration(
                          borderRadius: BorderRadius.circular(35)
                          ,color:Theme.of(context).secondaryHeaderColor),
@@ -96,7 +105,9 @@ class _profileuser extends State<profileuser> {
              ),
              
              TextButton(
-               onPressed: () {  },
+               onPressed: () { 
+                Get.toNamed('/AboutApp');
+                },
                child: Container( 
                 margin: const EdgeInsets.symmetric(horizontal: 0,vertical: 0), 
                           decoration: BoxDecoration(
@@ -104,22 +115,19 @@ class _profileuser extends State<profileuser> {
                 color: Theme.of(context).secondaryHeaderColor)
                          ,child: ListTile( 
                          trailing: Container(
-                padding: EdgeInsets.all(10),
+                padding: const EdgeInsets.all(10),
                          decoration: BoxDecoration(
                          borderRadius: BorderRadius.circular(35)
                          ,color:Theme.of(context).secondaryHeaderColor),
                        child: Icon(Icons.info,color: Theme.of(context).primaryColor
                        ),
                      ),
-                         title: const Text('عن رومانا',textAlign: TextAlign.right,)
+                         title: const Text('عن رومانة',textAlign: TextAlign.right,)
                      )
                          ,),
              )
-        ],),
-        backgroundColor: Theme.of(context).backgroundColor,
-      ),
-    );
-}
-}
+        ],);
+   }
+ }
   
  

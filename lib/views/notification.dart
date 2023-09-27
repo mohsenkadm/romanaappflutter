@@ -1,7 +1,7 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/painting.dart'; 
-import 'package:flutter/widgets.dart';
+
+ // ignore_for_file: deprecated_member_use
+ 
+import 'package:flutter/material.dart'; 
 import 'package:get/get.dart';  
 import 'package:get_time_ago/get_time_ago.dart';
 import 'package:romanaappflutter/Controller/notificationController.dart';
@@ -9,12 +9,14 @@ import 'package:romanaappflutter/Model/NotifModel.dart';
 import 'package:romanaappflutter/main.dart';
 import 'package:shimmer/shimmer.dart';
 
+// ignore: camel_case_types
 class notification extends StatefulWidget {
   
-   notification({Key? key}) : super(key: key);
+   const notification({Key? key}) : super(key: key);
   @override
   State<notification> createState() => _notification();
 }
+// ignore: camel_case_types
 class _notification extends State<notification> {  
     
  final notificationController _controller=Get.put(notificationController());
@@ -41,13 +43,15 @@ class _notification extends State<notification> {
     );
 }
  
+  // ignore: non_constant_identifier_names
   AppBar MyAppBar() {
+    // ignore: duplicate_ignore
     return AppBar(  
       leading: IconButton(onPressed: (){
            Get.back();
       },
-      icon: Icon(Icons.arrow_back,color: Colors.teal)),
-          elevation: 2,
+      icon: const Icon(Icons.arrow_back,color: Colors.teal)),
+          elevation: 2, 
         backgroundColor:Theme.of(context).backgroundColor,
         centerTitle: true, 
         title: const Text("الاشعارات",
@@ -74,16 +78,16 @@ class FillNotificationData extends StatelessWidget {
       decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(15)
             ,color: Theme.of(context).secondaryHeaderColor),
-      margin: EdgeInsets.symmetric(horizontal: 25,vertical: 10),
-      padding: EdgeInsets.all(0), 
+      margin: const EdgeInsets.symmetric(horizontal: 25,vertical: 10),
+      padding: const EdgeInsets.all(0), 
       child: Column(children: [
         ClipRRect(
-              borderRadius:  BorderRadius.vertical(top: Radius.circular(15)),
+              borderRadius:  const BorderRadius.vertical(top: Radius.circular(15)),
               child: Image.asset(items.imagePath
                         ,fit: BoxFit.cover  ),
             )
         ,
-        ListTile(trailing: Text(''),
+        ListTile(trailing: const Text(''),
           title: Text(items.title,textAlign: TextAlign.right,style: TextStyle(
             color: Theme.of(context).primaryColor,
             fontWeight: FontWeight.bold),)
@@ -92,13 +96,13 @@ class FillNotificationData extends StatelessWidget {
           children: [
             const SizedBox(height: 5),
             Text(items.description,textAlign: TextAlign.right),
-            SizedBox(height: 5),
+            const SizedBox(height: 5),
             Text(_convertedTimestamp,textAlign: TextAlign.right)
-            , SizedBox(height: 5),
+            , const SizedBox(height: 5),
           ],
         ),
         leading:  Container(
-            padding: EdgeInsets.all(10),
+            padding: const EdgeInsets.all(10),
             decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(35)
             ,color:Theme.of(context).secondaryHeaderColor),
@@ -127,17 +131,17 @@ class GetShimmer extends StatelessWidget {
         decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(15)
               ,color: Theme.of(context).secondaryHeaderColor),
-        margin: EdgeInsets.symmetric(horizontal: 25,vertical: 10),
-        padding: EdgeInsets.all(0), 
+        margin: const EdgeInsets.symmetric(horizontal: 25,vertical: 10),
+        padding: const EdgeInsets.all(0), 
         child: Column(children: [
           ClipRRect(
-                borderRadius:  BorderRadius.vertical(top: Radius.circular(15)),
+                borderRadius:  const BorderRadius.vertical(top: Radius.circular(15)),
                 child: Container(width: double.infinity, height: 100,color: Colors.white,),
               )
           ,
           ListTile(
           leading:  Container(
-              padding: EdgeInsets.all(10),
+              padding: const EdgeInsets.all(10),
               decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(35)
               ,color:Theme.of(context).secondaryHeaderColor),

@@ -1,4 +1,4 @@
-import 'package:get_time_ago/messages/messages.dart';
+import 'package:get_time_ago/get_time_ago.dart';
 
 class ArabicMessagesTime implements Messages {
   @override
@@ -31,9 +31,7 @@ class ArabicMessagesTime implements Messages {
   @override
   String wordSeparator() => ' ';
 
-  @override
   String prefixFromNow() => '';
 
-  @override
   String suffixFromNow()  => '';
 }
