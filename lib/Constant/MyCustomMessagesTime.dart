@@ -1,4 +1,4 @@
-import 'package:get_time_ago/get_time_ago.dart';
+import 'package:get_time_ago/get_time_ago.dart'; 
 
 class ArabicMessagesTime implements Messages {
   @override
