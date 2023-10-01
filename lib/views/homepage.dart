@@ -1,4 +1,4 @@
-//import 'package:cached_network_image/cached_network_image.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:get/get.dart';
@@ -93,7 +93,7 @@ class _homepageState extends State<homepage> {
      highlightColor: Colors.grey[100]!,
           child: ClipRRect(
              borderRadius:  BorderRadius.circular(15.0),
-             child: Container( margin: EdgeInsets.symmetric(horizontal: 20),
+             child: Container( margin:const EdgeInsets.symmetric(horizontal: 20),
             decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(15)
                   // ignore: deprecated_member_use
@@ -161,12 +161,12 @@ class FillImageCarousel extends StatelessWidget {
   Widget build(BuildContext context) {
     return ClipRRect(
      borderRadius:  BorderRadius.circular(15.0),
-     child:const Text('data')
-     //CachedNetworkImage( 
-   // placeholder: (context, url) => const CircularProgressIndicator(),
-    //   errorWidget: (context, url, error) => const Icon(Icons.error),
-    //   imageUrl: item.image
-    // ),
+     child:
+     CachedNetworkImage( 
+    placeholder: (context, url) => const CircularProgressIndicator(),
+       errorWidget: (context, url, error) => const Icon(Icons.error),
+       imageUrl: item.image
+     ),
             );
   }
 }
