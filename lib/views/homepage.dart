@@ -1,4 +1,4 @@
-import 'package:cached_network_image/cached_network_image.dart';
+//import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:get/get.dart';
@@ -161,12 +161,12 @@ class FillImageCarousel extends StatelessWidget {
   Widget build(BuildContext context) {
     return ClipRRect(
      borderRadius:  BorderRadius.circular(15.0),
-     child:
-     CachedNetworkImage( 
-    placeholder: (context, url) => const CircularProgressIndicator(),
-       errorWidget: (context, url, error) => const Icon(Icons.error),
-       imageUrl: item.image
-     ),
+     child:const Text('data')
+     //CachedNetworkImage( 
+   // placeholder: (context, url) => const CircularProgressIndicator(),
+    //   errorWidget: (context, url, error) => const Icon(Icons.error),
+    //   imageUrl: item.image
+    // ),
             );
   }
 }

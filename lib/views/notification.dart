@@ -83,7 +83,7 @@ class FillNotificationData extends StatelessWidget {
       child: Column(children: [
         ClipRRect(
               borderRadius:  const BorderRadius.vertical(top: Radius.circular(15)),
-              child: Image.asset(items.imagePath
+              child: Image.asset(items.images
                         ,fit: BoxFit.cover  ),
             )
         ,
@@ -95,7 +95,7 @@ class FillNotificationData extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
             const SizedBox(height: 5),
-            Text(items.description,textAlign: TextAlign.right),
+            Text(items.details,textAlign: TextAlign.right),
             const SizedBox(height: 5),
             Text(_convertedTimestamp,textAlign: TextAlign.right)
             , const SizedBox(height: 5),

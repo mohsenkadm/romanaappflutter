@@ -10,7 +10,7 @@ import 'package:romanaappflutter/views/notification.dart';
 import 'package:romanaappflutter/views/searchresandprod.dart';   
 import 'package:romanaappflutter/views/shoppingcart.dart';   
 import 'package:romanaappflutter/views/profileuser.dart';
- 
+
 void main() { 
   GetTimeAgo.setDefaultLocale('ar'); 
   runApp( _MyApp());
