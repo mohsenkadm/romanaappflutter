@@ -5,6 +5,7 @@ class MyTabController extends GetxController with GetSingleTickerProviderStateMi
   final List<Tab> myTabs = <Tab>[
     const Tab(text: 'LEFT'),
     const Tab(text: 'RIGHT'),
+    const Tab(text: 'RIGHT'),
   ];
 
   late TabController controller;

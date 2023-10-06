@@ -4,5 +4,6 @@ class AppLink {
   static const String getAllCategories = "Categories/GetAll";
 //========================== imagestCategories ============================
   static const String getAllCarousel= "Carousel/GetAll";
-
+//========================== imagestCategories ============================
+  static const String getNotification= "Notifications/GetAll?UserId=";
 }

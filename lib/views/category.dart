@@ -35,7 +35,7 @@ class _category extends State<category> {
   Container CategorySlide() {
     return 
      Container(
-      height: 160,
+      height: 180,
        child: 
        Obx(()=> categoriesController.isloded.value?
        const GetShimmercategories():

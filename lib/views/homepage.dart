@@ -1,11 +1,11 @@
-//import 'package:cached_network_image/cached_network_image.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:get/get.dart';
 import 'package:romanaappflutter/Constant/CategoryFill.dart';
 import 'package:romanaappflutter/Constant/RestourentFill.dart';
 import 'package:romanaappflutter/Controller/CategoriesController.dart';
-import 'package:romanaappflutter/Controller/MainController.dart';
+import 'package:romanaappflutter/Controller/MainController.dart'; 
 import 'package:romanaappflutter/Controller/RestourentController.dart';
 import 'package:romanaappflutter/Model/CarouselModel.dart';
 import 'package:shimmer/shimmer.dart'; 
@@ -20,19 +20,23 @@ class homepage extends StatefulWidget {
 
 // ignore: camel_case_types
 class _homepageState extends State<homepage> {
-   
-  
+    
   final MainController mainController = Get.put(MainController());
  final CategoriesController categoriesController = Get.put(CategoriesController());
  final RestourentController  restourentController=Get.put(RestourentController());
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        CarouselSlide(),  
-        CategorySlide(), 
-        ResSlide()
-      ]
+    return SingleChildScrollView(
+      child: IntrinsicHeight(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            CarouselSlide(),  
+            CategorySlide(), 
+            ResSlide()
+          ]
+        ),
+      ),
     );
   }
 
@@ -45,9 +49,9 @@ class _homepageState extends State<homepage> {
         const GetShimmerRes():ListView.builder(  
       scrollDirection: Axis.horizontal,
               shrinkWrap: true,
-          itemCount: restourentController.itemscategories.length,
+          itemCount: restourentController.itemsres.length,
           itemBuilder: (context, index) {
-            return FillResData(items: restourentController.itemscategories[index]); 
+            return FillResData(items: restourentController.itemsres[index]); 
           },
         ),
       ),
@@ -58,7 +62,7 @@ class _homepageState extends State<homepage> {
   Container CategorySlide() {
     return
      Container(
-      height: 160,
+      height: 180,
        child: 
        Obx(()=> categoriesController.isloded.value?
        const GetShimmercategories():
@@ -161,12 +165,12 @@ class FillImageCarousel extends StatelessWidget {
   Widget build(BuildContext context) {
     return ClipRRect(
      borderRadius:  BorderRadius.circular(15.0),
-     child:const Text('data')
-     //CachedNetworkImage( 
-   // placeholder: (context, url) => const CircularProgressIndicator(),
-    //   errorWidget: (context, url, error) => const Icon(Icons.error),
-    //   imageUrl: item.image
-    // ),
+     child:
+     CachedNetworkImage( 
+    placeholder: (context, url) => const Center(child: CircularProgressIndicator()),
+       errorWidget: (context, url, error) => const Icon(Icons.error),
+       imageUrl: item.image
+     ),
             );
   }
 }

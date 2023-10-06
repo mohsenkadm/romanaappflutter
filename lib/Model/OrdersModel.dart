@@ -21,9 +21,9 @@ class OrdersModel {
 	String logo;
 	String restaurantName;
 	String categoriesName;
-	List<OrderDetailModel> orderDetails;
+	List<OrderDetailModel>? orderDetails;
 
-	OrdersModel({required this.orderId,required this.orderNo,required this.orderDate,required this.restaurantId,required this.userId,required this.total,required this.totalDiscount,required this.netAmount,required this.isCancel,required this.isApporve,required this.isDone,required this.userName,required this.phone,required this.address,required this.functionPoint,required this.logo,required this.restaurantName,required this.categoriesName,required this.orderDetails,});
+	OrdersModel({required this.orderId,required this.orderNo,required this.orderDate,required this.restaurantId,required this.userId,required this.total,required this.totalDiscount,required this.netAmount,required this.isCancel,required this.isApporve,required this.isDone,required this.userName,required this.phone,required this.address,required this.functionPoint,required this.logo,required this.restaurantName,required this.categoriesName, this.orderDetails,});
 
 	factory OrdersModel.fromJson(Map<String, dynamic> json){
     return OrdersModel(orderId: json['orderId'], orderNo: json['orderNo'], 

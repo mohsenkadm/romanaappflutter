@@ -1,6 +1,10 @@
  
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';  
+import 'package:get/get.dart';
+import 'package:romanaappflutter/views/Accounts.dart';
+import 'package:romanaappflutter/views/AddRes.dart';
+
+import 'AboutApp.dart';  
  class Profileuser extends StatefulWidget {
    const Profileuser({ Key? key }) : super(key: key);
  
@@ -102,11 +106,12 @@ import 'package:get/get.dart';
                          title: const Text('مشاركة التطبيق',textAlign: TextAlign.right,)
                      )
                          ,),
-             ),
-             
+             ), 
              TextButton(
-               onPressed: () { 
-                Get.toNamed('/AboutApp');
+               onPressed: () {  
+                Get.to(const AboutApp(),
+                duration:const Duration(milliseconds:500 )
+                ,transition: Transition.fade);
                 },
                child: Container( 
                 margin: const EdgeInsets.symmetric(horizontal: 0,vertical: 0), 
@@ -122,7 +127,55 @@ import 'package:get/get.dart';
                        child: Icon(Icons.info,color: Theme.of(context).primaryColor
                        ),
                      ),
-                         title: const Text('عن رومانة',textAlign: TextAlign.right,)
+                         title: const Text('عن تطبيق رمانة',textAlign: TextAlign.right,)
+                     )
+                         ,),
+             ), 
+             TextButton(
+               onPressed: () { 
+                Get.to(const Accounts(),
+                duration:const Duration(milliseconds:500 )
+                ,transition: Transition.fade);
+                },
+               child: Container( 
+                margin: const EdgeInsets.symmetric(horizontal: 0,vertical: 0), 
+                          decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(15),
+                color: Theme.of(context).secondaryHeaderColor)
+                         ,child: ListTile( 
+                         trailing: Container(
+                padding: const EdgeInsets.all(10),
+                         decoration: BoxDecoration(
+                         borderRadius: BorderRadius.circular(35)
+                         ,color:Theme.of(context).secondaryHeaderColor),
+                       child: Icon(Icons.public,color: Theme.of(context).primaryColor
+                       ),
+                     ),
+                         title: const Text('حساباتنا',textAlign: TextAlign.right,)
+                     )
+                         ,),
+             ) ,
+             TextButton(
+               onPressed: () {  
+                Get.to(const AddRes(),
+                duration:const Duration(milliseconds:500 )
+                ,transition: Transition.fade);
+                },
+               child: Container( 
+                margin: const EdgeInsets.symmetric(horizontal: 0,vertical: 0), 
+                          decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(15),
+                color: Theme.of(context).secondaryHeaderColor)
+                         ,child: ListTile( 
+                         trailing: Container(
+                padding: const EdgeInsets.all(10),
+                         decoration: BoxDecoration(
+                         borderRadius: BorderRadius.circular(35)
+                         ,color:Theme.of(context).secondaryHeaderColor),
+                       child: Icon(Icons.restaurant,color: Theme.of(context).primaryColor
+                       ),
+                     ),
+                         title: const Text('اضافة مطعم',textAlign: TextAlign.right,)
                      )
                          ,),
              )

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_time_ago/get_time_ago.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
-import 'package:romanaappflutter/views/AboutApp.dart';
+import 'package:romanaappflutter/Constant/dependencyinjection.dart';   
 import 'package:romanaappflutter/views/category.dart';
 import 'package:romanaappflutter/views/homepage.dart';
 import 'package:romanaappflutter/views/myorder.dart';
@@ -14,6 +14,7 @@ import 'package:romanaappflutter/views/profileuser.dart';
 void main() { 
   GetTimeAgo.setDefaultLocale('ar'); 
   runApp( _MyApp());
+  dependencyinjection.onInit();
 }
 
 class _MyApp extends StatelessWidget {
@@ -25,7 +26,7 @@ class _MyApp extends StatelessWidget {
     const category(),
     const my_order(),
     const Profileuser()
-  ]; 
+  ];  
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp( 
@@ -40,12 +41,6 @@ class _MyApp extends StatelessWidget {
         backgroundColor: Colors.white,
       
       ),
-      getPages: [
-        GetPage(name: "/notification", page: ()=>const notification()),
-        GetPage(name: "/Search", page: ()=>const SearchResAndProd()),
-        GetPage(name: "/shoppingcart", page: ()=>const shoppingcard()),
-        GetPage(name: "/AboutApp", page: ()=>const AboutApp()),
-      ],
     );
   }
 
@@ -86,8 +81,10 @@ activeColor: myTheme.backgroundColor,
            decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(35)
             ,color: myTheme.secondaryHeaderColor),
-          child: IconButton(onPressed: (){
-             Get.toNamed("/shoppingcart");
+          child: IconButton(onPressed: (){ 
+                Get.to(const shoppingcard(),
+                duration:const Duration(milliseconds:500 )
+                ,transition: Transition.fade);
           }, 
           icon: Icon(Icons.shopping_cart_outlined,color: myTheme.primaryColor)
           ),
@@ -97,8 +94,10 @@ activeColor: myTheme.backgroundColor,
            decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(35)
             ,color: myTheme.secondaryHeaderColor),
-          child: IconButton(onPressed: (){
-             Get.toNamed("/notification");
+          child: IconButton(onPressed: (){ 
+                Get.to(const notification(),
+                duration:const Duration(milliseconds:500 )
+                ,transition: Transition.fade);
           }, icon: Icon(Icons.notifications_active_outlined,color: myTheme.primaryColor)
           ),
         ),
@@ -113,7 +112,11 @@ activeColor: myTheme.backgroundColor,
         width: double.infinity, 
         margin:const EdgeInsets.symmetric(vertical: 20,horizontal: 0),
         child: TextButton(   
-           onPressed: ()=> Get.toNamed("/Search"),
+           onPressed: (){ 
+                Get.to(const SearchResAndProd(),
+                duration:const Duration(milliseconds:500 )
+                ,transition: Transition.fade);
+                },
         child:Row( 
               children: <Widget>[
                 Icon(Icons.search,color: myTheme.primaryColor),

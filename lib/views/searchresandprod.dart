@@ -87,7 +87,7 @@ class _SearchResAndProd extends State<SearchResAndProd> with SingleTickerProvide
       leading: IconButton(onPressed: (){
            Get.back();
       },
-      icon: const Icon(Icons.arrow_back,color: Colors.teal)),
+      icon: const Icon(Icons.arrow_back_ios,color: Colors.teal)),
           elevation: 2,
         backgroundColor: Colors.white,
         centerTitle: true,

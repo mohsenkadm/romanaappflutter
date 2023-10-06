@@ -1,6 +1,9 @@
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:romanaappflutter/Model/CategoriesModel.dart';
+import 'package:romanaappflutter/views/AllRestaourent.dart';
 import 'package:shimmer/shimmer.dart';
 
 class FillcategoriesData extends StatelessWidget {
@@ -13,22 +16,31 @@ class FillcategoriesData extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return 
-    Container( 
-      width: 100,height: 50,
-      decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(15)
-            ,color: Theme.of(context).backgroundColor),
-      margin: const EdgeInsets.symmetric(horizontal: 10,vertical: 10),
-      child: Column(children: [ 
-        ClipRRect(
-              borderRadius:  BorderRadius.circular(15.0),
-          child: Image.network(items.CategoriesImages,
-          height:100,width: 100,
-          fit: BoxFit.cover,))
-          ,const SizedBox(height: 10,)
-        ,Text(items.CategoriesName)
-      ],),
-      );
+    InkWell(onTap: () {
+      Get.to(const AllRestaourent(),
+                duration:const Duration(milliseconds:500 )
+                ,transition: Transition.fade);
+    },
+      child: Container( 
+        width: 120,height: 90,
+        decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(15)
+              ,color: Theme.of(context).backgroundColor),
+        margin: const EdgeInsets.symmetric(horizontal: 10,vertical: 10),
+        child: Column(children: [ 
+          ClipRRect(
+                borderRadius:  BorderRadius.circular(15.0),
+            child:  CachedNetworkImage( 
+      placeholder: (context, url) => const Center(child: CircularProgressIndicator()),
+         errorWidget: (context, url, error) => const Icon(Icons.error),
+         imageUrl: items.CategoriesImages
+       ),
+            )
+            ,const SizedBox(height: 10,)
+          ,Text(items.CategoriesName,style: TextStyle(fontSize: 16))
+        ],),
+        ),
+    );
   }
 }
 
@@ -69,7 +81,8 @@ class GetShimmercategories extends StatelessWidget {
                 borderRadius: BorderRadius.circular(15)
                 // ignore: deprecated_member_use
                 ,color: Theme.of(context).backgroundColor),
-          height:20,width: 100,)) 
+          height:20,width: 100,)
+          ) 
         ],
       ),
       );
