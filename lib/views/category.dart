@@ -23,7 +23,8 @@ class _category extends State<category> {
       theme:myTheme,
       debugShowCheckedModeBanner: false,
       home: Scaffold(   
-        body:  Column(children: [ CategorySlide(),
+        body:  Column(children: [ 
+          CategorySlide(),
         ],), 
         backgroundColor: Theme.of(context).backgroundColor,
       ),

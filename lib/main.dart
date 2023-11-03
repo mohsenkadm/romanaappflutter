@@ -1,8 +1,11 @@
+ 
 import 'package:flutter/material.dart'; 
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:get_time_ago/get_time_ago.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
-import 'package:romanaappflutter/Constant/dependencyinjection.dart';   
+import 'package:romanaappflutter/Constant/dependencyinjection.dart';
+import 'package:romanaappflutter/Constant/determine_position_location.dart';   
 import 'package:romanaappflutter/views/category.dart';
 import 'package:romanaappflutter/views/homepage.dart';
 import 'package:romanaappflutter/views/myorder.dart';
@@ -11,8 +14,9 @@ import 'package:romanaappflutter/views/searchresandprod.dart';
 import 'package:romanaappflutter/views/shoppingcart.dart';   
 import 'package:romanaappflutter/views/profileuser.dart';
 
-void main() { 
+void main() async { 
   GetTimeAgo.setDefaultLocale('ar'); 
+  await GetStorage.init();
   runApp( _MyApp());
   dependencyinjection.onInit();
 }
@@ -27,8 +31,13 @@ class _MyApp extends StatelessWidget {
     const my_order(),
     const Profileuser()
   ];  
+  
+ 
   @override
   Widget build(BuildContext context) {
+
+// Initialize the location service
+     Get.put(determinePositionLocation(), permanent: true);
     return GetMaterialApp( 
         theme:myTheme,
       debugShowCheckedModeBanner: false,
@@ -118,13 +127,16 @@ activeColor: myTheme.backgroundColor,
                 ,transition: Transition.fade);
                 },
         child:Row( 
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 Icon(Icons.search,color: myTheme.primaryColor),
                const SizedBox(width: 20,),
                 Text(
-                  'بحث',
-                  style: TextStyle(fontSize: 18.0,color: myTheme.primaryColor),
-                )
+                  'بحث',textAlign: TextAlign.right,
+                  style: TextStyle(fontFamily:"Tajawal",fontSize: 18.0,color: myTheme.primaryColor
+                  ,),
+                ) ,
+                const SizedBox(width: 5,),
               ],
               )
               )
@@ -134,6 +146,7 @@ activeColor: myTheme.backgroundColor,
 }
 
 ThemeData myTheme = ThemeData(
+  fontFamily: "Tajawal",
   primaryColor: const Color.fromARGB(255, 96, 186, 98),          // Change this to your primary color
   // ignore: deprecated_member_use
   backgroundColor: Colors.white,  

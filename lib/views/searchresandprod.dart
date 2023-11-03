@@ -87,21 +87,21 @@ class _SearchResAndProd extends State<SearchResAndProd> with SingleTickerProvide
       leading: IconButton(onPressed: (){
            Get.back();
       },
-      icon: const Icon(Icons.arrow_back_ios,color: Colors.teal)),
+      icon:  Icon(Icons.arrow_back_ios,color: Theme.of(context).primaryColor)),
           elevation: 2,
         backgroundColor: Colors.white,
         centerTitle: true,
         bottom: TabBar(
         controller: _tabx.controller,
-          indicatorColor: Colors.teal,
-          labelColor: Colors.teal
+          indicatorColor:Theme.of(context).primaryColor,
+          labelColor: Theme.of(context).primaryColor
           ,tabs: const [
          Tab(child: Text("مطاعم"),icon: Icon(Icons.restaurant,size:25),iconMargin: EdgeInsets.all(2),),
          Tab(child: Text("الاكلات"),icon: Icon(Icons.food_bank_outlined,size: 25,),iconMargin: EdgeInsets.all(2))
         ],
         ),
-        title: const Text("بحث",
-            style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold,color: Colors.teal),
+        title:  Text("بحث",
+            style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold,color: Theme.of(context).primaryColor),
             )
           );
   }

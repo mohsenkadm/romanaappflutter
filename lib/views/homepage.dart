@@ -1,9 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:carousel_slider/carousel_slider.dart';
+import 'package:carousel_slider/carousel_slider.dart'; 
 import 'package:get/get.dart';
-import 'package:romanaappflutter/Constant/CategoryFill.dart';
+import 'package:romanaappflutter/Constant/CategoryFill.dart'; 
 import 'package:romanaappflutter/Constant/RestourentFill.dart';
+import 'package:romanaappflutter/Constant/determine_position_location.dart';
 import 'package:romanaappflutter/Controller/CategoriesController.dart';
 import 'package:romanaappflutter/Controller/MainController.dart'; 
 import 'package:romanaappflutter/Controller/RestourentController.dart';
@@ -13,37 +14,49 @@ import 'package:shimmer/shimmer.dart';
 // ignore: camel_case_types
 class homepage extends StatefulWidget {
   const homepage({Key? key}) : super(key: key);
-
   @override
   State<homepage> createState() => _homepageState();
 }
 
 // ignore: camel_case_types
 class _homepageState extends State<homepage> {
-    
+    var position;
+  
+@override
+void initState()
+{ 
+  locationService.getCurrentLocation(); 
+  super.initState();
+} 
   final MainController mainController = Get.put(MainController());
- final CategoriesController categoriesController = Get.put(CategoriesController());
- final RestourentController  restourentController=Get.put(RestourentController());
+  final CategoriesController categoriesController = Get.put(CategoriesController());
+  final RestourentController  restourentController=Get.put(RestourentController());
+  final determinePositionLocation locationService = Get.find();
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: IntrinsicHeight(
+    return  SingleChildScrollView(   
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            CarouselSlide(),  
-            CategorySlide(), 
-            ResSlide()
-          ]
-        ),
-      ),
-    );
+          children:[  
+                CarouselSlide(),   
+                CategorySlide(), 
+                  Padding(
+                      padding:const  EdgeInsets.all(18.0),
+                      child:   Text('المطاعم القريبة',textAlign: TextAlign.right,style: TextStyle(fontSize: 20, 
+                    
+                      color: Theme.of(context).primaryColor),),
+          
+                            ),  
+                ResSlide(), 
+               ResSlideAll()
+              ]
+            ),
+      );
   }
 
   // ignore: non_constant_identifier_names
-  Container ResSlide() {
-    return Container( 
-      height: 180, 
+  SizedBox ResSlide() {
+    return SizedBox( 
+      height: 600, 
         child:Obx(
         () => !restourentController.isloded.value?
         const GetShimmerRes():ListView.builder(  
@@ -57,16 +70,58 @@ class _homepageState extends State<homepage> {
       ),
       );
   }
+  // ignore: non_constant_identifier_names
+   SizedBox ResSlideAll() {
+     return  SizedBox( height: 120,
+       child: Obx(
+                      () => !restourentController.isloded.value?
+                      const GetShimmerResAll():
+                      restourentController.itemsresAll.isEmpty?
+          Center( 
+                   child: Container( 
+                    width: 150,
+                    padding:const EdgeInsets.all(10),
+                     child: Column(children: [
+                      Icon(Icons.error,size: 60,color: Colors.red[400],),
+                   const SizedBox(height: 20,),
+                   const Text('لا توجد بيانات',style:  TextStyle(fontSize: 18),)
+                     ],
+                     ),
+                   ),
+                 ):
+                      ListView.builder(   
+                        physics:const NeverScrollableScrollPhysics(),
+                        shrinkWrap: true, 
+                        itemCount: restourentController.itemsresAll.length,
+                        itemBuilder: (context, index) {
+                          return FillResData(items: restourentController.itemsresAll[index]); 
+                        },
+                      ),
+                        ),
+     );
+   }
 
   // ignore: non_constant_identifier_names
-  Container CategorySlide() {
+  SizedBox CategorySlide() {
     return
-     Container(
+     SizedBox(
       height: 180,
        child: 
        Obx(()=> categoriesController.isloded.value?
        const GetShimmercategories():
-       ListView.builder(   
+       categoriesController.itemscategories.isEmpty?
+            Center(   child: Container( 
+                                width: 150,
+                                padding:const EdgeInsets.all(10),
+                                child: Column(children: [
+                                  Icon(Icons.error,size: 60,color: Colors.red[400],),
+                              const SizedBox(height: 20,),
+                              const Text('لا توجد بيانات',style:  TextStyle(fontSize: 18),)
+                                ],
+                                ),
+                              ),
+                            )
+      : ListView.builder(   
               reverse: true,
       scrollDirection: Axis.horizontal,
               shrinkWrap: true,
@@ -106,7 +161,20 @@ class _homepageState extends State<homepage> {
               )
               ),
         ):
-        CarouselSlider.builder( 
+       mainController.itemsCarousel.isEmpty?
+          Center( 
+                   child: Container( 
+                    width: 150,
+                    padding:const EdgeInsets.all(10),
+                     child: Column(children: [
+                      Icon(Icons.error,size: 60,color: Colors.red[400],),
+                   const SizedBox(height: 20,),
+                   const Text('لا توجد بيانات',style:  TextStyle(fontSize: 18),)
+                     ],
+                     ),
+                   ),
+                 )
+       : CarouselSlider.builder( 
             itemCount: mainController.itemsCarousel.length,
              itemBuilder: (context, index,realIndex) { 
              return FillImageCarousel(item:mainController.itemsCarousel[index]);

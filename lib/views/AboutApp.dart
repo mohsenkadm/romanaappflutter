@@ -62,12 +62,12 @@ class _AboutAppState extends State<AboutApp> {
       leading: IconButton(onPressed: (){
            Get.back();
       },
-      icon: const Icon(Icons.arrow_back_ios,color: Colors.teal)),
+      icon:  Icon(Icons.arrow_back_ios,color:Theme.of(context).primaryColor)),
           elevation: 2, 
         backgroundColor:Theme.of(context).backgroundColor,
         centerTitle: true, 
-        title: const Text("عن تطبيق رمانة",
-            style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold,color: Colors.teal),
+        title:  Text("عن تطبيق رمانة",
+            style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold,color:Theme.of(context).primaryColor),
             )
           );
   } 

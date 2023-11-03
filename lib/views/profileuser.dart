@@ -1,6 +1,9 @@
  
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
+import 'package:http/http.dart';
+import 'package:romanaappflutter/Controller/ProfileuserController.dart';
 import 'package:romanaappflutter/views/Accounts.dart';
 import 'package:romanaappflutter/views/AddRes.dart';
 
@@ -13,10 +16,13 @@ import 'AboutApp.dart';
  }
  
  class _ProfileuserState extends State<Profileuser> {
+  final ProfileuserController _controller=Get.put(ProfileuserController());
    @override
    Widget build(BuildContext context) {
      return Column(children: [
-          Container(
+         Obx(
+              ()=>_controller.user.value==null?
+                Container(
             margin: const EdgeInsets.all(10),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(15),
@@ -30,11 +36,28 @@ import 'AboutApp.dart';
           child: Icon(Icons.person,color: Theme.of(context).primaryColor
           ),
         ),
-            title: const Text('محسن كاظم',textAlign: TextAlign.right,),
-            subtitle:  const Text('07505496065',textAlign: TextAlign.right)
-        , )
-            ,)
-            ,
+            
+        )
+            ,):
+                Container(
+            margin: const EdgeInsets.all(10),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(15),
+              color: Theme.of(context).secondaryHeaderColor)
+            ,child: ListTile( 
+              trailing: Container(
+                padding: const EdgeInsets.all(10),
+              decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(35)
+              ,color:Theme.of(context).secondaryHeaderColor),
+                      child: Icon(Icons.person,color: Theme.of(context).primaryColor
+                      ),
+                    ),
+              title:  Text(_controller.user.value!.Name,textAlign: TextAlign.right,),
+              subtitle:   Text(_controller.user.value!.Phone,textAlign: TextAlign.right)
+                    , ),
+            )
+            ,),
              Container(
             margin: const EdgeInsets.all(10),
             decoration: BoxDecoration(

@@ -88,12 +88,12 @@ class _AccountsState extends State<Accounts> {
       leading: IconButton(onPressed: (){
            Get.back();
       },
-      icon: const Icon(Icons.arrow_back_ios,color: Colors.teal)),
+      icon:  Icon(Icons.arrow_back_ios,color: Theme.of(context).primaryColor)),
           elevation: 2, 
         backgroundColor:Theme.of(context).backgroundColor,
         centerTitle: true, 
-        title: const Text("حساباتنا",
-            style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold,color: Colors.teal),
+        title:  Text("حساباتنا",
+            style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold,color: Theme.of(context).primaryColor),
             )
           );
   } 

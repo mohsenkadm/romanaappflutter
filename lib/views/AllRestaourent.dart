@@ -27,13 +27,14 @@ class _AllRestaourentState extends State<AllRestaourent> {
       debugShowCheckedModeBanner: false,
       home: Scaffold(
        appBar: MyAppBar(),
-        body:  Column(children: [ 
-          CategorySlide(),
-        const SizedBox(height:10,)
-        ,  Expanded(child: ResSlide())
-        ],), 
+        body:  SingleChildScrollView(
+          child: Column(children: [ 
+            CategorySlide(),
+          const SizedBox(height:10,)
+          ,  ResSlide()
+          ],),
+        ), 
         backgroundColor: Theme.of(context).backgroundColor,
-        
       ),
     );
   } 
@@ -58,22 +59,22 @@ class _AllRestaourentState extends State<AllRestaourent> {
       leading: IconButton(onPressed: (){
            Get.back();
       },
-      icon: const Icon(Icons.arrow_back_ios,color: Colors.teal)),
+      icon:  Icon(Icons.arrow_back_ios,color:Theme.of(context).primaryColor)),
           elevation: 0, 
         backgroundColor:Theme.of(context).backgroundColor,
         centerTitle: true, 
-        title: const Text("القسم",
-            style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold,color:Colors.teal),
+        title:  Text("القسم",
+            style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold,color:Theme.of(context).primaryColor),
             )
           );
   } 
-  // ignore: non_constant_identifier_names
-  Container ResSlide() {
+   Container ResSlide() {
     return Container(  
         child:Obx(
         () => restourentController.isloded.value?
         const GetShimmerResAll():ListView.builder(   
               shrinkWrap: true,
+              physics:const NeverScrollableScrollPhysics(),
           itemCount: restourentController.itemsres.length,
           itemBuilder: (context, index) {
             return FillResData(items: restourentController.itemsres[index]); 

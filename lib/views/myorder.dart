@@ -62,7 +62,20 @@ class _myorder extends State<my_order> {
              Expanded(
                child: Obx(
                   () => _controller.isloded.value?
-                  const GetShimmer():ListView.builder(
+                  const GetShimmer():
+                   _controller.items.isEmpty?
+          Center( 
+                   child: Container( 
+                    width: 150,
+                    padding:const EdgeInsets.all(10),
+                     child: Column(children: [
+                      Icon(Icons.error,size: 60,color: Colors.red[400],),
+                   const SizedBox(height: 20,),
+                   const Text('لا توجد بيانات',style:  TextStyle(fontSize: 18),)
+                     ],
+                     ),
+                   ),
+                 ):ListView.builder(
                          itemCount: _controller.items.length,
                          itemBuilder: (context, index) { 
                 return FillOrderaData(items: _controller.items[index]); 
@@ -96,7 +109,20 @@ class _myorder extends State<my_order> {
            , Expanded(
              child: Obx(
                   () => _controller.isloded.value?
-                  const GetShimmer():ListView.builder(
+                  const GetShimmer():
+                   _controller.items.isEmpty?
+          Center( 
+                   child: Container( 
+                    width: 150,
+                    padding:const EdgeInsets.all(10),
+                     child: Column(children: [
+                      Icon(Icons.error,size: 60,color: Colors.red[400],),
+                   const SizedBox(height: 20,),
+                   const Text('لا توجد بيانات',style:  TextStyle(fontSize: 18),)
+                     ],
+                     ),
+                   ),
+                 ):ListView.builder(
               itemCount: _controller.items.length,
               itemBuilder: (context, index) { 
                 return FillOrderaData(items: _controller.items[index]); 
@@ -111,7 +137,20 @@ class _myorder extends State<my_order> {
             Expanded(
               child: Obx(
                   () => _controller.isloded.value?
-                  const GetShimmer():ListView.builder(
+                  const GetShimmer():
+                   _controller.items.isEmpty?
+          Center( 
+                   child: Container( 
+                    width: 150,
+                    padding:const EdgeInsets.all(10),
+                     child: Column(children: [
+                      Icon(Icons.error,size: 60,color: Colors.red[400],),
+                   const SizedBox(height: 20,),
+                   const Text('لا توجد بيانات',style:  TextStyle(fontSize: 18),)
+                     ],
+                     ),
+                   ),
+                 ):ListView.builder(
               itemCount: _controller.items.length,
               itemBuilder: (context, index) { 
                 return FillOrderaData(items: _controller.items[index]); 

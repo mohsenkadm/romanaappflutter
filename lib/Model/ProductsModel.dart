@@ -1,6 +1,6 @@
 class ProductsModel {
   final int ProductsId;
-  final String? ProductsName;
+  final String ProductsName;
   final String? ProductsDetails;
   final double? ProductsPrice;
   final int RestaurantId;

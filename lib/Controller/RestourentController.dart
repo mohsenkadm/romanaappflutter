@@ -1,30 +1,75 @@
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 import 'package:get/get.dart';
-import 'package:romanaappflutter/Model/RestaurantModel.dart'; 
+import 'package:romanaappflutter/Constant/determine_position_location.dart';
+import 'package:romanaappflutter/Model/RestaurantModel.dart';
+import 'package:romanaappflutter/linkapi.dart'; 
 
 class RestourentController extends GetxController {
    
    var itemsres=[].obs;
+   var itemsresAll=[].obs;
    
    RxBool isloded=true.obs;
+   RxBool islodedGetAll=true.obs;
 
+  final determinePositionLocation locationService = Get.find();
   @override
-  void onInit() {
+  void onInit() { 
     super.onInit();
-    fetchData(); // Fetch data when the controller is initialized
+    fetchDataTop(); // Fetch data when the controller is initialized
+    fetchDataGetAll();
   }
 
 
-  Future<void> fetchData() async {
-      try{ 
-     await  Future.delayed(const Duration(seconds: 5));
-itemsres.add(RestaurantModel(restaurantId: 1, name: 'name', details: 'details', address: 'address', 
-logo: 'https://source.unsplash.com/user/c_v_r/500x200', background: 'https://images.unsplash.com/photo-1608231975456-2f2d9fb1b49b?crop=entropy&cs=tinysrgb&fit=crop&fm=jpg&h=200&ixid=MnwxfDB8MXxyYW5kb218MHx8fHx8fHx8MTY5NjM3MTQ2MQ&ixlib=rb-4.0.3&q=80&utm_campaign=api-credit&utm_medium=referral&utm_source=unsplash_source&w=500',
- phone: 'phone', lat: 'lat', long: 'long',
- code: 'code', whatsapp: '0770', starCount: 5, isClosed: false, isStars: true,
- minimumPrice: 5000, areaname: 'areaname', categoriesId: 1, categoriesName: 'categoriesName'));
+  Future<void> fetchDataTop() async { 
+   await  Future.delayed(Duration(seconds: 3)); 
+      try{  
+        itemsres.add(RestaurantModel(restaurantId: 0, name: 'name', details: 'details',
+        address: 'address', logo: 'https://source.unsplash.com/user/c_v_r/100x100', background: 'https://source.unsplash.com/user/c_v_r/500x200', phone: '0750',
+         lat: 'lat', long: 'long', code: 'code', whatsapp: 'whatsapp', starCount:50, isClosed: false,
+          isStars: true, minimumPrice: 0, areaname: 'areaname', categoriesId: 1, categoriesName: ''));
+        itemsres.add(RestaurantModel(restaurantId: 0, name: 'name', details: 'details',
+        address: 'address', logo: 'https://source.unsplash.com/user/c_v_r/100x100', background: 'https://source.unsplash.com/user/c_v_r/500x200', phone: '0750',
+         lat: 'lat', long: 'long', code: 'code', whatsapp: 'whatsapp', starCount:50, isClosed: false,
+          isStars: true, minimumPrice: 0, areaname: 'areaname', categoriesId: 1, categoriesName: ''));
+        itemsres.add(RestaurantModel(restaurantId: 0, name: 'name', details: 'details',
+        address: 'address', logo: 'https://source.unsplash.com/user/c_v_r/100x100', background: 'https://source.unsplash.com/user/c_v_r/500x200', phone: '0750',
+         lat: 'lat', long: 'long', code: 'code', whatsapp: 'whatsapp', starCount:50, isClosed: false,
+          isStars: true, minimumPrice: 0, areaname: 'areaname', categoriesId: 1, categoriesName: ''));
+        itemsres.add(RestaurantModel(restaurantId: 0, name: 'name', details: 'details',
+        address: 'address', logo: 'https://source.unsplash.com/user/c_v_r/100x100', background: 'https://source.unsplash.com/user/c_v_r/500x200', phone: '0750',
+         lat: 'lat', long: 'long', code: 'code', whatsapp: 'whatsapp', starCount:50, isClosed: false,
+          isStars: true, minimumPrice: 0, areaname: 'areaname', categoriesId: 1, categoriesName: ''));
+        //      final response=await http.get(Uri.https(AppLink.apiUrl,AppLink.getRestaurantTopAllForApp));
+    // if(response.statusCode==200){
+    //   final result=json.decode(response.body);
+    //    var data = result['data'];
+    //   itemsres.value= data.map((json) => RestaurantModel.fromJson(json)).toList();
+    // }
+    // else{
+    //   throw Exception('');
+    // }
     }
     finally{
     isloded.value=false; 
+    }
+  }
+
+  Future<void> fetchDataGetAll() async {
+      try{ 
+    //      final response=await http.get(Uri.https(AppLink.apiUrl,AppLink.getRestaurantAllForApp));
+    // if(response.statusCode==200){
+    //   final result=json.decode(response.body);
+    //    var data = result['data'];
+    //   itemsresAll.value= data.map((json) => RestaurantModel.fromJson(json)).toList();
+    // }
+    // else{
+    //   throw Exception('');
+    // }
+    }
+    finally{
+    islodedGetAll.value=false; 
     }
   }
 }

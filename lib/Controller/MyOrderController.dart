@@ -27,25 +27,25 @@ class MyOrderController extends GetxController {
       //final result=json.decode(response.body);
       // var data = result['data'];
       //items.value= data.map((json) => OrdersModel.fromJson(json)).toList();
-      items.add(OrdersModel(orderId: 1, orderNo: 1, orderDate: DateTime.now(),
-       restaurantId: 1, userId: 1, total: 10, totalDiscount: 10, netAmount: 10,
-        isCancel: false, isApporve: true, isDone: false, userName: 'test', phone: '09', address: 'address',
-         functionPoint: 'functionPoint', logo: 'https://source.unsplash.com/user/c_v_r/100x100', restaurantName: 'restaurantName', categoriesName: 'categoriesName'));
+      // items.add(OrdersModel(orderId: 1, orderNo: 1, orderDate: DateTime.now(),
+      //  restaurantId: 1, userId: 1, total: 10, totalDiscount: 10, netAmount: 10,
+      //   isCancel: false, isApporve: true, isDone: false, userName: 'test', phone: '09', address: 'address',
+      //    functionPoint: 'functionPoint', logo: 'https://source.unsplash.com/user/c_v_r/100x100', restaurantName: 'restaurantName', categoriesName: 'categoriesName'));
 
-      items.add(OrdersModel(orderId: 1, orderNo: 1, orderDate: DateTime.now(),
-       restaurantId: 1, userId: 1, total: 10, totalDiscount: 10, netAmount: 10,
-        isCancel: false, isApporve: false, isDone: false, userName: 'test', phone: '09', address: 'address',
-         functionPoint: 'functionPoint', logo: 'https://source.unsplash.com/user/c_v_r/100x100', restaurantName: 'restaurantName', categoriesName: 'categoriesName'));
+      // items.add(OrdersModel(orderId: 1, orderNo: 1, orderDate: DateTime.now(),
+      //  restaurantId: 1, userId: 1, total: 10, totalDiscount: 10, netAmount: 10,
+      //   isCancel: false, isApporve: false, isDone: false, userName: 'test', phone: '09', address: 'address',
+      //    functionPoint: 'functionPoint', logo: 'https://source.unsplash.com/user/c_v_r/100x100', restaurantName: 'restaurantName', categoriesName: 'categoriesName'));
 
-      items.add(OrdersModel(orderId: 1, orderNo: 1, orderDate: DateTime.now(),
-       restaurantId: 1, userId: 1, total: 10, totalDiscount: 10, netAmount: 10,
-        isCancel: true, isApporve: false, isDone: false, userName: 'test', phone: '09', address: 'address',
-         functionPoint: 'functionPoint', logo: 'https://source.unsplash.com/user/c_v_r/100x100', restaurantName: 'restaurantName', categoriesName: 'categoriesName'));
+      // items.add(OrdersModel(orderId: 1, orderNo: 1, orderDate: DateTime.now(),
+      //  restaurantId: 1, userId: 1, total: 10, totalDiscount: 10, netAmount: 10,
+      //   isCancel: true, isApporve: false, isDone: false, userName: 'test', phone: '09', address: 'address',
+      //    functionPoint: 'functionPoint', logo: 'https://source.unsplash.com/user/c_v_r/100x100', restaurantName: 'restaurantName', categoriesName: 'categoriesName'));
 
-      items.add(OrdersModel(orderId: 1, orderNo: 1, orderDate: DateTime.now(),
-       restaurantId: 1, userId: 1, total: 10, totalDiscount: 10, netAmount: 10,
-        isCancel: false, isApporve: true, isDone: true, userName: 'test', phone: '09', address: 'address',
-         functionPoint: 'functionPoint', logo: 'https://source.unsplash.com/user/c_v_r/100x100', restaurantName: 'restaurantName', categoriesName: 'categoriesName'));
+      // items.add(OrdersModel(orderId: 1, orderNo: 1, orderDate: DateTime.now(),
+      //  restaurantId: 1, userId: 1, total: 10, totalDiscount: 10, netAmount: 10,
+      //   isCancel: false, isApporve: true, isDone: true, userName: 'test', phone: '09', address: 'address',
+      //    functionPoint: 'functionPoint', logo: 'https://source.unsplash.com/user/c_v_r/100x100', restaurantName: 'restaurantName', categoriesName: 'categoriesName'));
 
    // }
    // else{

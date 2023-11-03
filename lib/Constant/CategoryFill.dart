@@ -17,12 +17,12 @@ class FillcategoriesData extends StatelessWidget {
   Widget build(BuildContext context) {
     return 
     InkWell(onTap: () {
-      Get.to(const AllRestaourent(),
+      Get.to(()=>const AllRestaourent(),arguments:"",
                 duration:const Duration(milliseconds:500 )
-                ,transition: Transition.fade);
+                ,transition: Transition.fade,);
     },
       child: Container( 
-        width: 120,height: 90,
+        width: 130,height: 90,
         decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(15)
               ,color: Theme.of(context).backgroundColor),
@@ -37,7 +37,7 @@ class FillcategoriesData extends StatelessWidget {
        ),
             )
             ,const SizedBox(height: 10,)
-          ,Text(items.CategoriesName,style: TextStyle(fontSize: 16))
+          ,Text(items.CategoriesName,style:const TextStyle(fontFamily: "Tajawal",fontSize: 16))
         ],),
         ),
     );

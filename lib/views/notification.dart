@@ -1,6 +1,8 @@
 
  // ignore_for_file: deprecated_member_use
  
+import 'dart:ffi';
+
 import 'package:flutter/material.dart'; 
 import 'package:get/get.dart';  
 import 'package:get_time_ago/get_time_ago.dart';
@@ -29,13 +31,31 @@ class _notification extends State<notification> {
       home: Scaffold(  
         appBar: MyAppBar(),
         body: Obx(
-          () => _controller.isloded.value?
-          const GetShimmer():ListView.builder(
-            itemCount: _controller.items.length,
-            itemBuilder: (context, index) {
-              var _convertedTimestamp =GetTimeAgo.parse(DateTime.parse(_controller.items[index].datetime),locale: 'ar');
-              return FillNotificationData(items: _controller.items[index], convertedTimestamp: _convertedTimestamp); 
-            },
+          () => RefreshIndicator( 
+           color:  Theme.of(context).primaryColor,
+      onRefresh:() => _controller.fetchData(),
+            child: _controller.isloded.value?
+            const GetShimmer():
+            _controller.items.isEmpty? 
+             Center( 
+                   child: Container( 
+                    height: 200,width: 150,
+                    padding:const EdgeInsets.all(10),
+                     child: Column(children: [
+                      Icon(Icons.notifications_off,size: 100,color: myTheme.primaryColor,),
+                   const SizedBox(height: 20,),
+                   const Text('لا توجد بيانات',style:  TextStyle(fontSize: 18),)
+                     ],
+                     ),
+                   ),
+                 )
+            : ListView.builder(
+              itemCount: _controller.items.length,
+              itemBuilder: (context, index) {
+                var _convertedTimestamp =GetTimeAgo.parse(DateTime.parse(_controller.items[index].datetime),locale: 'ar');
+                return FillNotificationData(items: _controller.items[index], convertedTimestamp: _convertedTimestamp); 
+              },
+            ),
           ),
         ),
         backgroundColor: Theme.of(context).backgroundColor,
@@ -50,12 +70,13 @@ class _notification extends State<notification> {
       leading: IconButton(onPressed: (){
            Get.back();
       },
-      icon: const Icon(Icons.arrow_back,color: Colors.teal)),
+      icon:  Icon(Icons.arrow_back_ios,color:Theme.of(context).primaryColor)),
           elevation: 2, 
         backgroundColor:Theme.of(context).backgroundColor,
         centerTitle: true, 
-        title: const Text("الاشعارات",
-            style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold,color: Colors.teal),
+        title:  Text("الاشعارات",
+            style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold,
+            color: Theme.of(context).primaryColor),
             )
           );
   } 
@@ -86,8 +107,7 @@ class FillNotificationData extends StatelessWidget {
               child: Image.asset(items.images
                         ,fit: BoxFit.cover  ),
             )
-        ,
-        ListTile(trailing: const Text(''),
+        ,ListTile(trailing: const Text(''),
           title: Text(items.title,textAlign: TextAlign.right,style: TextStyle(
             color: Theme.of(context).primaryColor,
             fontWeight: FontWeight.bold),)

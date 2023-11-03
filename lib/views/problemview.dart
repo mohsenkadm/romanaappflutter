@@ -27,12 +27,12 @@ class _ProblemviewState extends State<Problemview> {
       leading: IconButton(onPressed: (){
            Get.back();
       },
-      icon: const Icon(Icons.arrow_back,color: Colors.teal)),
+      icon:  Icon(Icons.arrow_back,color:Theme.of(context).primaryColor)),
           elevation: 2, 
         backgroundColor:Theme.of(context).backgroundColor,
         centerTitle: true, 
-        title: const Text("",
-            style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold,color: Colors.teal),
+        title:  Text("",
+            style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold,color: Theme.of(context).primaryColor),
             )
           );
   } 

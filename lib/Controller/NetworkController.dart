@@ -20,7 +20,7 @@ class NetworkController extends GetxController{
        ),
        isDismissible: false,
        snackPosition: SnackPosition.TOP,
-      duration: const Duration(days: 1),
+      duration: const Duration(seconds: 5),
       backgroundColor: Colors.red[400]!,
       margin: EdgeInsets.zero,
       snackStyle: SnackStyle.GROUNDED,

@@ -24,18 +24,19 @@ class _AddResState extends State<AddRes> {
           child: Padding(
             padding: const EdgeInsets.symmetric(vertical: 20.0),
             child: Container(
-              height: 150,
+              padding: const EdgeInsets.all(10),
+              height: 180,
               margin: const EdgeInsets.symmetric(horizontal: 30),
              width: double.infinity,
                  decoration: BoxDecoration( 
                     borderRadius: BorderRadius.circular(10),
                    color: Theme.of(context).secondaryHeaderColor),
-              child: Column(
+              child: Column( 
                 mainAxisAlignment: MainAxisAlignment.center,
                children: [
-                 const Text('سعيدون جداً برغبة انضمامك لنا ، يمنح تطبيقنا مميزات عديدة لزبائنك .')
+                 const Text('سعيدون جداً برغبة انضمامك لنا ، يمنح تطبيقنا مميزات عديدة لزبائنك .',textAlign: TextAlign.right,)
                 ,const SizedBox(height: 10,)
-                 ,const Text('سعيدون جداً برغبة انضمامك لنا ، يمنح تطبيقنا مميزات عديدة لزبائنك .')
+                 ,const Text('سعيدون جداً برغبة انضمامك لنا ، يمنح تطبيقنا مميزات عديدة لزبائنك .',textAlign: TextAlign.right,)
                ,const SizedBox(height: 10,)
                ,ElevatedButton.icon(onPressed: ()=>{ 
                }, style: ElevatedButton.styleFrom(
@@ -57,12 +58,12 @@ class _AddResState extends State<AddRes> {
       leading: IconButton(onPressed: (){
            Get.back();
       },
-      icon: const Icon(Icons.arrow_back_ios,color: Colors.teal)),
+      icon:  Icon(Icons.arrow_back_ios,color:Theme.of(context).primaryColor)),
           elevation: 2, 
         backgroundColor:Theme.of(context).backgroundColor,
         centerTitle: true, 
-        title: const Text("اضافة مطعم",
-            style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold,color: Colors.teal),
+        title:  Text("اضافة مطعم",
+            style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold,color: Theme.of(context).primaryColor),
             )
           );
   } 
