@@ -17,6 +17,8 @@ class _SendOrder extends State<SendOrder> {
   final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
+
+RegExp regex = RegExp(r'([.]*0)(?!.*\d)');
     return MaterialApp(
       theme: myTheme,
       debugShowCheckedModeBanner: false,
@@ -75,9 +77,9 @@ class _SendOrder extends State<SendOrder> {
                                         fontWeight: FontWeight.bold),
                                   ),
                                   leading: Text(
-                                    ' د.ع ' +
-                                        ListItemCard.itemscard[index].total
-                                            .toString(),
+                                    ' د.ع ${ListItemCard.itemscard[index].price! *
+                                                ListItemCard
+                                                    .itemscard[index].count}',
                                     textAlign: TextAlign.right,
                                     style: TextStyle(
                                         color: Theme.of(context).primaryColor,
@@ -122,6 +124,114 @@ class _SendOrder extends State<SendOrder> {
                             key: _formKey,
                             child: Column(
                               children: [
+                                // Container(
+                                //   decoration: BoxDecoration(
+                                //     color: Theme.of(context)
+                                //         .secondaryHeaderColor, // Set your desired background color here
+                                //     borderRadius: BorderRadius.circular(
+                                //         8.0), // Optional: Add rounded corners
+                                //   ),
+                                //   margin: const EdgeInsets.symmetric(
+                                //       horizontal: 15, vertical: 10),
+                                //   width: double.infinity,
+                                //   child: TextFormField(
+                                //       controller: controller.nameController,
+                                //       validator: (value) {
+                                //         if (value == null || value.isEmpty) {
+                                //           return 'اكتب اسمك الكامل';
+                                //         }
+                                //         return null;
+                                //       },
+                                //       decoration: const InputDecoration(
+                                //         hintTextDirection: TextDirection.rtl,
+                                //         hintText: 'اسمك الكامل',
+                                //         contentPadding: EdgeInsets.all(15),
+                                //         border: OutlineInputBorder(
+                                //           borderSide: BorderSide.none,
+                                //         ),
+                                //       )),
+                                // ),
+                                // Container(
+                                //   decoration: BoxDecoration(
+                                //     color: Theme.of(context)
+                                //         .secondaryHeaderColor, // Set your desired background color here
+                                //     borderRadius: BorderRadius.circular(
+                                //         8.0), // Optional: Add rounded corners
+                                //   ),
+                                //   margin: const EdgeInsets.symmetric(
+                                //       horizontal: 15, vertical: 10),
+                                //   width: double.infinity,
+                                //   child: TextFormField(
+                                //       controller: controller.phoneController,
+                                //       validator: (value) {
+                                //         if (value == null || value.isEmpty) {
+                                //           return 'اكتب رقم الهاتف';
+                                //         }
+                                //         return null;
+                                //       },
+                                //       decoration: const InputDecoration(
+                                //         hintTextDirection: TextDirection.rtl,
+                                //         hintText: 'رقم الهاتف',
+                                //         contentPadding: EdgeInsets.all(15),
+                                //         border: OutlineInputBorder(
+                                //           borderSide: BorderSide.none,
+                                //         ),
+                                //       )),
+                                // ),
+                                // Container(
+                                //   decoration: BoxDecoration(
+                                //     color: Theme.of(context)
+                                //         .secondaryHeaderColor, // Set your desired background color here
+                                //     borderRadius: BorderRadius.circular(
+                                //         8.0), // Optional: Add rounded corners
+                                //   ),
+                                //   margin: const EdgeInsets.symmetric(
+                                //       horizontal: 15, vertical: 10),
+                                //   width: double.infinity,
+                                //   child: TextFormField(
+                                //       controller: controller.addressController,
+                                //       validator: (value) {
+                                //         if (value == null || value.isEmpty) {
+                                //           return 'اكتب عنوانك الكامل';
+                                //         }
+                                //         return null;
+                                //       },
+                                //       decoration: const InputDecoration(
+                                //         hintTextDirection: TextDirection.rtl,
+                                //         hintText: 'عنوانك',
+                                //         contentPadding: EdgeInsets.all(15),
+                                //         border: OutlineInputBorder(
+                                //           borderSide: BorderSide.none,
+                                //         ),
+                                //       )),
+                                // ),
+                                // Container(
+                                //   decoration: BoxDecoration(
+                                //     color: Theme.of(context)
+                                //         .secondaryHeaderColor, // Set your desired background color here
+                                //     borderRadius: BorderRadius.circular(
+                                //         8.0), // Optional: Add rounded corners
+                                //   ),
+                                //   margin: const EdgeInsets.symmetric(
+                                //       horizontal: 15, vertical: 10),
+                                //   width: double.infinity,
+                                //   child: TextFormField(
+                                //       controller: controller.pointController,
+                                //       validator: (value) {
+                                //         if (value == null || value.isEmpty) {
+                                //           return 'اكتب اقرب نقطة دالة';
+                                //         }
+                                //         return null;
+                                //       },
+                                //       decoration: const InputDecoration(
+                                //         hintTextDirection: TextDirection.rtl,
+                                //         hintText: 'اقرب نقطة دالة',
+                                //         contentPadding: EdgeInsets.all(15),
+                                //         border: OutlineInputBorder(
+                                //           borderSide: BorderSide.none,
+                                //         ),
+                                //       )),
+                                // ),
                                 Container(
                                   decoration: BoxDecoration(
                                     color: Theme.of(context)
@@ -132,112 +242,9 @@ class _SendOrder extends State<SendOrder> {
                                   margin: const EdgeInsets.symmetric(
                                       horizontal: 15, vertical: 10),
                                   width: double.infinity,
-                                  child: TextFormField(
-                                      validator: (value) {
-                                        if (value == null || value.isEmpty) {
-                                          return 'اكتب اسمك الكامل';
-                                        }
-                                        return null;
-                                      },
+                                  child: TextField(
+                                      controller: controller.noteController,
                                       decoration: const InputDecoration(
-                                        hintTextDirection: TextDirection.rtl,
-                                        hintText: 'اسمك الكامل',
-                                        contentPadding: EdgeInsets.all(15),
-                                        border: OutlineInputBorder(
-                                          borderSide: BorderSide.none,
-                                        ),
-                                      )),
-                                ),
-                                Container(
-                                  decoration: BoxDecoration(
-                                    color: Theme.of(context)
-                                        .secondaryHeaderColor, // Set your desired background color here
-                                    borderRadius: BorderRadius.circular(
-                                        8.0), // Optional: Add rounded corners
-                                  ),
-                                  margin: const EdgeInsets.symmetric(
-                                      horizontal: 15, vertical: 10),
-                                  width: double.infinity,
-                                  child: TextFormField(
-                                      validator: (value) {
-                                        if (value == null || value.isEmpty) {
-                                          return 'اكتب رقم الهاتف';
-                                        }
-                                        return null;
-                                      },
-                                      decoration: const InputDecoration(
-                                        hintTextDirection: TextDirection.rtl,
-                                        hintText: 'رقم الهاتف',
-                                        contentPadding: EdgeInsets.all(15),
-                                        border: OutlineInputBorder(
-                                          borderSide: BorderSide.none,
-                                        ),
-                                      )),
-                                ),
-                                Container(
-                                  decoration: BoxDecoration(
-                                    color: Theme.of(context)
-                                        .secondaryHeaderColor, // Set your desired background color here
-                                    borderRadius: BorderRadius.circular(
-                                        8.0), // Optional: Add rounded corners
-                                  ),
-                                  margin: const EdgeInsets.symmetric(
-                                      horizontal: 15, vertical: 10),
-                                  width: double.infinity,
-                                  child: TextFormField(
-                                      validator: (value) {
-                                        if (value == null || value.isEmpty) {
-                                          return 'اكتب عنوانك الكامل';
-                                        }
-                                        return null;
-                                      },
-                                      decoration: const InputDecoration(
-                                        hintTextDirection: TextDirection.rtl,
-                                        hintText: 'عنوانك',
-                                        contentPadding: EdgeInsets.all(15),
-                                        border: OutlineInputBorder(
-                                          borderSide: BorderSide.none,
-                                        ),
-                                      )),
-                                ),
-                                Container(
-                                  decoration: BoxDecoration(
-                                    color: Theme.of(context)
-                                        .secondaryHeaderColor, // Set your desired background color here
-                                    borderRadius: BorderRadius.circular(
-                                        8.0), // Optional: Add rounded corners
-                                  ),
-                                  margin: const EdgeInsets.symmetric(
-                                      horizontal: 15, vertical: 10),
-                                  width: double.infinity,
-                                  child: TextFormField(
-                                      validator: (value) {
-                                        if (value == null || value.isEmpty) {
-                                          return 'اكتب اقرب نقطة دالة';
-                                        }
-                                        return null;
-                                      },
-                                      decoration: const InputDecoration(
-                                        hintTextDirection: TextDirection.rtl,
-                                        hintText: 'اقرب نقطة دالة',
-                                        contentPadding: EdgeInsets.all(15),
-                                        border: OutlineInputBorder(
-                                          borderSide: BorderSide.none,
-                                        ),
-                                      )),
-                                ),
-                                Container(
-                                  decoration: BoxDecoration(
-                                    color: Theme.of(context)
-                                        .secondaryHeaderColor, // Set your desired background color here
-                                    borderRadius: BorderRadius.circular(
-                                        8.0), // Optional: Add rounded corners
-                                  ),
-                                  margin: const EdgeInsets.symmetric(
-                                      horizontal: 15, vertical: 10),
-                                  width: double.infinity,
-                                  child: const TextField( 
-                                      decoration:  InputDecoration(
                                         hintTextDirection: TextDirection.rtl,
                                         hintText: 'ملاحظات',
                                         contentPadding: EdgeInsets.all(15),
@@ -257,21 +264,32 @@ class _SendOrder extends State<SendOrder> {
                                       horizontal: 15, vertical: 10),
                                   width: double.infinity,
                                   child: TextField(
-                                    decoration: InputDecoration(
-                                    hintTextDirection: TextDirection.rtl,
-                                    hintText: 'اكتب كود الخصم',
-                                    prefixIcon: InkWell(
-                                      onTap: () => _controller.getpromocode(),
-                                      child: Icon(
-                                        Icons.send,
-                                        color: Theme.of(context).primaryColor,
-                                      ),
-                                    ),
-                                    contentPadding: const EdgeInsets.all(15),
-                                    border: const OutlineInputBorder(
-                                      borderSide: BorderSide.none,
-                                    ),
-                                  )),
+                                      controller:
+                                          controller.promocodeController,
+                                      decoration: InputDecoration(
+                                        hintTextDirection: TextDirection.rtl,
+                                        hintText: 'اكتب كود الخصم',
+                                        prefixIcon: Obx(
+                                          () => InkWell(
+                                            onTap: () =>
+                                                _controller.getpromocode(),
+                                            child: _controller.islodedbtn.value
+                                                ? const Center(
+                                                    child:
+                                                        CircularProgressIndicator())
+                                                : Icon(
+                                                    Icons.send,
+                                                    color: Theme.of(context)
+                                                        .primaryColor,
+                                                  ),
+                                          ),
+                                        ),
+                                        contentPadding:
+                                            const EdgeInsets.all(15),
+                                        border: const OutlineInputBorder(
+                                          borderSide: BorderSide.none,
+                                        ),
+                                      )),
                                 ),
                                 Align(
                                   alignment: Alignment.centerRight,
@@ -296,6 +314,37 @@ class _SendOrder extends State<SendOrder> {
                                       borderRadius: BorderRadius.circular(15)),
                                   child: Column(
                                     children: [
+                                        ListTile(
+                                        trailing: Container(
+                                            decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(35),
+                                                color: myTheme
+                                                    .secondaryHeaderColor),
+                                            child: Icon(Icons.delivery_dining,
+                                                size: 30,
+                                                color: myTheme.primaryColor)),
+                                        title: Text(
+                                          'كلفة التوصيل',
+                                          textAlign: TextAlign.right,
+                                          style: TextStyle(
+                                            color:
+                                                Theme.of(context).primaryColor,
+                                            fontSize: 16,
+                                          ),
+                                        ),
+                                        leading: Text(
+                                          ' د.ع ' +
+                                              _controller.costDelivery.toString(),
+                                          textAlign: TextAlign.right,
+                                          style: TextStyle(
+                                            color:
+                                                Theme.of(context).primaryColor,
+                                            fontSize: 16,
+                                          ),
+                                        ),
+                                      ),
+                                   
                                       ListTile(
                                         trailing: Container(
                                             decoration: BoxDecoration(
@@ -316,8 +365,7 @@ class _SendOrder extends State<SendOrder> {
                                           ),
                                         ),
                                         leading: Text(
-                                          ' د.ع ' +
-                                              _controller.totalprice.toString(),
+                                          ' د.ع ${_controller.totalprice.toString().replaceAll(regex, '')}',
                                           textAlign: TextAlign.right,
                                           style: TextStyle(
                                             color:
@@ -337,7 +385,37 @@ class _SendOrder extends State<SendOrder> {
                                                 size: 30,
                                                 color: myTheme.primaryColor)),
                                         title: Text(
-                                          'الخصم',
+                                          'نسبة الخصم',
+                                          textAlign: TextAlign.right,
+                                          style: TextStyle(
+                                            color:
+                                                Theme.of(context).primaryColor,
+                                            fontSize: 16,
+                                          ),
+                                        ),
+                                        leading: Text(
+                                          _controller.discount.toString() +
+                                              ' %',
+                                          textAlign: TextAlign.right,
+                                          style: TextStyle(
+                                            color:
+                                                Theme.of(context).primaryColor,
+                                            fontSize: 16,
+                                          ),
+                                        ),
+                                      ),
+                                      ListTile(
+                                        trailing: Container(
+                                            decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(35),
+                                                color: myTheme
+                                                    .secondaryHeaderColor),
+                                            child: Icon(Icons.attach_money,
+                                                size: 30,
+                                                color: myTheme.primaryColor)),
+                                        title: Text(
+                                          'مبلغ الخصم',
                                           textAlign: TextAlign.right,
                                           style: TextStyle(
                                             color:
@@ -347,7 +425,8 @@ class _SendOrder extends State<SendOrder> {
                                         ),
                                         leading: Text(
                                           ' د.ع ' +
-                                              _controller.discount.toString(),
+                                              _controller.discountprice
+                                                  .toString().replaceAll(regex, ''),
                                           textAlign: TextAlign.right,
                                           style: TextStyle(
                                             color:
@@ -377,7 +456,7 @@ class _SendOrder extends State<SendOrder> {
                                         ),
                                         leading: Text(
                                           ' د.ع ' +
-                                              _controller.netAmount.toString(),
+                                              _controller.netAmount.toString().replaceAll(regex, ''),
                                           textAlign: TextAlign.right,
                                           style: TextStyle(
                                             color:
@@ -386,22 +465,37 @@ class _SendOrder extends State<SendOrder> {
                                           ),
                                         ),
                                       ),
-                                      ElevatedButton.icon(
-                                          onPressed: () => {
-                                                // Validate returns true if the form is valid, or false otherwise.
-                                                if (_formKey.currentState!
-                                                    .validate())
-                                                  {}
-                                              },
-                                          icon: const Icon(
-                                              Icons.shopping_cart_checkout),
-                                          style: ElevatedButton.styleFrom(
-                                              backgroundColor:
-                                                  myTheme.primaryColor),
-                                          label: const Text(
-                                            'ارسال الطلب',
-                                            style: TextStyle(fontSize: 18),
-                                          )),
+                                      Obx(
+                                        () => ElevatedButton.icon(
+                                            onPressed: () => {
+                                                  // Validate returns true if the form is valid, or false otherwise.
+                                                  if (_formKey.currentState!
+                                                      .validate())
+                                                    {controller.sendorder()}
+                                                },
+                                            icon: const Icon(
+                                              Icons.shopping_cart_checkout,
+                                              color: Colors.white,
+                                            ),
+                                            style: ElevatedButton.styleFrom(
+                                                backgroundColor:
+                                                    myTheme.primaryColor),
+                                            label: Padding(
+                                              padding: const EdgeInsets.fromLTRB(
+                                                  0, 5, 0, 0),
+                                              child: _controller
+                                                      .islodedbtnsend.value
+                                                  ? const Center(
+                                                      child:
+                                                          CircularProgressIndicator())
+                                                  : const Text(
+                                                      'ارسال الطلب',
+                                                      style: TextStyle(
+                                                          fontSize: 18,
+                                                          color: Colors.white),
+                                                    ),
+                                            )),
+                                      ),
                                       const SizedBox(
                                         height: 30,
                                       )
@@ -416,7 +510,7 @@ class _SendOrder extends State<SendOrder> {
           ),
         ),
         // ignore: deprecated_member_use
-        backgroundColor: Theme.of(context).backgroundColor,
+        backgroundColor: Colors.white,
       ),
     );
   }
@@ -432,7 +526,7 @@ class _SendOrder extends State<SendOrder> {
                 color: Theme.of(context).primaryColor)),
         elevation: 2,
         // ignore: deprecated_member_use
-        backgroundColor: Theme.of(context).backgroundColor,
+        backgroundColor: Colors.white,
         centerTitle: true,
         title: Text(
           "انهاء الطلب",

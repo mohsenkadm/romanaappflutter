@@ -1,4 +1,4 @@
-package com.example.romanaappflutter
+package com.romanashop
 
 import io.flutter.embedding.android.FlutterActivity
 

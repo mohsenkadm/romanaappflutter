@@ -21,55 +21,54 @@ class _AccountsState extends State<Accounts> {
         body: Padding(
           padding: const EdgeInsets.symmetric(vertical: 20.0),
           child: SingleChildScrollView(
-            child: Expanded(child:  Column(
-              children: [
+            child: Column(
+             children: [
+                TextButton(
+                  onPressed: () async {  
+                    await OpenUrl('https://www.instagram.com/rummana.iq?utm_source=ig_web_button_share_sheet&igsh=MmVlMjlkMTBhMg==');
+                   },
+                  child: Container( 
+                   margin: const EdgeInsets.symmetric(horizontal: 0,vertical: 0), 
+                             decoration: BoxDecoration(
+                   borderRadius: BorderRadius.circular(15),
+                   color: Theme.of(context).secondaryHeaderColor)
+                            ,child: ListTile( 
+                            trailing: Container(
+                   padding: const EdgeInsets.all(10),
+                            decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(35)
+                            ,color:Theme.of(context).secondaryHeaderColor),
+                          child: Icon(Icons.public,color: Theme.of(context).primaryColor
+                          ),
+                        ),
+                            title: const Text('الانستغرام',textAlign: TextAlign.right,)
+                        )
+                            ,),
+                ),
                  TextButton(
-                   onPressed: () async { 
-                     await OpenUrl('https://flutter.dev');
-                    },
-                   child: Container( 
-                    margin: const EdgeInsets.symmetric(horizontal: 0,vertical: 0), 
-                              decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(15),
-                    color: Theme.of(context).secondaryHeaderColor)
-                             ,child: ListTile( 
-                             trailing: Container(
-                    padding: const EdgeInsets.all(10),
+                  onPressed: () async { 
+                    await OpenUrl('https://www.facebook.com/profile.php?id=61551440293842&mibextid=2JQ9oc');
+                   },
+                  child: Container( 
+                   margin: const EdgeInsets.symmetric(horizontal: 0,vertical: 0), 
                              decoration: BoxDecoration(
-                             borderRadius: BorderRadius.circular(35)
-                             ,color:Theme.of(context).secondaryHeaderColor),
-                           child: Icon(Icons.public,color: Theme.of(context).primaryColor
-                           ),
-                         ),
-                             title: const Text('الانستغرام',textAlign: TextAlign.right,)
-                         )
-                             ,),
-                 ),
-                  TextButton(
-                   onPressed: () async { 
-                     await OpenUrl('https://flutter.dev');
-                    },
-                   child: Container( 
-                    margin: const EdgeInsets.symmetric(horizontal: 0,vertical: 0), 
-                              decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(15),
-                    color: Theme.of(context).secondaryHeaderColor)
-                             ,child: ListTile( 
-                             trailing: Container(
-                    padding: const EdgeInsets.all(10),
-                             decoration: BoxDecoration(
-                             borderRadius: BorderRadius.circular(35)
-                             ,color:Theme.of(context).secondaryHeaderColor),
-                           child: Icon(Icons.facebook,color: Theme.of(context).primaryColor
-                           ),
-                         ),
-                             title: const Text('فيسبوك',textAlign: TextAlign.right,)
-                         )
-                             ,),
-                 )
-              ],
-            )
-            ),
+                   borderRadius: BorderRadius.circular(15),
+                   color: Theme.of(context).secondaryHeaderColor)
+                            ,child: ListTile( 
+                            trailing: Container(
+                   padding: const EdgeInsets.all(10),
+                            decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(35)
+                            ,color:Theme.of(context).secondaryHeaderColor),
+                          child: Icon(Icons.facebook,color: Theme.of(context).primaryColor
+                          ),
+                        ),
+                            title: const Text('فيسبوك',textAlign: TextAlign.right,)
+                        )
+                            ,),
+                )
+             ],
+                        ),
           ),
         ),
       ),
@@ -90,7 +89,7 @@ class _AccountsState extends State<Accounts> {
       },
       icon:  Icon(Icons.arrow_back_ios,color: Theme.of(context).primaryColor)),
           elevation: 2, 
-        backgroundColor:Theme.of(context).backgroundColor,
+        backgroundColor:Colors.white,
         centerTitle: true, 
         title:  Text("حساباتنا",
             style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold,color: Theme.of(context).primaryColor),

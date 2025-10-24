@@ -2,19 +2,28 @@
 
 class UsersModel{
 
-       final int UserId ;
-        final String Name ;
-        final String Phone ;      
-        final String? Token ;        
-        final String? Address ;    
-        final String FunctionPoint ;
-        final String? Lat ;
-        final String? Long ;
-      UsersModel({required this.UserId,required this.Name,required this.Phone,required this.Address,required this.FunctionPoint
-      , this.Lat, this.Long, this.Token});
+         int userId ;
+          String Name ;
+          String Phone ;      
+          String? Token ;        
+          String? Address ;    
+          String FunctionPoint ;
+          String? Lat ;
+          String? Long ;
+          String? Password;
+          int? CityId;
+
+      UsersModel({required this.userId,required this.Name,required this.Phone,required this.Address,required this.FunctionPoint
+      , this.Lat, this.Long, this.Token,this.Password,this.CityId});
       factory UsersModel.fromJson(Map<String,dynamic> json){
-        return UsersModel(UserId: json['userId'],
-         Name: json['name'], Phone: json['phone'],
-          Address: json['address'], FunctionPoint: json['functionPoint']);
+        return UsersModel(userId:int.parse(json['userId'].toString()),
+         Name: json['name'], Phone: json['phone'],Token: json['token'],
+          Address: json['address'], FunctionPoint: json['functionPoint'],Password:json['password']
+          ,CityId:json['cityId']);
       }
+      Map<String, dynamic> toJson()=>{
+    'userId':userId,'name':Name,'phone':Phone,'address':Address,
+    'functionPoint':FunctionPoint,'lat':Lat,'long':Long,'password':Password
+    ,'cityId':CityId
+  };
 }

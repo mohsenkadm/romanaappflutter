@@ -1,6 +1,8 @@
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'dart:convert'; 
 import 'package:http/http.dart' as http;
+import 'package:romanaappflutter/Constant/ErrorMessage.dart';
 import 'package:romanaappflutter/Model/CarouselModel.dart';  
 import 'package:romanaappflutter/linkapi.dart'; 
 class MainController extends GetxController {
@@ -12,6 +14,7 @@ class MainController extends GetxController {
     currentIndex.value = index;
   }
 
+   final box= GetStorage(); 
   @override
   void onInit() {
     super.onInit();
@@ -19,15 +22,22 @@ class MainController extends GetxController {
   }
   Future<void> fetchDataCarousel() async {
     try{
-    final response=await http.get(Uri.https(AppLink.apiUrl,AppLink.getAllCarousel));
+        String countryid= box.read("selectCountries") ?? "0";
+   final Map<String, String> _queryParameters = <String, String>{
+        'CountryId': countryid,
+      };
+    final response=await http.get(Uri.https(AppLink.apiUrl,AppLink.getAllCarousel,_queryParameters));
     if(response.statusCode==200){
       final result=json.decode(response.body);
        var data = result['data'];
       itemsCarousel.value= data.map((json) => CarouselModel.fromJson(json)).toList();
     }
     else{
-      throw Exception('');
+      ErrorMessage.error();
     }
+    }
+    catch(ex){
+      ErrorMessage.error();
     }
     finally{
     isloded.value=false; 

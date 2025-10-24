@@ -29,7 +29,7 @@ class _ProblemviewState extends State<Problemview> {
       },
       icon:  Icon(Icons.arrow_back,color:Theme.of(context).primaryColor)),
           elevation: 2, 
-        backgroundColor:Theme.of(context).backgroundColor,
+        backgroundColor:Colors.white,
         centerTitle: true, 
         title:  Text("",
             style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold,color: Theme.of(context).primaryColor),

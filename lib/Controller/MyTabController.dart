@@ -4,8 +4,8 @@ import 'package:get/get.dart';
 class MyTabController extends GetxController with GetSingleTickerProviderStateMixin {
   final List<Tab> myTabs = <Tab>[
     const Tab(text: 'LEFT'),
-    const Tab(text: 'RIGHT'),
-    const Tab(text: 'RIGHT'),
+    const Tab(text: 'Center'), 
+    const Tab(text: 'RIGHT'), 
   ];
 
   late TabController controller;
@@ -14,6 +14,7 @@ class MyTabController extends GetxController with GetSingleTickerProviderStateMi
   void onInit() {
     super.onInit();
     controller = TabController(vsync: this, length: myTabs.length);
+    controller.index=2;
   }
 
   @override

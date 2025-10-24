@@ -32,7 +32,7 @@ class _SocialmediaState extends State<Socialmedia> {
       },
       icon: const Icon(Icons.arrow_back,color: Colors.teal)),
           elevation: 2, 
-        backgroundColor:Theme.of(context).backgroundColor,
+        backgroundColor:Colors.white,
         centerTitle: true, 
         title: const Text("",
             style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold,color: Colors.teal),

@@ -19,6 +19,7 @@ class _shoppingcard extends State<shoppingcard> {
   final ShoppingCardController _controller = Get.put(ShoppingCardController());
   @override
   Widget build(BuildContext context) {
+    RegExp regex = RegExp(r'([.]*0)(?!.*\d)');
     return MaterialApp(
       theme: myTheme,
       debugShowCheckedModeBanner: false,
@@ -84,9 +85,13 @@ class _shoppingcard extends State<shoppingcard> {
                                           CrossAxisAlignment.end,
                                       children: [
                                         Text(
-                                          ListItemCard.itemscard[index].total
-                                                  .toString() +
-                                              " د.ع ",
+                                          ' د.ع ${(ListItemCard.itemscard[index]
+                                                          .price! *
+                                                      ListItemCard
+                                                          .itemscard[index]
+                                                          .count)
+                                                  .toString()
+                                                  .replaceAll(regex, '')}',
                                           textAlign: TextAlign.right,
                                           style: TextStyle(
                                               color: Theme.of(context)
@@ -95,210 +100,9 @@ class _shoppingcard extends State<shoppingcard> {
                                         ),
                                         TextButton(
                                           onPressed: () => {
-                                             _controller.update(),
-                                            showBottomSheet(
-                                                context: context,
-                                                builder: (context) => Container(
-                                                      decoration: BoxDecoration(
-                                                          boxShadow: const <BoxShadow>[
-                                                            BoxShadow(
-                                                                color: Colors
-                                                                    .black54,
-                                                                blurRadius:
-                                                                    15.0,
-                                                                offset: Offset(
-                                                                    0.0, 0.75))
-                                                          ],
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(35),
-                                                          color: Colors.white),
-                                                      height: 400,
-                                                      child: Column(
-                                                        children: [
-                                                          const SizedBox(
-                                                            height: 20,
-                                                          ),
-                                                          Row(
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .spaceBetween,
-                                                            children: [
-                                                              Container(
-                                                                margin: const EdgeInsets
-                                                                    .symmetric(
-                                                                    horizontal:
-                                                                        5,
-                                                                    vertical:
-                                                                        4),
-                                                                decoration: BoxDecoration(
-                                                                    borderRadius:
-                                                                        BorderRadius.circular(
-                                                                            35),
-                                                                    color: myTheme
-                                                                        .secondaryHeaderColor),
-                                                                child:
-                                                                    IconButton(
-                                                                        onPressed:
-                                                                            () {
-                                                                          Navigator.pop(
-                                                                              context);
-                                                                        },
-                                                                        icon: Icon(
-                                                                            Icons
-                                                                                .close,
-                                                                            color:
-                                                                                myTheme.primaryColor)),
-                                                              ),
-                                                              Align(
-                                                                alignment:
-                                                                    Alignment
-                                                                        .topRight,
-                                                                child: Padding(
-                                                                  padding:
-                                                                      const EdgeInsets
-                                                                          .all(
-                                                                          10.0),
-                                                                  child: Text(
-                                                                    ListItemCard
-                                                                        .itemscard[
-                                                                            index]
-                                                                        .productsName,
-                                                                    style: TextStyle(
-                                                                        color: Theme.of(context)
-                                                                            .primaryColor,
-                                                                        fontSize:
-                                                                            16,
-                                                                        fontWeight:
-                                                                            FontWeight.bold),
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                          Align(
-                                                            alignment: Alignment
-                                                                .topRight,
-                                                            child: Padding(
-                                                              padding:
-                                                                  const EdgeInsets
-                                                                      .all(10),
-                                                              child: Text(
-                                                                ListItemCard
-                                                                    .itemscard[
-                                                                        index]
-                                                                    .productsDetails,
-                                                                style: TextStyle(
-                                                                    color: Theme.of(
-                                                                            context)
-                                                                        .primaryColor,
-                                                                    fontSize:
-                                                                        16),
-                                                              ),
-                                                            ),
-                                                          ),
-                                                          Center(
-                                                            child: Expanded(
-                                                              child: Padding(
-                                                                padding: const EdgeInsets
-                                                                    .symmetric(
-                                                                    horizontal:
-                                                                        70),
-                                                                child: Row(
-                                                                  mainAxisAlignment:
-                                                                      MainAxisAlignment
-                                                                          .spaceAround,
-                                                                  children: [
-                                                                    Expanded(
-                                                                      flex: 1,
-                                                                      child:
-                                                                          Padding(
-                                                                        padding: const EdgeInsets
-                                                                            .all(
-                                                                            20.0),
-                                                                        child:
-                                                                            Container(
-                                                                          decoration: BoxDecoration(
-                                                                              borderRadius: BorderRadius.circular(35),
-                                                                              color: myTheme.secondaryHeaderColor),
-                                                                          child: IconButton(
-                                                                              onPressed: () {
-                                                                               _controller.DeIncrement(index, context);
-                                                                              },
-                                                                              tooltip: "نقصان المنتج",
-                                                                              icon: Icon(Icons.remove, size: 25, color: myTheme.primaryColor)),
-                                                                        ),
-                                                                      ),
-                                                                    ),
-                                                                    Expanded(
-                                                                      flex: 1,
-                                                                      child: Container(
-                                                                          decoration: BoxDecoration(borderRadius: BorderRadius.circular(35), color: myTheme.secondaryHeaderColor),
-                                                                          child: Padding(
-                                                                            padding:
-                                                                                const EdgeInsets.symmetric(vertical: 15),
-                                                                            child:
-                                                                                GetBuilder<ShoppingCardController>(
-                                                                                  builder: (_controller) {
-                                                                                    return Text(
-                                                                             ListItemCard.itemscard[index].count.toString(),
-                                                                              textAlign: TextAlign.center,
-                                                                              style: const TextStyle(fontSize: 14),
-                                                                            );
-                                                                                  }
-                                                                                ),
-                                                                          )),
-                                                                    ),
-                                                                    Expanded(
-                                                                      flex: 1,
-                                                                      child:
-                                                                          Padding(
-                                                                        padding: const EdgeInsets
-                                                                            .all(
-                                                                            20.0),
-                                                                        child:
-                                                                            Container(
-                                                                          decoration: BoxDecoration(
-                                                                              borderRadius: BorderRadius.circular(35),
-                                                                              color: myTheme.secondaryHeaderColor),
-                                                                          child: IconButton(
-                                                                              onPressed: () {
-                                                                                 _controller.Increment(index, context);
-                                                                              },
-                                                                              tooltip: "زيادة المنتج",
-                                                                              icon: Icon(Icons.add, size: 25, color: myTheme.primaryColor)),
-                                                                        ),
-                                                                      ),
-                                                                    )
-                                                                  ],
-                                                                ),
-                                                              ),
-                                                            ),
-                                                          ),
-                                                         GetBuilder<ShoppingCardController>(
-                                                           builder: (_controller){
-                                                              return Text(
-                                                                ' د.ع ' +
-                                                                    ListItemCard
-                                                                        .itemscard[index]
-                                                                        .total
-                                                                        .toString(),
-                                                                textAlign:
-                                                                    TextAlign.right,
-                                                                style: TextStyle(
-                                                                    color: Theme.of(
-                                                                            context)
-                                                                        .primaryColor,
-                                                                    fontSize: 18,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .bold),
-                                                              );
-                                                            }
-                                                          )
-                                                        ],
-                                                      ),
-                                                    ))
+                                            _controller.update(),
+                                            showbottomsheet(
+                                                context, index, regex)
                                           },
                                           child: Container(
                                             padding: const EdgeInsets.all(4),
@@ -405,7 +209,10 @@ class _shoppingcard extends State<shoppingcard> {
                                 ),
                               ),
                               leading: Text(
-                                ' د.ع ' + _controller.totalprice.toString(),
+                                ' د.ع ' +
+                                    _controller.totalprice
+                                        .toString()
+                                        .replaceAll(regex, ''),
                                 textAlign: TextAlign.right,
                                 style: TextStyle(
                                   color: Theme.of(context).primaryColor,
@@ -423,12 +230,19 @@ class _shoppingcard extends State<shoppingcard> {
                                         transition: Transition.fade,
                                       )
                                     },
-                                icon: const Icon(Icons.shopping_cart_checkout),
+                                icon: const Icon(
+                                  Icons.shopping_cart_checkout,
+                                  color: Colors.white,
+                                ),
                                 style: ElevatedButton.styleFrom(
                                     backgroundColor: myTheme.primaryColor),
-                                label: const Text(
-                                  'اتمام الطلب',
-                                  style: TextStyle(fontSize: 18),
+                                label: const Padding(
+                                  padding: EdgeInsets.fromLTRB(0, 5, 0, 0),
+                                  child: Text(
+                                    'اتمام الطلب',
+                                    style: TextStyle(
+                                        fontSize: 18, color: Colors.white),
+                                  ),
                                 )),
                           ],
                         ),
@@ -438,9 +252,149 @@ class _shoppingcard extends State<shoppingcard> {
           ),
         ),
         // ignore: deprecated_member_use
-        backgroundColor: Theme.of(context).backgroundColor,
+        backgroundColor: Colors.white,
       ),
     );
+  }
+
+   showbottomsheet(
+      BuildContext context, int index, RegExp regex) async {
+    return showBottomSheet(
+        context: context,
+        builder: (context) => Container(
+              decoration: BoxDecoration(boxShadow: const <BoxShadow>[
+                BoxShadow(
+                    color: Colors.black54,
+                    blurRadius: 15.0,
+                    offset: Offset(0.0, 0.75))
+              ], borderRadius: BorderRadius.circular(35), color: Colors.white),
+              height: 400,
+              child: Column(
+                children: [
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Container(
+                        margin: const EdgeInsets.symmetric(
+                            horizontal: 5, vertical: 4),
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(35),
+                            color: myTheme.secondaryHeaderColor),
+                        child: IconButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            icon:
+                                Icon(Icons.close, color: myTheme.primaryColor)),
+                      ),
+                      Align(
+                        alignment: Alignment.topRight,
+                        child: Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: Text(
+                            ListItemCard.itemscard[index].productsName,
+                            style: TextStyle(
+                                color: Theme.of(context).primaryColor,
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Align(
+                    alignment: Alignment.topRight,
+                    child: Padding(
+                      padding: const EdgeInsets.all(10),
+                      child: Text(
+                        ListItemCard.itemscard[index].productsDetails,
+                        style: TextStyle(
+                            color: Theme.of(context).primaryColor,
+                            fontSize: 16),
+                      ),
+                    ),
+                  ),
+                  Center(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 70),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(20.0),
+                            child: Container(
+                              height: 50,width: 50,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(35),
+                                  color: myTheme.secondaryHeaderColor),
+                              child: IconButton(
+                                  onPressed: () {
+                                    _controller.DeIncrement(index);
+                                  },
+                                  tooltip: "نقصان المنتج",
+                                  icon: Icon(Icons.remove,
+                                      size: 25,
+                                      color: myTheme.primaryColor)),
+                            ),
+                          ),
+                          Container(
+                              height: 50,width: 70,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(35),
+                                  color: myTheme.secondaryHeaderColor),
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 15),
+                                child: GetBuilder<ShoppingCardController>(
+                                    builder: (_controller) {
+                                  return Text(
+                                    ListItemCard.itemscard[index].count
+                                        .toString(),
+                                    textAlign: TextAlign.center,
+                                    style: const TextStyle(fontSize: 14),
+                                  );
+                                }),
+                              )),
+                          Padding(
+                            padding: const EdgeInsets.all(20.0),
+                            child: Container(
+                            height: 50,width: 50,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(35),
+                                  color: myTheme.secondaryHeaderColor),
+                              child: IconButton(
+                                  onPressed: () {
+                                    _controller.Increment(index);
+                                  },
+                                  tooltip: "زيادة المنتج",
+                                  icon: Icon(Icons.add,
+                                      size: 25,
+                                      color: myTheme.primaryColor)),
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                  GetBuilder<ShoppingCardController>(builder: (_controller) {
+                    return Text(
+                      ' د.ع ${(ListItemCard.itemscard[index].price! *
+                                  ListItemCard.itemscard[index].count)
+                              .toString()
+                              .replaceAll(regex, '')}',
+                      textAlign: TextAlign.right,
+                      style: TextStyle(
+                          color: Theme.of(context).primaryColor,
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold),
+                    );
+                  })
+                ],
+              ),
+            ));
   }
 
   // ignore: non_constant_identifier_names
@@ -488,7 +442,7 @@ class _shoppingcard extends State<shoppingcard> {
                 color: Theme.of(context).primaryColor)),
         elevation: 2,
         // ignore: deprecated_member_use
-        backgroundColor: Theme.of(context).backgroundColor,
+        backgroundColor: Colors.white,
         centerTitle: true,
         title: Text(
           "سلة الطلب",

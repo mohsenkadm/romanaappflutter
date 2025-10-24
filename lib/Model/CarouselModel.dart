@@ -1,6 +1,6 @@
- class CarouselModel{ int? carouseId;
-    final String image;
-    final String url;
+ class CarouselModel{ int carouseId;
+    final String? image;
+    final String? url;
     final bool isShow;
 
     CarouselModel({

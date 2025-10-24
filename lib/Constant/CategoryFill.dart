@@ -17,20 +17,20 @@ class FillcategoriesData extends StatelessWidget {
   Widget build(BuildContext context) {
     return 
     InkWell(onTap: () {
-      Get.to(()=>const AllRestaourent(),arguments:"",
+      Get.to(()=>const AllRestaourent(),arguments:[items.CategoriesId.toString()],
                 duration:const Duration(milliseconds:500 )
                 ,transition: Transition.fade,);
     },
       child: Container( 
-        width: 130,height: 90,
+        width: 130,height: 100,
         decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(15)
-              ,color: Theme.of(context).backgroundColor),
+              ,color: Colors.white),
         margin: const EdgeInsets.symmetric(horizontal: 10,vertical: 10),
         child: Column(children: [ 
           ClipRRect(
                 borderRadius:  BorderRadius.circular(15.0),
-            child:  CachedNetworkImage( 
+            child:  CachedNetworkImage( height: 100,width: 100,
       placeholder: (context, url) => const Center(child: CircularProgressIndicator()),
          errorWidget: (context, url, error) => const Icon(Icons.error),
          imageUrl: items.CategoriesImages
@@ -71,7 +71,7 @@ class GetShimmercategories extends StatelessWidget {
           decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(15)
                 // ignore: deprecated_member_use
-                ,color: Theme.of(context).backgroundColor),
+                ,color: Theme.of(context).scaffoldBackgroundColor),
           margin: const EdgeInsets.symmetric(horizontal: 10,vertical: 10)
           ), 
         ClipRRect(
@@ -80,7 +80,7 @@ class GetShimmercategories extends StatelessWidget {
           decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(15)
                 // ignore: deprecated_member_use
-                ,color: Theme.of(context).backgroundColor),
+                ,color: Theme.of(context).scaffoldBackgroundColor),
           height:20,width: 100,)
           ) 
         ],

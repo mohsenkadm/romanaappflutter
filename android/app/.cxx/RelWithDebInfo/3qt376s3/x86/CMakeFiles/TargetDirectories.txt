@@ -1,0 +1,2 @@
+/Library/MyApp/romanaapp/romanaappflutter/android/app/.cxx/RelWithDebInfo/3qt376s3/x86/CMakeFiles/rebuild_cache.dir
+/Library/MyApp/romanaapp/romanaappflutter/android/app/.cxx/RelWithDebInfo/3qt376s3/x86/CMakeFiles/edit_cache.dir

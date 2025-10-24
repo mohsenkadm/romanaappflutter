@@ -31,18 +31,18 @@ class NetworkController extends GetxController{
       if(Get.isSnackbarOpen)
       {
         Get.closeCurrentSnackbar();
-        Get.rawSnackbar(
-        messageText: const Text('عاد الآتصال الى الانترنت',
-        style:  TextStyle(color: Colors.white, fontSize: 14)
-        ),
-        isDismissible: true,
-        snackPosition: SnackPosition.TOP,
-        duration: const Duration(seconds: 2),
-        backgroundColor: Colors.green[400]!,
-        margin: EdgeInsets.zero,
-        snackStyle: SnackStyle.FLOATING,
-        icon:const Icon(Icons.wifi,color: Colors.white, size: 35,)
-        );
+        // Get.rawSnackbar(
+        // messageText: const Text('عاد الآتصال الى الانترنت',
+        // style:  TextStyle(color: Colors.white, fontSize: 14)
+        // ),
+        // isDismissible: true,
+        // snackPosition: SnackPosition.TOP,
+        // duration: const Duration(seconds: 2),
+        // backgroundColor: Colors.green[400]!,
+        // margin: EdgeInsets.zero,
+        // snackStyle: SnackStyle.FLOATING,
+        // icon:const Icon(Icons.wifi,color: Colors.white, size: 35,)
+        // );
       }
     }
   }

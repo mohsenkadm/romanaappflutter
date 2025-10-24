@@ -14,8 +14,7 @@ class category extends StatefulWidget {
   State<category> createState() => _category();
 }
 // ignore: camel_case_types
-class _category extends State<category> { 
-  
+class _category extends State<category> {  
  final CategoriesController categoriesController = Get.put(CategoriesController()); 
    @override
   Widget build(BuildContext context) {
@@ -26,23 +25,51 @@ class _category extends State<category> {
         body:  Column(children: [ 
           CategorySlide(),
         ],), 
-        backgroundColor: Theme.of(context).backgroundColor,
+        backgroundColor: Colors.white,
       ),
     );
 
     
 }
  
-  Container CategorySlide() {
+  Expanded CategorySlide() {
     return 
-     Container(
-      height: 180,
+     Expanded(
        child: 
        Obx(()=> categoriesController.isloded.value?
        const GetShimmercategories():
-       ListView.builder(   
-              reverse: true,
-      scrollDirection: Axis.horizontal,
+       categoriesController.itemscategories.isEmpty?
+         Center(
+                    child: Container(
+                      height: 250,
+                      width: 300,
+                      padding: const EdgeInsets.all(10),
+                      child: Column(
+                        children: [
+                          Icon(
+                            Icons.restaurant_menu,
+                            size: 100,
+                            color: myTheme.primaryColor,
+                          ),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          const Text(
+                            'لا توجد اقسام ',
+                            style: TextStyle(fontSize: 18),
+                          )
+                        ],
+                      ),
+                    ),
+                  )
+                :
+       GridView.builder( 
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  childAspectRatio: 1,
+                  crossAxisSpacing: 0,
+                  mainAxisSpacing: 0,
+                ),    
               shrinkWrap: true,
               itemCount: categoriesController.itemscategories.length,
               itemBuilder: (context, index) { 

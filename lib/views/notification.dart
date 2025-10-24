@@ -1,8 +1,5 @@
-
- // ignore_for_file: deprecated_member_use
  
-import 'dart:ffi';
-
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart'; 
 import 'package:get/get.dart';  
 import 'package:get_time_ago/get_time_ago.dart';
@@ -52,13 +49,13 @@ class _notification extends State<notification> {
             : ListView.builder(
               itemCount: _controller.items.length,
               itemBuilder: (context, index) {
-                var _convertedTimestamp =GetTimeAgo.parse(DateTime.parse(_controller.items[index].datetime),locale: 'ar');
+                var _convertedTimestamp =GetTimeAgo.parse(_controller.items[index].dateInsert,locale: 'ar');
                 return FillNotificationData(items: _controller.items[index], convertedTimestamp: _convertedTimestamp); 
               },
             ),
           ),
         ),
-        backgroundColor: Theme.of(context).backgroundColor,
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       ),
     );
 }
@@ -72,7 +69,7 @@ class _notification extends State<notification> {
       },
       icon:  Icon(Icons.arrow_back_ios,color:Theme.of(context).primaryColor)),
           elevation: 2, 
-        backgroundColor:Theme.of(context).backgroundColor,
+        backgroundColor:Theme.of(context).scaffoldBackgroundColor,
         centerTitle: true, 
         title:  Text("الاشعارات",
             style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold,
@@ -102,11 +99,15 @@ class FillNotificationData extends StatelessWidget {
       margin: const EdgeInsets.symmetric(horizontal: 25,vertical: 10),
       padding: const EdgeInsets.all(0), 
       child: Column(children: [
-        ClipRRect(
-              borderRadius:  const BorderRadius.vertical(top: Radius.circular(15)),
-              child: Image.asset(items.images
-                        ,fit: BoxFit.cover  ),
-            )
+        SizedBox(
+          child:items.images!=null && items.images!=""? ClipRRect(
+                borderRadius:  const BorderRadius.vertical(top: Radius.circular(15)),
+                child: CachedNetworkImage( 
+              placeholder: (context, url) => const Center(child: CircularProgressIndicator()),
+           errorWidget: (context, url, error) => const Icon(Icons.error),
+           imageUrl: items.images?? ""),
+              ): null
+        )
         ,ListTile(trailing: const Text(''),
           title: Text(items.title,textAlign: TextAlign.right,style: TextStyle(
             color: Theme.of(context).primaryColor,
