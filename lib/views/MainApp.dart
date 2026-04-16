@@ -8,6 +8,7 @@ import 'package:romanaappflutter/views/homepage.dart';
 import 'package:romanaappflutter/views/myorder.dart';
 import 'package:romanaappflutter/views/notification.dart';
 import 'package:romanaappflutter/views/profileuser.dart';
+import 'package:romanaappflutter/views/questions_view.dart';
 import 'package:romanaappflutter/views/searchresandprod.dart';
 import 'package:romanaappflutter/views/shoppingcart.dart';
 
@@ -108,6 +109,18 @@ activeColor: Colors.white,
                 duration:const Duration(milliseconds:500 )
                 ,transition: Transition.fade);
           }, icon: Icon(Icons.notifications_active_outlined,color: myTheme.primaryColor)
+          ),
+        ),
+          Container(
+         margin: const EdgeInsets.symmetric(horizontal: 5,vertical: 4),
+           decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(35)
+            ,color: myTheme.secondaryHeaderColor),
+          child: IconButton(onPressed: (){ 
+                Get.to(const QuestionsView(),
+                duration:const Duration(milliseconds:500 )
+                ,transition: Transition.fade);
+          }, icon: Icon(Icons.live_help_rounded,color: myTheme.primaryColor)
           ),
         ),
       ],

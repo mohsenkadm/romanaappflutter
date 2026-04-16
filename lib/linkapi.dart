@@ -57,6 +57,8 @@ class AppLink {
 //========================== SendOTPCodeToPhoneNo ============================
   static const String SendOTPCodeToPhoneNo= "Users/SendOTPCodeToPhoneNo/";            
 //========================== SendOTPCodeToPhoneNo ============================
-  static const String DeleteUser= "Users/Delete";            
+  static const String DeleteUser= "Users/Delete";   
+           
+  static const String getQuestions= "Questions/GetAllApp";            
 
 }

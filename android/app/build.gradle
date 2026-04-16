@@ -37,8 +37,8 @@ if (keystorePropertiesFile.exists()) {
 
 android {  
     namespace "com.romanashop"
-    compileSdkVersion 35
-    ndkVersion '25.1.8937393'
+    compileSdkVersion 36
+    ndkVersion '26.1.10909125'
  packagingOptions {
         exclude 'META-INF/services/javax.annotation.processing.Processor'
     }
@@ -57,8 +57,8 @@ android {
 
     defaultConfig {
         applicationId "com.romanashop"
-        minSdkVersion 21
-        targetSdkVersion 34
+        minSdkVersion flutter.minSdkVersion
+        targetSdkVersion 36
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
     }

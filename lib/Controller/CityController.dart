@@ -1,4 +1,5 @@
 import 'dart:convert'; 
+import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
 import 'package:get/get.dart';
@@ -36,6 +37,8 @@ class CityController extends GetxController {
    {
       box.write("selectcity", currentSelectedItem.value);
             box.write("selectCountries", currentSelected2Item.value);
+              ErrorMessage.SnackMessage(
+              'تم الحفظ بنجاح', Colors.green[400]!);
    }
   Future<void> getcityGetByCountriesId(String countryid) async {
     isloded.value=true;

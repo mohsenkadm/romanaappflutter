@@ -15,7 +15,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 # In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
 # Read more about iOS versioning at
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
-version: 2.6.2+20
+version: 2.6.4+22
 
 environment:
   sdk: '>=3.2.3 <4.0.0'
@@ -44,7 +44,7 @@ dependencies:
   awesome_dialog: ^3.1.0
   geolocator: ^10.1.0
   get_storage: ^2.1.1
-  onesignal_flutter: ^5.2.9
+  onesignal_flutter: ^5.3.4
   onboarding: ^3.1.0
   grouped_list: ^5.1.2
   dropdown_button2: ^2.3.9
