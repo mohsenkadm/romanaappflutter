@@ -214,6 +214,28 @@ class _ChooseLocationState extends State<ChooseLocation> {
                           },
                         ),
                       ),
+                    const SizedBox(height: 50,),
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Theme.of(context).primaryColor,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 50, vertical: 15),
+                        ),
+                        onPressed: () {
+                          cityController.savecity();
+                        },
+                        child: const Text(
+                          "حفظ",
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
                     ],
                   ),
                 ),

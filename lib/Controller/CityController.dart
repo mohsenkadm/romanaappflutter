@@ -32,6 +32,11 @@ class CityController extends GetxController {
       getcityGetByCountriesId(value);
       box.write("selectCountries", value);
    }
+   void savecity()
+   {
+      box.write("selectcity", currentSelectedItem.value);
+            box.write("selectCountries", currentSelected2Item.value);
+   }
   Future<void> getcityGetByCountriesId(String countryid) async {
     isloded.value=true;
     try {
