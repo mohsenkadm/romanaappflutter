@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_verification_code/flutter_verification_code.dart';
 import 'package:get/get.dart';
-import 'package:romanaappflutter/Controller/LoginController.dart';
 import 'package:romanaappflutter/Controller/confirmaccountController.dart';
+import 'package:romanaappflutter/Constant/otp_policy.dart';
 import 'package:romanaappflutter/main.dart';
-import 'package:romanaappflutter/views/RegisterUser.dart';
 
 class confirmaccount extends StatefulWidget {
   const confirmaccount({Key? key}) : super(key: key);
@@ -15,15 +14,11 @@ class confirmaccount extends StatefulWidget {
 
 class _confirmaccountState extends State<confirmaccount> {
   final _formKey = GlobalKey<FormState>();
-  bool _onEditing = true;
   final confirmaccountController _controller =
       Get.put(confirmaccountController());
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: myTheme,
-      debugShowCheckedModeBanner: false,
-      home: Scaffold(
+    return Scaffold(
         appBar: MyAppBar(),
         body: SingleChildScrollView(
           child: Form(
@@ -63,7 +58,7 @@ class _confirmaccountState extends State<confirmaccount> {
                               Padding(
                                 padding: const EdgeInsets.fromLTRB(30, 8, 30, 8),
                                 child: Text(
-                                  'اهلا وسهلا بك رجاءا ادخال رمز التفعيل الذي سيصلك في رسالة نصية على رقمك',
+                                  'أدخل كود التحقق المكون من ${OtpPolicy.codeLength} أرقام المرسل إلى رقمك',
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
                                       color: Theme.of(context).primaryColor,
@@ -81,7 +76,7 @@ class _confirmaccountState extends State<confirmaccount> {
                                       keyboardType: TextInputType.number,
                                       underlineColor: Colors
                                           .amber, // If this is null it will use primaryColor: Colors.red from Theme
-                                      length: 4,
+                                      length: OtpPolicy.codeLength,
                                       cursorColor: Colors
                                           .blue, // If this is null it will default to the ambient
                                       // clearAll is NOT required, you can delete it
@@ -121,10 +116,7 @@ class _confirmaccountState extends State<confirmaccount> {
                                     ),
                                     style: ElevatedButton.styleFrom(
                                         backgroundColor: myTheme.primaryColor),
-                                    label: Padding(
-                                      padding:
-                                          const EdgeInsets.fromLTRB(0, 5, 0, 0),
-                                      child: _controller.islodedbtn.value
+                                    label: _controller.islodedbtn.value
                                           ? const Center(
                                               child: CircularProgressIndicator())
                                           : const Text(
@@ -132,8 +124,7 @@ class _confirmaccountState extends State<confirmaccount> {
                                               style: TextStyle(
                                                   fontSize: 18,
                                                   color: Colors.white),
-                                            ),
-                                    )),
+                                            )),
                               
                               const SizedBox(
                                 height: 10,
@@ -178,8 +169,7 @@ class _confirmaccountState extends State<confirmaccount> {
             ),
           ),
         ),
-      ),
-    );
+      );
   }
 
   AppBar MyAppBar() {

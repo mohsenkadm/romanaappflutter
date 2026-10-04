@@ -39,6 +39,10 @@ class CityController extends GetxController {
             box.write("selectCountries", currentSelected2Item.value);
               ErrorMessage.SnackMessage(
               'تم الحفظ بنجاح', Colors.green[400]!);
+             // Auto-close the location screen and return to the previous screen.
+             if (Get.key.currentState?.canPop() ?? false) {
+               navigator?.pop();
+             }
    }
   Future<void> getcityGetByCountriesId(String countryid) async {
     isloded.value=true;
@@ -53,9 +57,15 @@ class CityController extends GetxController {
             final result = json.decode(response.body);
             var data = result['data'];
             itemscityAll.assignAll(
-                data.map((json) => CityModel.fromJson(json))); 
-               currentSelectedItem.value =  box.read("selectcity");
-                update();
+                data.map((json) => CityModel.fromJson(json)));
+            // Validate stored city value against the fresh list.
+            final fetchedCityIds = itemscityAll
+                .map((c) => c.CityId.toString())
+                .toSet();
+            final savedCity = box.read("selectcity")?.toString() ?? '';
+            currentSelectedItem.value =
+                fetchedCityIds.contains(savedCity) ? savedCity : '';
+            update();
           } else { 
           ErrorMessage.error;
           }  
@@ -76,8 +86,15 @@ class CityController extends GetxController {
             final result = json.decode(response.body);
             var data = result['data'];
             itemsCountriesAll.assignAll(
-                data.map((json) => CountriesModel.fromJson(json))); 
-                update();
+                data.map((json) => CountriesModel.fromJson(json)));
+            // Validate stored country value against the fresh list.
+            final fetchedIds = itemsCountriesAll
+                .map((c) => c.CountriesId.toString())
+                .toSet();
+            if (!fetchedIds.contains(currentSelected2Item.value)) {
+              currentSelected2Item.value = '';
+            }
+            update();
           } else { 
           ErrorMessage.error;
           }  

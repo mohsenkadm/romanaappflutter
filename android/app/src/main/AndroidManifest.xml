@@ -40,5 +40,12 @@
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
+
+        <!-- OneSignal: native extension that styles order-status notifications
+             and pins them on top of the system tray (ongoing) until the order
+             is delivered or canceled. -->
+        <meta-data
+            android:name="com.onesignal.NotificationServiceExtension"
+            android:value="com.romanashop.OrderStatusNotificationExtension" />
     </application>
 </manifest>

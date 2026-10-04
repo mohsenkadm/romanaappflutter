@@ -12,20 +12,16 @@ class Problemview extends StatefulWidget {
 class _ProblemviewState extends State<Problemview> {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: myTheme,
-      debugShowCheckedModeBanner: false,
-      home: Scaffold(
+    return Scaffold(
        appBar: MyAppBar(),
         body: const Text('data'),
-      ),
-    );
+      );
   }
    AppBar MyAppBar() {
     // ignore: duplicate_ignore
     return AppBar(  
       leading: IconButton(onPressed: (){
-           Get.back();
+           navigator?.pop();
       },
       icon:  Icon(Icons.arrow_back,color:Theme.of(context).primaryColor)),
           elevation: 2, 

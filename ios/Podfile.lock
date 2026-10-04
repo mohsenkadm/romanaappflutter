@@ -6,12 +6,12 @@ PODS:
   - geolocator_apple (1.2.0):
     - Flutter
     - FlutterMacOS
-  - onesignal_flutter (5.3.4):
+  - onesignal_flutter (5.6.4):
     - Flutter
-    - OneSignalXCFramework (= 5.2.14)
-  - OneSignalXCFramework (5.2.14):
-    - OneSignalXCFramework/OneSignalComplete (= 5.2.14)
-  - OneSignalXCFramework/OneSignal (5.2.14):
+    - OneSignalXCFramework (= 5.5.4)
+  - OneSignalXCFramework (5.5.4):
+    - OneSignalXCFramework/OneSignalComplete (= 5.5.4)
+  - OneSignalXCFramework/OneSignal (5.5.4):
     - OneSignalXCFramework/OneSignalCore
     - OneSignalXCFramework/OneSignalExtension
     - OneSignalXCFramework/OneSignalLiveActivities
@@ -19,47 +19,47 @@ PODS:
     - OneSignalXCFramework/OneSignalOSCore
     - OneSignalXCFramework/OneSignalOutcomes
     - OneSignalXCFramework/OneSignalUser
-  - OneSignalXCFramework/OneSignalComplete (5.2.14):
+  - OneSignalXCFramework/OneSignalComplete (5.5.4):
     - OneSignalXCFramework/OneSignal
     - OneSignalXCFramework/OneSignalInAppMessages
     - OneSignalXCFramework/OneSignalLocation
-  - OneSignalXCFramework/OneSignalCore (5.2.14)
-  - OneSignalXCFramework/OneSignalExtension (5.2.14):
+  - OneSignalXCFramework/OneSignalCore (5.5.4)
+  - OneSignalXCFramework/OneSignalExtension (5.5.4):
     - OneSignalXCFramework/OneSignalCore
+    - OneSignalXCFramework/OneSignalOSCore
     - OneSignalXCFramework/OneSignalOutcomes
-  - OneSignalXCFramework/OneSignalInAppMessages (5.2.14):
+  - OneSignalXCFramework/OneSignalInAppMessages (5.5.4):
     - OneSignalXCFramework/OneSignalCore
     - OneSignalXCFramework/OneSignalNotifications
     - OneSignalXCFramework/OneSignalOSCore
     - OneSignalXCFramework/OneSignalOutcomes
     - OneSignalXCFramework/OneSignalUser
-  - OneSignalXCFramework/OneSignalLiveActivities (5.2.14):
+  - OneSignalXCFramework/OneSignalLiveActivities (5.5.4):
     - OneSignalXCFramework/OneSignalCore
     - OneSignalXCFramework/OneSignalOSCore
     - OneSignalXCFramework/OneSignalUser
-  - OneSignalXCFramework/OneSignalLocation (5.2.14):
+  - OneSignalXCFramework/OneSignalLocation (5.5.4):
     - OneSignalXCFramework/OneSignalCore
     - OneSignalXCFramework/OneSignalNotifications
     - OneSignalXCFramework/OneSignalOSCore
     - OneSignalXCFramework/OneSignalUser
-  - OneSignalXCFramework/OneSignalNotifications (5.2.14):
+  - OneSignalXCFramework/OneSignalNotifications (5.5.4):
     - OneSignalXCFramework/OneSignalCore
     - OneSignalXCFramework/OneSignalExtension
+    - OneSignalXCFramework/OneSignalOSCore
     - OneSignalXCFramework/OneSignalOutcomes
-  - OneSignalXCFramework/OneSignalOSCore (5.2.14):
+  - OneSignalXCFramework/OneSignalOSCore (5.5.4):
     - OneSignalXCFramework/OneSignalCore
-  - OneSignalXCFramework/OneSignalOutcomes (5.2.14):
+  - OneSignalXCFramework/OneSignalOutcomes (5.5.4):
     - OneSignalXCFramework/OneSignalCore
-  - OneSignalXCFramework/OneSignalUser (5.2.14):
+    - OneSignalXCFramework/OneSignalOSCore
+  - OneSignalXCFramework/OneSignalUser (5.5.4):
     - OneSignalXCFramework/OneSignalCore
     - OneSignalXCFramework/OneSignalNotifications
     - OneSignalXCFramework/OneSignalOSCore
     - OneSignalXCFramework/OneSignalOutcomes
-  - path_provider_foundation (0.0.1):
-    - Flutter
-    - FlutterMacOS
-  - ReachabilitySwift (5.0.0)
-  - rive_common (0.0.1):
+  - ReachabilitySwift (5.2.4)
+  - rive_native (0.0.1):
     - Flutter
   - share_plus (0.0.1):
     - Flutter
@@ -75,8 +75,7 @@ DEPENDENCIES:
   - geolocator_apple (from `.symlinks/plugins/geolocator_apple/darwin`)
   - onesignal_flutter (from `.symlinks/plugins/onesignal_flutter/ios`)
   - OneSignalXCFramework (< 6.0, >= 5.0.0)
-  - path_provider_foundation (from `.symlinks/plugins/path_provider_foundation/darwin`)
-  - rive_common (from `.symlinks/plugins/rive_common/ios`)
+  - rive_native (from `.symlinks/plugins/rive_native/ios`)
   - share_plus (from `.symlinks/plugins/share_plus/ios`)
   - sqflite_darwin (from `.symlinks/plugins/sqflite_darwin/darwin`)
   - url_launcher_ios (from `.symlinks/plugins/url_launcher_ios/ios`)
@@ -95,10 +94,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/geolocator_apple/darwin"
   onesignal_flutter:
     :path: ".symlinks/plugins/onesignal_flutter/ios"
-  path_provider_foundation:
-    :path: ".symlinks/plugins/path_provider_foundation/darwin"
-  rive_common:
-    :path: ".symlinks/plugins/rive_common/ios"
+  rive_native:
+    :path: ".symlinks/plugins/rive_native/ios"
   share_plus:
     :path: ".symlinks/plugins/share_plus/ios"
   sqflite_darwin:
@@ -110,15 +107,14 @@ SPEC CHECKSUMS:
   connectivity_plus: bf0076dd84a130856aa636df1c71ccaff908fa1d
   Flutter: cabc95a1d2626b1b06e7179b784ebcf0c0cde467
   geolocator_apple: 66b711889fd333205763b83c9dcf0a57a28c7afd
-  onesignal_flutter: f69ff09eeaf41cea4b7a841de5a61e79e7fd9a5a
-  OneSignalXCFramework: 7112f3e89563e41ebc23fe807788f11985ac541c
-  path_provider_foundation: 2b6b4c569c0fb62ec74538f866245ac84301af46
-  ReachabilitySwift: 985039c6f7b23a1da463388634119492ff86c825
-  rive_common: 4743dbfd2911c99066547a3c6454681e0fa907df
+  onesignal_flutter: 91fa2d7096c4f00093e2c8dea6acf1cac2481dcd
+  OneSignalXCFramework: 5666b415b2cedb51b18643c05a65b4349ef015dc
+  ReachabilitySwift: 32793e867593cfc1177f5d16491e3a197d2fccda
+  rive_native: 6fd739ece3e1976374c6804badde07053aa05b36
   share_plus: c3fef564749587fc939ef86ffb283ceac0baf9f5
   sqflite_darwin: 5a7236e3b501866c1c9befc6771dfd73ffb8702d
-  url_launcher_ios: 5334b05cef931de560670eeae103fd3e431ac3fe
+  url_launcher_ios: bb13df5870e8c4234ca12609d04010a21be43dfa
 
-PODFILE CHECKSUM: c9a65a2a4ee991d7f5bf710666104b4d209e6dba
+PODFILE CHECKSUM: 898c855520d38a0a0636d28caa6033fa1edcb1cd
 
 COCOAPODS: 1.16.2

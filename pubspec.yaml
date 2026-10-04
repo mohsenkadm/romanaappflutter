@@ -15,7 +15,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 # In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
 # Read more about iOS versioning at
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
-version: 2.6.4+22
+version: 2.7.2+30
 
 environment:
   sdk: '>=3.2.3 <4.0.0'
@@ -29,9 +29,12 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+  intl: any
   carousel_slider: ^5.0.0
-  get: ^4.6.1
-  get_time_ago: ^1.1.3
+  get: ^4.7.3
+  get_time_ago: ^2.4.1
   http: ^1.1.2
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -52,6 +55,13 @@ dependencies:
   share_plus: ^7.2.1
   flutter_verification_code: ^1.1.7
   quiver: ^3.0.1
+  flutter_animate: ^4.5.0
+  animate_do: ^3.3.4
+  google_fonts: ^6.2.1
+  signalr_netcore: ^1.4.0
+  badges: ^3.1.2
+  flutter_map: ^7.0.2
+  latlong2: ^0.9.1
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -68,6 +78,10 @@ dev_dependencies:
 
 # The following section is specific to Flutter.
 flutter:
+  # Avoid OneSignal being embedded twice (SPM + CocoaPods NSE) which
+  # causes Xcode "Multiple commands produce …/OneSignal*.framework".
+  config:
+    enable-swift-package-manager: false
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in

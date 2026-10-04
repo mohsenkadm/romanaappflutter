@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:romanaappflutter/Controller/QuestionsController.dart';
+import 'package:romanaappflutter/Controller/SupportPhoneController.dart';
 import 'package:romanaappflutter/Model/QuestionsModel.dart';
 import 'package:romanaappflutter/main.dart';
 
@@ -465,17 +466,21 @@ class _QuestionsViewState extends State<QuestionsView> {
             textAlign: TextAlign.center,
           ),
           const SizedBox(height: 30),
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-            decoration: BoxDecoration(
-              color: myTheme.primaryColor.withOpacity(0.1),
-              borderRadius: BorderRadius.circular(25),
-            ),
-            child: Text(
-              'تواصل مع الدعم',
-              style: TextStyle(
-                color: myTheme.primaryColor,
-                fontWeight: FontWeight.w600,
+          InkWell(
+            onTap: () => SupportPhoneController.instance.showContactSheet(),
+            borderRadius: BorderRadius.circular(25),
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+              decoration: BoxDecoration(
+                color: myTheme.primaryColor.withOpacity(0.1),
+                borderRadius: BorderRadius.circular(25),
+              ),
+              child: Text(
+                'تواصل مع الدعم',
+                style: TextStyle(
+                  color: myTheme.primaryColor,
+                  fontWeight: FontWeight.w600,
+                ),
               ),
             ),
           ),

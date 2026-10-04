@@ -28,7 +28,7 @@ class _SocialmediaState extends State<Socialmedia> {
     // ignore: duplicate_ignore
     return AppBar(  
       leading: IconButton(onPressed: (){
-           Get.back();
+           navigator?.pop();
       },
       icon: const Icon(Icons.arrow_back,color: Colors.teal)),
           elevation: 2, 

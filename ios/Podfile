@@ -1,8 +1,12 @@
 # Uncomment this line to define a global platform for your project
-platform :ios, '13.0'
+platform :ios, '15.0'
 
 # CocoaPods analytics sends network stats synchronously affecting flutter build latency.
 ENV['COCOAPODS_DISABLE_STATS'] = 'true'
+
+# Avoid Xcode "Multiple commands produce …/XCFrameworkIntermediates/OneSignal*"
+# when Runner + Notification Service Extension both depend on OneSignalXCFramework.
+install! 'cocoapods', :disable_input_output_paths => true
 
 project 'Runner', {
   'Debug' => :debug,
@@ -37,13 +41,18 @@ target 'Runner' do
   end
 end
 
+# Keep linkage identical to Runner. Mismatched static/dynamic linkage makes
+# CocoaPods emit duplicate OneSignal XCFramework copy commands.
 target 'OneSignalNotificationRommana' do
   use_frameworks!
   pod 'OneSignalXCFramework', '>= 5.0.0', '< 6.0'
-end 
+end
 
 post_install do |installer|
   installer.pods_project.targets.each do |target|
     flutter_additional_ios_build_settings(target)
+    target.build_configurations.each do |config|
+      config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '15.0'
+    end
   end
 end

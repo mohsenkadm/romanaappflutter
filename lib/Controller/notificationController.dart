@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:romanaappflutter/Constant/ErrorMessage.dart';
+import 'package:romanaappflutter/Controller/AppBadgeController.dart';
 import 'package:romanaappflutter/Controller/ProfileuserController.dart';
 import 'package:romanaappflutter/Model/NotifModel.dart';
 import '../linkapi.dart';
@@ -11,13 +12,18 @@ import '../linkapi.dart';
 class notificationController extends GetxController {
   var items = [].obs;
   RxBool isloded = true.obs;
+  final RxInt unreadCount = 0.obs;
 
   final ProfileuserController _profileuserController =
       Get.find<ProfileuserController>();
   @override
   void onInit() {
     super.onInit();
-    fetchData(); // Fetch data when the controller is initialized
+    fetchData();
+  }
+
+  void markAllRead() {
+    unreadCount.value = 0;
   }
 
   Future<void> fetchData() async {

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:romanaappflutter/Controller/forgatepassController.dart';
 import 'package:romanaappflutter/main.dart';
-import 'package:romanaappflutter/views/RegisterUser.dart';
 import 'package:romanaappflutter/views/login.dart';
 
 class forgatepass extends StatefulWidget {
@@ -17,10 +16,7 @@ class _forgatepassState extends State<forgatepass> {
   final forgatepassController _controller = Get.put(forgatepassController());
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: myTheme,
-      debugShowCheckedModeBanner: false,
-      home: Scaffold(
+    return Scaffold(
         appBar: MyAppBar(),
         body: SingleChildScrollView(
           child: Form(
@@ -87,15 +83,12 @@ class _forgatepassState extends State<forgatepass> {
                               ),
                               style: ElevatedButton.styleFrom(
                                   backgroundColor: myTheme.primaryColor),
-                              label: Padding(
-                                padding: const EdgeInsets.fromLTRB(0, 5, 0, 0),
-                                child: _controller.islodedbtn.value
+                              label: _controller.islodedbtn.value
                                     ? const Center(child: CircularProgressIndicator())
                                     : const Text(
                                         'ارسال كود التحقق',
                                         style: TextStyle(fontSize: 18, color: Colors.white),
-                                      ),
-                              )),
+                                      )),
                         ),
                         const SizedBox(
                           height: 10,
@@ -115,15 +108,12 @@ class _forgatepassState extends State<forgatepass> {
                               ),
                               style: ElevatedButton.styleFrom(
                                   backgroundColor: myTheme.primaryColor),
-                              label: Padding(
-                                padding: const EdgeInsets.fromLTRB(0, 5, 0, 0),
-                                child: _controller.islodedbtn.value
+                              label: _controller.islodedbtn.value
                                     ? const Center(child: CircularProgressIndicator())
                                     : const Text(
                                         'تسجيل  دخول',
                                         style: TextStyle(fontSize: 18, color: Colors.white),
-                                      ),
-                              )),
+                                      )),
                       
                          
                         const SizedBox(
@@ -137,8 +127,7 @@ class _forgatepassState extends State<forgatepass> {
             ),
           ),
         ),
-      ),
-    );
+      );
   }
 
   AppBar MyAppBar() {

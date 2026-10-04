@@ -25,10 +25,7 @@ class _AllRestaourentState extends State<AllRestaourent> {
       Get.put(CategoriesController());
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: myTheme,
-      debugShowCheckedModeBanner: false,
-      home: Scaffold(
+    return Scaffold(
         appBar: MyAppBar(),
         body: SingleChildScrollView(
           child: Column(
@@ -42,8 +39,7 @@ class _AllRestaourentState extends State<AllRestaourent> {
           ),
         ),
         backgroundColor: Colors.white,
-      ),
-    );
+      );
   }
 
   AppBar MyAppBar() {
@@ -66,7 +62,7 @@ class _AllRestaourentState extends State<AllRestaourent> {
         ],
         leading: IconButton(
             onPressed: () {
-              Get.back();
+              navigator?.pop();
             },
             icon: Icon(Icons.arrow_back_ios,
                 color: Theme.of(context).primaryColor)),
@@ -84,16 +80,31 @@ class _AllRestaourentState extends State<AllRestaourent> {
 
   Container ResSlide() {
     return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 8),
       child: Obx(
         () => restourentController.islodedGetAll.value
             ? const GetShimmerResAll()
-            : ListView.builder(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                itemCount: restourentController.itemsresAll.length,
-                itemBuilder: (context, index) {
-                  return FillResData(
-                      items: restourentController.itemsresAll[index]);
+            : Builder(
+                builder: (context) {
+                  final cols =
+                      MediaQuery.of(context).size.width < 600 ? 2 : 3;
+                  return GridView.builder(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemCount: restourentController.itemsresAll.length,
+                    gridDelegate:
+                        SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: cols,
+                      mainAxisSpacing: 8,
+                      crossAxisSpacing: 8,
+                      childAspectRatio: 0.88,
+                    ),
+                    itemBuilder: (context, index) {
+                      return FillResData(
+                          items:
+                              restourentController.itemsresAll[index]);
+                    },
+                  );
                 },
               ),
       ),
@@ -102,10 +113,11 @@ class _AllRestaourentState extends State<AllRestaourent> {
 
   Container CategorySlide() {
     return Container(
-      height: 180,
+      height: 100,
       child: Obx(() => categoriesController.isloded.value
           ? const GetShimmercategories()
           : ListView.builder(
+              physics: const BouncingScrollPhysics(),
               reverse: true,
               scrollDirection: Axis.horizontal,
               shrinkWrap: true,
@@ -139,31 +151,41 @@ class FillCategoryAll extends StatelessWidget {
              restourentController.ChooseCategory(id);
             },
       child: Container(
-        width: 130,
-        height: 100,
+        width: 80,
         decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(15),
-            color: Colors.white),
+            borderRadius: BorderRadius.circular(14),
+            color: Colors.white,
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey.withOpacity(0.08),
+                spreadRadius: 1,
+                blurRadius: 6,
+                offset: const Offset(0, 2),
+              ),
+            ],
+        ),
         margin: const EdgeInsets.symmetric(
-            horizontal: 10, vertical: 10),
+            horizontal: 5, vertical: 6),
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             ClipRRect(
-              borderRadius: BorderRadius.circular(15.0),
-              child: CachedNetworkImage(height: 100,width: 100,
+              borderRadius: BorderRadius.circular(12.0),
+              child: CachedNetworkImage(height: 48, width: 48,
                   placeholder: (context, url) => const Center(
                       child: CircularProgressIndicator()),
                   errorWidget: (context, url, error) =>
                       const Icon(Icons.error),
                   imageUrl: items.CategoriesImages),
             ),
-            const SizedBox(
-              height: 10,
-            ),
+            const SizedBox(height: 4),
             Text(
                 items.CategoriesName,
+                textAlign: TextAlign.center,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
                 style: const TextStyle(
-                    fontFamily: "Tajawal", fontSize: 16))
+                    fontFamily: "Tajawal", fontSize: 11, fontWeight: FontWeight.w500))
           ],
         ),
       ),

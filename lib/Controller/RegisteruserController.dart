@@ -7,6 +7,8 @@ import 'package:get/get.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:romanaappflutter/Constant/ErrorMessage.dart';
 import 'package:romanaappflutter/Constant/determine_position_location.dart';
+import 'package:romanaappflutter/Constant/otp_policy.dart';
+import 'package:romanaappflutter/Constant/session_storage.dart';
 import 'package:romanaappflutter/Controller/ProfileuserController.dart';
 import 'package:romanaappflutter/Model/UsersModel.dart';
 import 'package:romanaappflutter/linkapi.dart';
@@ -21,6 +23,7 @@ class RegisteruserController extends GetxController {
   final functionPointController = TextEditingController();
   final phoneController = TextEditingController();
   final passController = TextEditingController();
+  final box = GetStorage();
 
   final ProfileuserController _controller = Get.find<ProfileuserController>();
   var itemcategories = [].obs;
@@ -33,12 +36,16 @@ class RegisteruserController extends GetxController {
     super.onInit();
   }
 
-  final box = GetStorage();
-
   Future<void> saveuser() async {
     if (islodedbtn.value) return;
     islodedbtn.value = true;
     try {
+      if (passController.text.trim().length < OtpPolicy.minPasswordLength) {
+        ErrorMessage.SnackMessage(
+            'كلمة المرور يجب أن تكون ${OtpPolicy.minPasswordLength} أحرف على الأقل',
+            Colors.red[400]!);
+        return;
+      }
       var data = Get.arguments;
       int userId = 0;
       if (data != null) {
@@ -136,30 +143,22 @@ class RegisteruserController extends GetxController {
       var data = Get.arguments;
       if (data != null) {
         var id = data[0].toString();
-        final Map<String, String> _queryParameters = <String, String>{
-          'Id': id,
-        };
-        final response = await http.get(
-            Uri.https(AppLink.apiUrl, AppLink.getuserById, _queryParameters));
-        if (response.statusCode == 200) {
-          final result = json.decode(response.body);
-          if (result['success'] == false) {
-            ErrorMessage.SnackMessage(
-                'حدث خطا اثناء عملية جلب البيانات', Colors.red[400]!);
-            isloded.value = false;
-            return;
-          }
-          var data = result['data'];
-
-          var item = UsersModel.fromJson(data);
-          nameController.text = item.Name!;
-          addressController.text = item.Address.toString();
-          functionPointController.text = item.FunctionPoint.toString();
-          passController.text = item.Password.toString();
-          phoneController.text = item.Phone.toString();
-        } else {
-          ErrorMessage.error;
+        final currentId = SessionStorage.userId(box);
+        // لا نستدعي Users/GetById (Admin/مقيد) — نحمّل من الجلسة المحلية.
+        if (currentId > 0 && id == currentId.toString()) {
+          final item = SessionStorage.userFromBox(box);
+          nameController.text = item.Name;
+          addressController.text = item.Address?.toString() ?? '';
+          functionPointController.text = item.FunctionPoint;
+          passController.text = '';
+          phoneController.text = item.Phone;
+          return;
         }
+        nameController.clear();
+        addressController.clear();
+        functionPointController.clear();
+        passController.clear();
+        phoneController.clear();
       }
     } catch (ex) {
       ErrorMessage.error;

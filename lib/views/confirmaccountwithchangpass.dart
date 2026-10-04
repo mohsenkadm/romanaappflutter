@@ -1,12 +1,9 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_verification_code/flutter_verification_code.dart';
 import 'package:get/get.dart';
-import 'package:romanaappflutter/Controller/LoginController.dart';
 import 'package:romanaappflutter/Controller/confirmaccountwithchangpassController.dart';
+import 'package:romanaappflutter/Constant/otp_policy.dart';
 import 'package:romanaappflutter/main.dart';
-import 'package:romanaappflutter/views/RegisterUser.dart';
 
 class confirmaccountwithchangpass extends StatefulWidget {
   const confirmaccountwithchangpass({Key? key}) : super(key: key);
@@ -18,15 +15,12 @@ class confirmaccountwithchangpass extends StatefulWidget {
 
 class _confirmaccountwithchangpassState
     extends State<confirmaccountwithchangpass> {
-      bool _onEditing=true;
   final _formKey = GlobalKey<FormState>();
-  final confirmaccountwithchangpassController _controller = Get.put(confirmaccountwithchangpassController());
+  final confirmaccountwithchangpassController _controller =
+      Get.put(confirmaccountwithchangpassController());
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: myTheme,
-      debugShowCheckedModeBanner: false,
-      home: Scaffold(
+    return Scaffold(
         appBar: MyAppBar(),
         body: SingleChildScrollView(
           child: Form(
@@ -66,7 +60,7 @@ class _confirmaccountwithchangpassState
                               Padding(
                                 padding: const EdgeInsets.fromLTRB(30, 8, 30, 8),
                                 child: Text(
-                                  'اهلا وسهلا بك رجاءا ادخال رمز التفعيل الذي سيصلك في رسالة نصية على رقمك مع ادخال كلمة المرور الجديدة',
+                                  'أدخل كود التحقق (${OtpPolicy.codeLength} أرقام) وكلمة مرور جديدة (${OtpPolicy.minPasswordLength} أحرف على الأقل)',
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
                                       color: Theme.of(context).primaryColor,
@@ -84,7 +78,7 @@ class _confirmaccountwithchangpassState
                                     keyboardType: TextInputType.number,
                                     underlineColor: Colors
                                         .amber, // If this is null it will use primaryColor: Colors.red from Theme
-                                    length: 4,
+                                    length: OtpPolicy.codeLength,
                                     cursorColor: Colors
                                         .blue, // If this is null it will default to the ambient
                                     // clearAll is NOT required, you can delete it
@@ -127,7 +121,7 @@ class _confirmaccountwithchangpassState
                                     controller: _controller.passController,
                                     decoration: const InputDecoration(
                                       hintTextDirection: TextDirection.rtl,
-                                      hintText: 'كلمة المرور الجديدة',
+                                      hintText: 'كلمة المرور الجديدة (6 أحرف على الأقل)',
                                       contentPadding: EdgeInsets.all(15),
                                       border: OutlineInputBorder(
                                         borderSide: BorderSide.none,
@@ -149,10 +143,7 @@ class _confirmaccountwithchangpassState
                                     ),
                                     style: ElevatedButton.styleFrom(
                                         backgroundColor: myTheme.primaryColor),
-                                    label: Padding(
-                                      padding:
-                                          const EdgeInsets.fromLTRB(0, 5, 0, 0),
-                                      child: _controller.islodedbtn.value
+                                    label: _controller.islodedbtn.value
                                           ? const Center(
                                               child: CircularProgressIndicator())
                                           : const Text(
@@ -160,8 +151,7 @@ class _confirmaccountwithchangpassState
                                               style: TextStyle(
                                                   fontSize: 18,
                                                   color: Colors.white),
-                                            ),
-                                    )),
+                                            )),
                               const SizedBox(
                                 height: 10,
                               ),
@@ -205,15 +195,14 @@ class _confirmaccountwithchangpassState
             ),
           ),
         ),
-      ),
-    );
+      );
   }
 
   AppBar MyAppBar() {
     return AppBar(
        leading: IconButton(
             onPressed: () {
-              Get.back();
+              navigator?.pop();
             },
             icon: Icon(Icons.arrow_back_ios,
                 color: Theme.of(context).primaryColor)),

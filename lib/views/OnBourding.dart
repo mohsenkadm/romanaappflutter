@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:onboarding/onboarding.dart';
 import 'package:romanaappflutter/main.dart';
 import 'package:romanaappflutter/views/MainApp.dart'; 
@@ -113,10 +114,13 @@ class _OnBoardingState extends State<OnBoarding> {
          );
   }
 
+  void _completeOnboarding() {
+    GetStorage().write('initScreen', 1);
+    Get.offAll(() => const MainApp());
+  }
+
   ElevatedButton get _signupButton {
-    return ElevatedButton(onPressed: ()=>{  
-       Get.offAll(const MainApp())
-         }, style: ElevatedButton.styleFrom(
+    return ElevatedButton(onPressed: _completeOnboarding, style: ElevatedButton.styleFrom(
                 backgroundColor: myTheme.primaryColor
               ),  child: const Text('دخول',style:TextStyle(fontSize: 18, color: Colors.white))
          );

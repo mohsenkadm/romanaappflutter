@@ -12,10 +12,7 @@ class AboutApp extends StatefulWidget {
 class _AboutAppState extends State<AboutApp> {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: myTheme,
-      debugShowCheckedModeBanner: false,
-      home: Scaffold(
+    return Scaffold(
           appBar: MyAppBar(),
           body: SingleChildScrollView(
             child: Column(
@@ -31,10 +28,11 @@ class _AboutAppState extends State<AboutApp> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
-                      Text(' عن رمانـــــة -',
+                      Text('عن رمانــة',
                           textAlign: TextAlign.right,
                           style: TextStyle(
                               fontSize: 20,
+                              fontWeight: FontWeight.bold,
                               color: Theme.of(context).primaryColor)),
                       const SizedBox(
                         height: 10,
@@ -44,33 +42,9 @@ class _AboutAppState extends State<AboutApp> {
                         height: 10,
                       ),
                       const Text(
-                        'تطبيق "رمانـــة " هو متجر إلكتروني شامل يوفر للمستخدم تجربة تسوق سهلة وممتعة. يتضمن التطبيق أقسام متنوعة تشمل الإلكترونيات، الأجهزة الكهربائية، الهواتف المحمولة، الاكسسوارات، الأزياء، العطور، المكياج، المنتجات الصحية، القرطاسية، الهدايا، أدوات المطبخ، والألعاب ، الخ .. بفضل تشكيلته الواسعة والمتنوعة، يمكن للمستخدمين العثور على كل ما يحتاجونه بسهولة وبضغطة زر واحدة .',
+                        'تطبيق رمانة يقدم لك تجربة تسوق وتوصيل فريدة، حيث يمكنك اكتشاف مطاعم ومتاجر جديدة والاستمتاع بوجبات لذيذة والحصول على مستلزماتك اليومية بسهولة، كل ذلك من خلال خطوات بسيطة على هاتفك. مع رمانة، يمكنك الاستفادة من العروض والخصومات الحصرية على مختلف المطاعم والمتاجر، والاستمتاع بخيارات متنوعة وخدمة توصيل موثوقة وسريعة. كما يتيح لك التطبيق تقييم المطاعم وخدمات التوصيل ومشاركة تجربتك، مما يساعد على تحسين جودة الخدمة وتقديم تجربة أفضل للمستخدمين في جميع أنحاء العراق. اكتشف تجربة التسوق والتوصيل بطريقة أسهل وأكثر راحة مع رمانة.',
                         textAlign: TextAlign.right,
-                        style: TextStyle(fontSize: 16),
-                      ),
-                      const SizedBox(
-                        height: 15,
-                      ),
-                      const Text(
-                        'يتميز تطبيق "رمانـــة " أيضًا بخدمة التوصيل السريعة حيث يقدم خدمة توصيل الطلبات في أقل من 24 ساعة، مما يسهل على المستخدمين الحصول على مشترياتهم بسرعة وفعالية، مما يجعل عملية التسوق أكثر سهولة وراحة.',
-                        textAlign: TextAlign.right,
-                        style: TextStyle(fontSize: 16),
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      const Text(
-                        'تطبيق "رمانـــة " يوفر أيضًا خدمة الإشعارات التفاعلية، حيث يمكن للمستخدمين الاطلاع على آخر العروض والتخفيضات والمنتجات الجديدة عبر الإشعارات المباشرة. هذه الخدمة تساعد المستخدمين على البقاء متصلين بآخر التحديثات والأخبار حول منتجاتهم المفضلة دون الحاجة إلى البحث عنها بشكل دائم . ',
-                        textAlign: TextAlign.right,
-                        style: TextStyle(fontSize: 16),
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      const Text(
-                        'يعمل تطبيق "رمانــــة " كمنصة شاملة تتيح لأصحاب المتاجر إضافة متاجرهم بسهولة والتحكم فيها من خلال لوحة تحكم مميزة. يمكنهم أيضًا الاستفادة من خدمة التوصيل لمتاجرهم، مما يجعل تجربة التسوق للعملاء أكثر يسرًا ويسهولة، وبالتالي زيادة عمليات الشراء لديهم. هذه الميزة تعزز التواجد الرقمي لأصحاب المتاجر وتعمل على تعزيز نجاح أعمالهم في عالم التجارة الإلكترونية.',
-                        textAlign: TextAlign.right,
-                        style: TextStyle(fontSize: 16),
+                        style: TextStyle(fontSize: 16, height: 1.6),
                       ),
                       const SizedBox(
                         height: 10,
@@ -83,8 +57,7 @@ class _AboutAppState extends State<AboutApp> {
                 )
               ],
             ),
-          )),
-    );
+          ));
   }
 
   // ignore: non_constant_identifier_names
@@ -93,7 +66,7 @@ class _AboutAppState extends State<AboutApp> {
     return AppBar(
         leading: IconButton(
             onPressed: () {
-              Get.back();
+              navigator?.pop();
             },
             icon: Icon(Icons.arrow_back_ios,
                 color: Theme.of(context).primaryColor)),
@@ -101,7 +74,7 @@ class _AboutAppState extends State<AboutApp> {
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         centerTitle: true,
         title: Text(
-          "عن تطبيق رمانة",
+          "عن رمانــة",
           style: TextStyle(
               fontSize: 24,
               fontWeight: FontWeight.bold,

@@ -2,8 +2,6 @@ import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:romanaappflutter/Controller/CityController.dart';
-import 'package:romanaappflutter/Model/CityModel.dart';
-import 'package:romanaappflutter/main.dart';
 
 class ChooseLocation extends StatefulWidget {
   const ChooseLocation({Key? key}) : super(key: key);
@@ -19,10 +17,7 @@ final TextEditingController textEditing2Controller = TextEditingController();
 class _ChooseLocationState extends State<ChooseLocation> {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-        theme: myTheme,
-        debugShowCheckedModeBanner: false,
-        home: Scaffold(
+    return Scaffold(
           appBar: MyAppBar(),
           body: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 40),
@@ -56,17 +51,21 @@ class _ChooseLocationState extends State<ChooseLocation> {
                               ),
                             ),
                           ),
-                          items: cityController.itemsCountriesAll.map((value) {
-                            return DropdownMenuItem(
-                              value: value.CountriesId.toString(),
-                              child: Text(
-                                value.CountriesName.toString(),
-                              ),
-                            );
-                          }).toList(),
-                          value: cityController.currentSelected2Item.value == ""
-                              ? null
-                              : cityController.currentSelected2Item.value,
+                          items: {
+                            for (final v in cityController.itemsCountriesAll)
+                              v.CountriesId.toString(): v.CountriesName.toString()
+                          }.entries.map((e) => DropdownMenuItem(
+                            value: e.key,
+                            child: Text(e.value),
+                          )).toList(),
+                          value: () {
+                            final v = cityController.currentSelected2Item.value;
+                            if (v.isEmpty) return null;
+                            final ids = cityController.itemsCountriesAll
+                                .map((x) => x.CountriesId.toString())
+                                .toSet();
+                            return ids.contains(v) ? v : null;
+                          }(),
                           onChanged: (value) {
                             cityController.ChooseCountries(value);
                           },
@@ -147,17 +146,21 @@ class _ChooseLocationState extends State<ChooseLocation> {
                               ),
                             ),
                           ),
-                          items: cityController.itemscityAll.map((value) {
-                            return DropdownMenuItem(
-                              value: value.CityId.toString(),
-                              child: Text(
-                                value.CityName.toString(),
-                              ),
-                            );
-                          }).toList(),
-                          value: cityController.currentSelectedItem.value == ""
-                              ? null
-                              : cityController.currentSelectedItem.value,
+                          items: {
+                            for (final v in cityController.itemscityAll)
+                              v.CityId.toString(): v.CityName?.toString() ?? ''
+                          }.entries.map((e) => DropdownMenuItem(
+                            value: e.key,
+                            child: Text(e.value),
+                          )).toList(),
+                          value: () {
+                            final v = cityController.currentSelectedItem.value;
+                            if (v.isEmpty) return null;
+                            final ids = cityController.itemscityAll
+                                .map((x) => x.CityId.toString())
+                                .toSet();
+                            return ids.contains(v) ? v : null;
+                          }(),
                           onChanged: (value) {
                             cityController.ChooseCity(value);
                           },
@@ -242,7 +245,7 @@ class _ChooseLocationState extends State<ChooseLocation> {
               ),
             ),
           ),
-        ));
+        );
   }
 
   // ignore: non_constant_identifier_names
@@ -251,7 +254,7 @@ class _ChooseLocationState extends State<ChooseLocation> {
     return AppBar(
         leading: IconButton(
             onPressed: () {
-              Get.back();
+              navigator?.pop();
             },
             icon: Icon(Icons.arrow_back_ios,
                 color: Theme.of(context).primaryColor)),

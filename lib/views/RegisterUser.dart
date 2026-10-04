@@ -31,10 +31,7 @@ class _RegisterUserState extends State<RegisterUser> {
   final RegisteruserController _controller = Get.put(RegisteruserController());
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: myTheme,
-      debugShowCheckedModeBanner: false,
-      home: Scaffold(
+    return Scaffold(
         backgroundColor: Colors.white,
         appBar: MyAppBar(),
         body: Obx(
@@ -201,15 +198,12 @@ class _RegisterUserState extends State<RegisterUser> {
                               ),
                               style: ElevatedButton.styleFrom(
                                   backgroundColor: myTheme.primaryColor),
-                              label: Padding(
-                                padding: const EdgeInsets.fromLTRB(0, 5, 0, 0),
-                                child: _controller.islodedbtn.value
+                              label: _controller.islodedbtn.value
                                     ? const Center(child: CircularProgressIndicator())
                                     : const Text(
                                         'تسجيل حساب جديد',
                                         style: TextStyle(fontSize: 18, color: Colors.white),
-                                      ),
-                              )),
+                                      )),
                         ),
                         const SizedBox(
                           height: 50,
@@ -219,8 +213,7 @@ class _RegisterUserState extends State<RegisterUser> {
             ),
           ),
         ),
-      ),
-    );
+      );
   }
 
   AppBar MyAppBar() {

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:romanaappflutter/Constant/ListItemCard.dart';
+import 'package:romanaappflutter/Controller/AppBadgeController.dart';
 import 'package:romanaappflutter/views/login.dart';  
 
 // ignore: camel_case_types
@@ -16,26 +17,29 @@ class ShoppingCardController extends GetxController{
     super.onInit();
    fetchData(); // Fetch data when the controller is initialized 
   }
-  Future<void> SumPrice() async{
-    try{ 
-      if(ListItemCard.itemscard.isNotEmpty){
-    totalprice.value= 0;
-    
-    totalprice.value= ListItemCard.itemscard.map((item) => item.price! * item.count)
-               .reduce((ele1, ele2) => ele1 + ele2);
-               
-      }
-    } 
-    finally{
-      
+  /// يحدّث المبلغ الكلي من عناصر السلة ويُعيد رسم الواجهة.
+  void SumPrice() {
+    if (ListItemCard.itemscard.isEmpty) {
+      totalprice.value = 0;
+    } else {
+      totalprice.value = ListItemCard.itemscard
+          .map((item) => item.unitPrice * item.count)
+          .fold<double>(0, (sum, line) => sum + line);
     }
+    update();
   }
 
    Future<void> ClearCard() async{
      ListItemCard.itemscard.clear();
     SumPrice();
-
+    _refreshBadge();
     update();
+  }
+
+  void _refreshBadge() {
+    if (Get.isRegistered<AppBadgeController>()) {
+      Get.find<AppBadgeController>().refreshCart();
+    }
   }
 
   final box = GetStorage();
@@ -68,7 +72,7 @@ class ShoppingCardController extends GetxController{
     else {
     
     ListItemCard.itemscard[index].count -= 1;
-    ListItemCard.itemscard[index].total = ListItemCard.itemscard[index].count * ListItemCard.itemscard[index].price!;
+    ListItemCard.itemscard[index].total = ListItemCard.itemscard[index].count * ListItemCard.itemscard[index].unitPrice;
      if (ListItemCard.itemscard[index].count == 0) {
           AwesomeDialog(
                   buttonsBorderRadius: const BorderRadius.all(Radius.circular(5)),
@@ -85,17 +89,24 @@ class ShoppingCardController extends GetxController{
                   btnCancelIcon: Icons.cancel,
                   btnOkOnPress: () {
                     ListItemCard.itemscard.removeAt(index);
-                   update();
-                    Navigator.pop(Get.context!);
+                    _refreshBadge();
+                    SumPrice();
+                    update();
                   },
                   btnCancelOnPress: () {
                     ListItemCard.itemscard[index].count += 1;
+                    ListItemCard.itemscard[index].total =
+                        ListItemCard.itemscard[index].count *
+                            ListItemCard.itemscard[index].unitPrice;
+                    _refreshBadge();
+                    SumPrice();
                     update();
                   },
                   desc: 'هل تريد حذف المنتج حقا؟')
               .show();
-        } else {  
-          update(); 
+        } else {
+          _refreshBadge();
+          update();
         }
        SumPrice();
     }
@@ -130,22 +141,19 @@ class ShoppingCardController extends GetxController{
     else {
       
     ListItemCard.itemscard[index].count += 1;
-    ListItemCard.itemscard[index].total = ListItemCard.itemscard[index].count * ListItemCard.itemscard[index].price!;
-   
+    ListItemCard.itemscard[index].total = ListItemCard.itemscard[index].count * ListItemCard.itemscard[index].unitPrice;
+    _refreshBadge();
    update();
        SumPrice();
     }
   }
   
   Future<void> fetchData() async {
-    try{  
-      
-      //sum net amount
-    SumPrice();
-    update();
-    }
-    finally{
-    isloded.value=false; 
+    isloded.value = true;
+    try {
+      SumPrice();
+    } finally {
+      isloded.value = false;
     }
   }
 }

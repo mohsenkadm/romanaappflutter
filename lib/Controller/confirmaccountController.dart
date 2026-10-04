@@ -1,104 +1,146 @@
+import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
 import 'package:get/get.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
-import 'package:quiver/async.dart';
 import 'package:romanaappflutter/Constant/ErrorMessage.dart';
+import 'package:romanaappflutter/Constant/otp_policy.dart';
+import 'package:romanaappflutter/Constant/session_storage.dart';
 import 'package:romanaappflutter/Controller/ProfileuserController.dart';
-import 'package:romanaappflutter/Model/UsersModel.dart';
 import 'package:romanaappflutter/linkapi.dart';
 import 'package:romanaappflutter/views/MainApp.dart';
+import 'package:romanaappflutter/views/login.dart';
 
 class confirmaccountController extends GetxController {
-  final numb1Controller = TextEditingController(); 
+  final numb1Controller = TextEditingController();
 
-  RxBool onEditing = true.obs; 
+  RxBool onEditing = true.obs;
   RxBool islodedbtn = false.obs;
-  var countdown = CountdownTimer(Duration(seconds: 30), const Duration(seconds: 1));
   RxBool isTimerRunning = false.obs;
-  RxInt Counter=30.obs;
-  
+  RxInt Counter = OtpPolicy.resendCooldownSeconds.obs;
+  Timer? _timer;
+
   final box = GetStorage();
   @override
   void onInit() {
     super.onInit();
     startTimer();
   }
-Future<void> restartTimer() async {
-    countdown.cancel(); 
-     countdown=CountdownTimer(Duration(seconds: 30), const Duration(seconds: 1));
+
+  @override
+  void onClose() {
+    _timer?.cancel();
+    numb1Controller.dispose();
+    super.onClose();
+  }
+
+  Future<void> restartTimer() async {
+    if (isTimerRunning.value) {
+      ErrorMessage.SnackMessage(
+          'انتظر ${Counter.value} ثانية قبل اعادة ارسال الكود',
+          Colors.orange[700]!);
+      return;
+    }
     var para = Get.arguments;
     if (para != null) {
       String phone = para[0].toString();
-     final response1 = await http
-                .post(Uri.https(AppLink.apiUrl, AppLink.SendOTPCodeToPhoneNo+phone));
-            if (response1.statusCode == 200) {
-               var data1 = jsonDecode(response1.body.toString());
-              if (data1['success'] == false) {
-                ErrorMessage.SnackMessage(data1['msg'], Colors.red[400]!);
-                return;
-              } 
-                ErrorMessage.SnackMessage(data1['msg'], Colors.green[400]!);
-              
-            } 
-            }
-            startTimer();
+      final response1 = await http.post(
+          Uri.https(AppLink.apiUrl, AppLink.SendOTPCodeToPhoneNo + phone));
+      if (response1.statusCode == 200) {
+        var data1 = jsonDecode(response1.body.toString());
+        final msg = data1['msg']?.toString() ?? '';
+        if (data1['success'] == false) {
+          final wait = OtpPolicy.parseWaitSeconds(msg);
+          if (wait != null) startTimer(seconds: wait);
+          ErrorMessage.SnackMessage(msg, Colors.red[400]!);
+          return;
+        }
+        ErrorMessage.SnackMessage(msg, Colors.green[400]!);
+        startTimer();
+      }
+    }
   }
-  
 
-void startTimer()  { 
+  void startTimer({int? seconds}) {
+    _timer?.cancel();
+    Counter.value = seconds ?? OtpPolicy.resendCooldownSeconds;
     isTimerRunning.value = true;
-     countdown.listen((event) {
-      Counter.value=event.remaining.inSeconds;
-      if (event.remaining.inSeconds == 0) {
-        Counter.value=30;
+    _timer = Timer.periodic(const Duration(seconds: 1), (t) {
+      if (Counter.value <= 1) {
+        Counter.value = 0;
         isTimerRunning.value = false;
+        t.cancel();
+      } else {
+        Counter.value--;
       }
     });
   }
+
   final ProfileuserController _controller = Get.find<ProfileuserController>();
-   Future<void> confirmaccount() async {
+  Future<void> confirmaccount() async {
     var para = Get.arguments;
     if (para != null) {
       String phone = para[0].toString();
       if (islodedbtn.value) return;
       islodedbtn.value = true;
       try {
-        if (numb1Controller.text.isNotEmpty ) {
-          String code = numb1Controller.text ;
-          final response = await http.post(Uri.https(
-              AppLink.apiUrl, '${AppLink.ConfirmCode}$code,$phone'));
-          if (response.statusCode == 200) {
-            final result = json.decode(response.body);
-            if (result['success'] == false) {
-              ErrorMessage.SnackMessage(
-                  result['msg'].toString(), Colors.red[400]!);
-              return;
+        final code = numb1Controller.text.trim();
+        if (!OtpPolicy.isValidCode(code)) {
+          ErrorMessage.SnackMessage(
+              'أدخل كود التحقق المكون من ${OtpPolicy.codeLength} أرقام',
+              Colors.red[400]!);
+          return;
+        }
+        final response = await http.post(Uri.https(
+            AppLink.apiUrl, '${AppLink.ConfirmCode}$code,$phone'));
+        if (response.statusCode == 200) {
+          final result = json.decode(response.body);
+          final msg = result['msg']?.toString() ?? '';
+          if (result['success'] == false) {
+            ErrorMessage.SnackMessage(
+                msg.isNotEmpty ? msg : 'فشل التحقق', Colors.red[400]!);
+            if (OtpPolicy.isExpiredOrExhausted(msg)) {
+              numb1Controller.clear();
             }
-            var data = result['data'];
-
-            UsersModel _usersModel = UsersModel.fromJson(data);
-            await box.write('islogin', true);
-            await box.write('UserId', _usersModel.userId);
-            await box.write('token', _usersModel.Token.toString());
-            await box.write('Name', _usersModel.Name);
-            await box.write('Phone', _usersModel.Phone);
-            await box.write('Address', _usersModel.Address);
-            await box.write('FunctionPoint', _usersModel.FunctionPoint);
-            OneSignal.login(_usersModel.userId.toString());
-            _controller.fetchData();
+            return;
+          }
+          final raw = result['data'];
+          final data = raw is Map<String, dynamic>
+              ? raw
+              : (raw is Map
+                  ? Map<String, dynamic>.from(raw)
+                  : <String, dynamic>{});
+          final userModel =
+              SessionStorage.fromOtpPayload(data, phoneFallback: phone);
+          if (userModel.userId <= 0) {
+            ErrorMessage.SnackMessage(
+                'تم التأكيد — سجّل الدخول بكود واتساب', Colors.green[400]!);
+            Get.offAll(const Login(),
+                duration: const Duration(milliseconds: 500),
+                transition: Transition.fade);
+            return;
+          }
+          await SessionStorage.persistUser(box, userModel);
+          if ((userModel.Token ?? '').isNotEmpty) {
+            OneSignal.login(userModel.userId.toString());
+            await _controller.applySession(userModel);
             Get.offAll(const MainApp(),
                 duration: const Duration(milliseconds: 500),
                 transition: Transition.fade);
-            ErrorMessage.SnackMessage('تم التحقق بنجاح', Colors.green[400]!);
+            ErrorMessage.SnackMessage(
+                msg.isNotEmpty ? msg : 'تم التحقق بنجاح', Colors.green[400]!);
           } else {
             ErrorMessage.SnackMessage(
-                'حدث خطا اثناء عملية جلب البيانات', Colors.red[400]!);
+                'تم تأكيد الحساب — سجّل الدخول بكود واتساب', Colors.green[400]!);
+            Get.offAll(const Login(),
+                duration: const Duration(milliseconds: 500),
+                transition: Transition.fade);
           }
         } else {
-          ErrorMessage.SnackMessage('اكتب الرمز اولا ', Colors.red[400]!);
+          ErrorMessage.SnackMessage(
+              'حدث خطا اثناء عملية جلب البيانات', Colors.red[400]!);
         }
       } catch (ex) {
         ErrorMessage.SnackMessage(

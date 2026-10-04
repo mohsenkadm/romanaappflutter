@@ -17,10 +17,7 @@ class _StarsViewState extends State<StarsView> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: myTheme,
-      debugShowCheckedModeBanner: false,
-      home: Scaffold(
+    return Scaffold(
         appBar: MyAppBar(),
         body: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -70,19 +67,15 @@ class _StarsViewState extends State<StarsView> {
               ),
               style: ElevatedButton.styleFrom(
                   backgroundColor: myTheme.primaryColor),
-              label: Padding(
-                padding: const EdgeInsets.fromLTRB(0, 5, 0, 0),
-                child: _controller.isloded.value
+              label: _controller.isloded.value
                     ? const Center(child: CircularProgressIndicator())
                     : const Text(
                         'ارسال التقييم',
                         style: TextStyle(fontSize: 18, color: Colors.white),
-                      ),
-              )),
+                      )),
         ]),
         backgroundColor: Colors.white,
-      ),
-    );
+      );
   }
 
   // ignore: non_constant_identifier_names
@@ -91,7 +84,7 @@ class _StarsViewState extends State<StarsView> {
     return AppBar(
         leading: IconButton(
             onPressed: () {
-              Get.back();
+              navigator?.pop();
             },
             icon: Icon(Icons.arrow_back_ios,
                 color: Theme.of(context).primaryColor)),

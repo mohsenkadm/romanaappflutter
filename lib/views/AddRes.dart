@@ -14,10 +14,7 @@ class AddRes extends StatefulWidget {
 class _AddResState extends State<AddRes> {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: myTheme,
-      debugShowCheckedModeBanner: false,
-      home: Scaffold(
+    return Scaffold(
         appBar: MyAppBar(),
         body: Center(
           child: Padding(
@@ -64,16 +61,13 @@ class _AddResState extends State<AddRes> {
                         ),
                         style: ElevatedButton.styleFrom(
                             backgroundColor: myTheme.primaryColor),
-                        label: const Padding(
-                          padding: EdgeInsets.fromLTRB(0, 5, 0, 0),
-                          child: Text(
+                        label: const Text(
                             'تواصل معنا',
                             style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 12,
                                 color: Colors.white),
-                          ),
-                        )),
+                          )),
                   ),
                   const SizedBox(
                     height: 10,
@@ -83,8 +77,7 @@ class _AddResState extends State<AddRes> {
             ),
           ),
         ),
-      ),
-    );
+      );
   }
 
   AppBar MyAppBar() {
@@ -92,7 +85,7 @@ class _AddResState extends State<AddRes> {
     return AppBar(
         leading: IconButton(
             onPressed: () {
-              Get.back();
+              navigator?.pop();
             },
             icon: Icon(Icons.arrow_back_ios,
                 color: Theme.of(context).primaryColor)),

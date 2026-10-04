@@ -11,10 +11,21 @@ class RestaurantCityModel{
          this.CityName,this.RestaurantName,this.costDelivery});
 
          factory RestaurantCityModel.fromJson(Map<String,dynamic> json){
-          return RestaurantCityModel(RestaurantCityId:json['restaurantCityId'],
-          CityId:json['cityId'],CityName:json['cityName'],
-          RestaurantId:json['restaurantId'],RestaurantName:json['restaurantName'],costDelivery:json['costDelivery']);
+          return RestaurantCityModel(
+          RestaurantCityId: json['restaurantCityId'] ?? 0,
+          CityId: json['cityId'] ?? 0,
+          CityName: json['cityName']?.toString(),
+          RestaurantId: json['restaurantId'] ?? 0,
+          RestaurantName: json['restaurantName']?.toString(),
+          costDelivery: _parseCostDelivery(json['costDelivery']));
          }
+
+  static int? _parseCostDelivery(dynamic value) {
+    if (value == null || value == '') return null;
+    if (value is int) return value;
+    if (value is num) return value.round();
+    return int.tryParse(value.toString());
+  }
 
          Map<String, dynamic> toJson()=>{
           'restaurantCityId':RestaurantCityId,

@@ -32,15 +32,11 @@ class _SearchResAndProd extends State<SearchResAndProd>
   }
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: myTheme,
-      debugShowCheckedModeBanner: false,
-      home: Scaffold(
+    return Scaffold(
         appBar: MyAppBar(),
         body: MyTabBarView(),
         backgroundColor: Colors.white,
-      ),
-    );
+      );
   }
 
   // ignore: non_constant_identifier_names
@@ -150,7 +146,7 @@ class _SearchResAndProd extends State<SearchResAndProd>
             :  GroupedListView<dynamic, String>(
                 shrinkWrap: true,
                 useStickyGroupSeparators: true, 
-                  elements:searchController.itemprod.value,
+                  elements:searchController.itemprod,
                   groupBy: (element) => element.RestaurantName, 
                   order: GroupedListOrder.ASC, 
                   groupSeparatorBuilder: (String value) => Container(
@@ -200,7 +196,7 @@ class _SearchResAndProd extends State<SearchResAndProd>
     return AppBar(
         leading: IconButton(
             onPressed: () {
-              Get.back();
+              navigator?.pop();
             },
             icon: Icon(Icons.arrow_back_ios,
                 color: Theme.of(context).primaryColor)),

@@ -18,18 +18,30 @@ class _category extends State<category> {
  final CategoriesController categoriesController = Get.put(CategoriesController()); 
    @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      theme:myTheme,
-      debugShowCheckedModeBanner: false,
-      home: Scaffold(   
-        body:  Column(children: [ 
+    return Scaffold(   
+        body: Column(children: [ 
+          Padding(
+            padding: const EdgeInsets.fromLTRB(16, 12, 16, 8),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Text(
+                  'الأقسام',
+                  style: TextStyle(
+                    fontSize: 22,
+                    fontWeight: FontWeight.bold,
+                    color: myTheme.primaryColor,
+                  ),
+                ),
+                const SizedBox(width: 8),
+                Icon(Icons.category_rounded, color: myTheme.primaryColor, size: 24),
+              ],
+            ),
+          ),
           CategorySlide(),
         ],), 
         backgroundColor: Colors.white,
-      ),
-    );
-
-    
+      );
 }
  
   Expanded CategorySlide() {
@@ -64,16 +76,17 @@ class _category extends State<category> {
                   )
                 :
        GridView.builder( 
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
-                  childAspectRatio: 1,
-                  crossAxisSpacing: 0,
-                  mainAxisSpacing: 0,
+                  childAspectRatio: 0.92,
+                  crossAxisSpacing: 10,
+                  mainAxisSpacing: 10,
                 ),    
               shrinkWrap: true,
               itemCount: categoriesController.itemscategories.length,
               itemBuilder: (context, index) { 
-                return FillcategoriesData(items: categoriesController.itemscategories[index]); 
+                return FillcategoriesData(items: categoriesController.itemscategories[index], index: index); 
               },
             )
        ),

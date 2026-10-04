@@ -25,6 +25,7 @@ class MainController extends GetxController {
         String countryid= box.read("selectCountries") ?? "0";
    final Map<String, String> _queryParameters = <String, String>{
         'CountryId': countryid,
+        'AppType': AppLink.carouselAppType.toString(),
       };
     final response=await http.get(Uri.https(AppLink.apiUrl,AppLink.getAllCarousel,_queryParameters));
     if(response.statusCode==200){

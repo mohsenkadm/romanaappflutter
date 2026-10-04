@@ -5,6 +5,7 @@ import 'package:http/http.dart' as http;
 import 'package:get/get.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:romanaappflutter/Constant/ErrorMessage.dart';
+import 'package:romanaappflutter/Constant/session_storage.dart';
 import 'package:romanaappflutter/Controller/ProfileuserController.dart';
 import 'package:romanaappflutter/Model/UsersModel.dart';
 import 'package:romanaappflutter/linkapi.dart';
@@ -65,17 +66,11 @@ class LoginController extends GetxController {
           }
           var data = result['data'];
 
-          UsersModel _usersModel = UsersModel.fromJson(data);
-          await box.write('islogin', true);
-          await box.write('UserId', _usersModel.userId);
-          await box.write('token', _usersModel.Token.toString());
-          await box.write('Name', _usersModel.Name);
-          await box.write('Phone', _usersModel.Phone);
-          await box.write('Address', _usersModel.Address);
-          await box.write('FunctionPoint', _usersModel.FunctionPoint);
+          final usersModel = UsersModel.fromJson(data);
+          await SessionStorage.persistUser(box, usersModel);
           await box.write('Password', passController.text);
-          OneSignal.login(_usersModel.userId.toString());
-          _controller.fetchData();
+          OneSignal.login(usersModel.userId.toString());
+          await _controller.applySession(usersModel);
           Get.offAll(const MainApp(),
               duration: const Duration(milliseconds: 500),
               transition: Transition.fade);

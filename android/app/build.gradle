@@ -38,7 +38,7 @@ if (keystorePropertiesFile.exists()) {
 android {  
     namespace "com.romanashop"
     compileSdkVersion 36
-    ndkVersion '26.1.10909125'
+    ndkVersion '28.2.13676358'
  packagingOptions {
         exclude 'META-INF/services/javax.annotation.processing.Processor'
     }
@@ -84,4 +84,8 @@ flutter {
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    // Required so OrderStatusNotificationExtension.kt can resolve OneSignal types.
+    // Must match the OneSignal Android SDK pulled in by onesignal_flutter (5.x).
+    implementation "com.onesignal:OneSignal:[5.0.0, 5.99.99]"
+    implementation "androidx.core:core-ktx:1.13.1"
 }

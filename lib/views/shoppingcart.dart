@@ -1,11 +1,17 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:romanaappflutter/Constant/ListItemCard.dart';
+import 'package:romanaappflutter/Constant/order_status_helper.dart';
 import 'package:romanaappflutter/Controller/ShoppingCardController.dart';
 import 'package:romanaappflutter/main.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
+import 'package:romanaappflutter/Constant/location_storage.dart';
+import 'package:romanaappflutter/views/CoverageGate.dart';
 import 'package:romanaappflutter/views/SendOrder.dart';
+import 'package:romanaappflutter/views/login.dart';
 
 // ignore: camel_case_types
 class shoppingcard extends StatefulWidget {
@@ -16,181 +22,199 @@ class shoppingcard extends StatefulWidget {
 
 // ignore: camel_case_types
 class _shoppingcard extends State<shoppingcard> {
-  final ShoppingCardController _controller = Get.put(ShoppingCardController());
+  late final ShoppingCardController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = Get.isRegistered<ShoppingCardController>()
+        ? Get.find<ShoppingCardController>()
+        : Get.put(ShoppingCardController());
+  }
+
   @override
   Widget build(BuildContext context) {
-    RegExp regex = RegExp(r'([.]*0)(?!.*\d)');
-    return MaterialApp(
-      theme: myTheme,
-      debugShowCheckedModeBanner: false,
-      home: Scaffold(
+    return Directionality(
+      textDirection: TextDirection.rtl,
+      child: Scaffold(
         appBar: MyAppBar(),
         body: RefreshIndicator(
           color: Theme.of(context).primaryColor,
           onRefresh: () => _controller.fetchData(),
           child: GetBuilder<ShoppingCardController>(
-            init: ShoppingCardController(),
             builder: (controller) => ListItemCard.itemscard.isEmpty
                 ? Center(
-                    child: Container(
-                      height: 250,
-                      width: 300,
-                      padding: const EdgeInsets.all(10),
-                      child: Column(
-                        children: [
-                          Icon(
-                            Icons.production_quantity_limits,
-                            size: 100,
-                            color: myTheme.primaryColor,
-                          ),
-                          const SizedBox(
-                            height: 20,
-                          ),
-                          const Text(
-                            'لا توجد منتجات في السلة',
-                            style: TextStyle(fontSize: 18),
-                          )
-                        ],
-                      ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(Icons.shopping_cart_outlined,
+                            size: 80, color: Colors.grey[350]),
+                        const SizedBox(height: 12),
+                        Text('السلة فارغة',
+                            style: GoogleFonts.cairo(
+                                fontSize: 18, color: Colors.grey[600])),
+                      ],
                     ),
                   )
-                : Column(
+                : ListView(
+                    physics: const AlwaysScrollableScrollPhysics(),
                     children: [
-                      Expanded(
-                        child: ListView.builder(
-                          itemCount: ListItemCard.itemscard.length,
-                          itemBuilder: (context, index) {
-                            return Container(
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(15),
-                                    color:
-                                        Theme.of(context).secondaryHeaderColor),
-                                margin: const EdgeInsets.symmetric(
-                                    horizontal: 5, vertical: 5),
-                                padding: const EdgeInsets.all(0),
-                                child: ListTile(
-                                  title: Text(
-                                    ListItemCard.itemscard[index].productsName,
-                                    textAlign: TextAlign.right,
-                                    style: TextStyle(
-                                        color: Theme.of(context).primaryColor,
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                  subtitle: Padding(
-                                    padding:
-                                        const EdgeInsets.fromLTRB(3, 4, 0, 0),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.end,
-                                      children: [
-                                        Text(
-                                          ' د.ع ${(ListItemCard.itemscard[index]
-                                                          .price! *
-                                                      ListItemCard
-                                                          .itemscard[index]
-                                                          .count)
-                                                  .toString()
-                                                  .replaceAll(regex, '')}',
-                                          textAlign: TextAlign.right,
-                                          style: TextStyle(
-                                              color: Theme.of(context)
-                                                  .primaryColor,
-                                              fontSize: 14),
-                                        ),
-                                        TextButton(
-                                          onPressed: () => {
-                                            _controller.update(),
-                                            showbottomsheet(
-                                                context, index, regex)
-                                          },
-                                          child: Container(
-                                            padding: const EdgeInsets.all(4),
-                                            decoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular(5),
-                                                color: myTheme
-                                                    .secondaryHeaderColor),
-                                            child: Text(
-                                              ListItemCard
-                                                      .itemscard[index].count
-                                                      .toString() +
-                                                  " الكمية ",
-                                              textAlign: TextAlign.right,
-                                              style: TextStyle(
-                                                  color: Theme.of(context)
-                                                      .primaryColor,
-                                                  fontSize: 14),
-                                            ),
-                                          ),
-                                        )
-                                      ],
+                      ListView.builder(
+                        physics: const NeverScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                        itemCount: ListItemCard.itemscard.length,
+                        itemBuilder: (context, index) {
+                          final item = ListItemCard.itemscard[index];
+                          final lineTotal = item.unitPrice * item.count;
+                          return Container(
+                            margin: const EdgeInsets.symmetric(
+                                horizontal: 12, vertical: 6),
+                            padding: const EdgeInsets.all(12),
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(16),
+                              border: Border.all(
+                                  color: myTheme.primaryColor
+                                      .withValues(alpha: 0.12)),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black.withValues(alpha: 0.04),
+                                  blurRadius: 10,
+                                  offset: const Offset(0, 3),
+                                ),
+                              ],
+                            ),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                ClipRRect(
+                                  borderRadius: BorderRadius.circular(12),
+                                  child: SizedBox(
+                                    width: 72,
+                                    height: 72,
+                                    child: CachedNetworkImage(
+                                      fit: BoxFit.cover,
+                                      placeholder: (context, url) =>
+                                          const Center(
+                                              child: CircularProgressIndicator(
+                                                  strokeWidth: 2)),
+                                      errorWidget: (context, url, error) =>
+                                          Icon(Icons.fastfood,
+                                              color: Colors.grey[400]),
+                                      imageUrl: item.productsImage.isNotEmpty
+                                          ? item.productsImage
+                                          : 'https://via.placeholder.com/80',
                                     ),
                                   ),
-                                  trailing: ClipRRect(
-                                    borderRadius: const BorderRadius.all(
-                                        Radius.circular(15)),
-                                    child: CachedNetworkImage(
-                                        placeholder: (context, url) =>
-                                            const Center(
-                                                child:
-                                                    CircularProgressIndicator()),
-                                        errorWidget: (context, url, error) =>
-                                            const Icon(
-                                              Icons.error,
-                                              color: Colors.red,
-                                            ),
-                                        imageUrl: ListItemCard
-                                            .itemscard[index].productsImage),
+                                ),
+                                const SizedBox(width: 10),
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        item.productsName,
+                                        maxLines: 2,
+                                        overflow: TextOverflow.ellipsis,
+                                        style: GoogleFonts.cairo(
+                                            color: Theme.of(context)
+                                                .primaryColor,
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                      const SizedBox(height: 4),
+                                      Text(
+                                        '${OrderStatusHelper.formatIqd(item.unitPrice)} × ${item.count}',
+                                        style: GoogleFonts.cairo(
+                                            color: Colors.grey[600],
+                                            fontSize: 12),
+                                      ),
+                                      Text(
+                                        OrderStatusHelper.formatIqd(lineTotal),
+                                        style: GoogleFonts.cairo(
+                                            color: Theme.of(context)
+                                                .primaryColor,
+                                            fontSize: 15,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                      if (item.selectedSizeName != null &&
+                                          item.selectedSizeName!.isNotEmpty)
+                                        Padding(
+                                          padding:
+                                              const EdgeInsets.only(top: 3),
+                                          child: Text(
+                                            'الحجم: ${item.selectedSizeName}',
+                                            style: GoogleFonts.cairo(
+                                                fontSize: 12,
+                                                color: Colors.grey[700]),
+                                          ),
+                                        ),
+                                      if (item.selectedIngredients != null &&
+                                          item.selectedIngredients!.isNotEmpty)
+                                        Padding(
+                                          padding:
+                                              const EdgeInsets.only(top: 3),
+                                          child: Text(
+                                            'المكونات: ${item.selectedIngredients}',
+                                            maxLines: 2,
+                                            overflow: TextOverflow.ellipsis,
+                                            style: GoogleFonts.cairo(
+                                                fontSize: 12,
+                                                color: Colors.grey[600],
+                                                fontStyle: FontStyle.italic),
+                                          ),
+                                        ),
+                                      const SizedBox(height: 8),
+                                      _QtyStepper(
+                                        count: item.count,
+                                        onMinus: () =>
+                                            controller.DeIncrement(index),
+                                        onPlus: () =>
+                                            controller.Increment(index),
+                                      ),
+                                    ],
                                   ),
-                                  leading: Container(
-                                    decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(35),
-                                        color: myTheme.secondaryHeaderColor),
-                                    child: IconButton(
-                                        onPressed: () {
-                                          AwesomeDialog(
-                                                  buttonsBorderRadius:
-                                                      const BorderRadius.all(
-                                                          Radius.circular(5)),
-                                                  context: context,
-                                                  dialogType:
-                                                      DialogType.warning,
-                                                  headerAnimationLoop: true,
-                                                  animType:
-                                                      AnimType.bottomSlide,
-                                                  title: 'حذف المنتج',
-                                                  reverseBtnOrder: true,
-                                                  showCloseIcon: true,
-                                                  btnOkText: 'نعم',
-                                                  btnCancelText: 'الغاء',
-                                                  btnOkIcon: Icons.check_circle,
-                                                  btnCancelIcon: Icons.cancel,
-                                                  btnOkOnPress: () {
-                                                    ListItemCard.itemscard
-                                                        .removeAt(index);
-                                                    controller.SumPrice();
-                                                    controller.update();
-                                                  },
-                                                  btnCancelOnPress: () {},
-                                                  desc:
-                                                      'هل تريد حذف المنتج حقا؟')
-                                              .show();
-                                        },
-                                        tooltip: "حذف المنتج",
-                                        icon: Icon(Icons.clear,
-                                            size: 25,
-                                            color: myTheme.primaryColor)),
-                                  ),
-                                ));
-                          },
-                        ),
+                                ),
+                                IconButton(
+                                  onPressed: () {
+                                    AwesomeDialog(
+                                            buttonsBorderRadius:
+                                                const BorderRadius.all(
+                                                    Radius.circular(5)),
+                                            context: context,
+                                            dialogType: DialogType.warning,
+                                            headerAnimationLoop: true,
+                                            animType: AnimType.bottomSlide,
+                                            title: 'حذف المنتج',
+                                            reverseBtnOrder: true,
+                                            showCloseIcon: true,
+                                            btnOkText: 'نعم',
+                                            btnCancelText: 'الغاء',
+                                            btnOkIcon: Icons.check_circle,
+                                            btnCancelIcon: Icons.cancel,
+                                            btnOkOnPress: () {
+                                              ListItemCard.itemscard
+                                                  .removeAt(index);
+                                              controller.SumPrice();
+                                              controller.update();
+                                            },
+                                            btnCancelOnPress: () {},
+                                            desc: 'هل تريد حذف المنتج حقا؟')
+                                        .show();
+                                  },
+                                  tooltip: 'حذف المنتج',
+                                  icon: Icon(Icons.clear,
+                                      size: 22, color: myTheme.primaryColor),
+                                ),
+                              ],
+                            ),
+                          );
+                        },
                       ),
                       Container(
                         padding: const EdgeInsets.all(10),
                         margin: const EdgeInsets.all(10),
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(15)),
                         child: Column(
                           children: [
                             ListTile(
@@ -206,208 +230,83 @@ class _shoppingcard extends State<shoppingcard> {
                                 style: TextStyle(
                                   color: Theme.of(context).primaryColor,
                                   fontSize: 16,
+                                  fontWeight: FontWeight.bold,
                                 ),
                               ),
-                              leading: Text(
-                                ' د.ع ' +
-                                    _controller.totalprice
-                                        .toString()
-                                        .replaceAll(regex, ''),
-                                textAlign: TextAlign.right,
-                                style: TextStyle(
-                                  color: Theme.of(context).primaryColor,
-                                  fontSize: 16,
+                              leading: Obx(
+                                () => Text(
+                                  OrderStatusHelper.formatIqd(
+                                      controller.totalprice.value),
+                                  style: TextStyle(
+                                    color: Theme.of(context).primaryColor,
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
                               ),
                             ),
-                            ElevatedButton.icon(
-                                onPressed: () => {
-                                      Get.to(
-                                        () => const SendOrder(),
-                                        arguments: "",
-                                        duration:
-                                            const Duration(milliseconds: 500),
-                                        transition: Transition.fade,
-                                      )
-                                    },
-                                icon: const Icon(
-                                  Icons.shopping_cart_checkout,
-                                  color: Colors.white,
-                                ),
+                            const SizedBox(height: 8),
+                            SizedBox(
+                              width: double.infinity,
+                              height: 48,
+                              child: ElevatedButton(
                                 style: ElevatedButton.styleFrom(
-                                    backgroundColor: myTheme.primaryColor),
-                                label: const Padding(
-                                  padding: EdgeInsets.fromLTRB(0, 5, 0, 0),
-                                  child: Text(
-                                    'اتمام الطلب',
-                                    style: TextStyle(
-                                        fontSize: 18, color: Colors.white),
+                                  backgroundColor: myTheme.primaryColor,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(12),
                                   ),
-                                )),
+                                ),
+                                onPressed: () async {
+                                  final box = GetStorage();
+                                  final userId = box.read('UserId') ?? 0;
+                                  if (userId == 0) {
+                                    ErrorLogin();
+                                    return;
+                                  }
+                                  if (!LocationStorage.coverageVerified) {
+                                    final ok = await Get.to(
+                                        () => const CoverageGate());
+                                    if (ok != true &&
+                                        !LocationStorage.coverageVerified) {
+                                      return;
+                                    }
+                                  }
+                                  Get.to(() => const SendOrder(),
+                                      duration:
+                                          const Duration(milliseconds: 400),
+                                      transition:
+                                          Transition.rightToLeftWithFade);
+                                },
+                                child: Text(
+                                  'إرسال الطلب',
+                                  style: GoogleFonts.cairo(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 16),
+                                ),
+                              ),
+                            ),
                           ],
                         ),
-                      )
+                      ),
+                      const SizedBox(height: 24),
                     ],
                   ),
           ),
         ),
-        // ignore: deprecated_member_use
-        backgroundColor: Colors.white,
+        backgroundColor: const Color(0xFFF7F8FC),
       ),
     );
   }
 
-   showbottomsheet(
-      BuildContext context, int index, RegExp regex) async {
-    return showBottomSheet(
-        context: context,
-        builder: (context) => Container(
-              decoration: BoxDecoration(boxShadow: const <BoxShadow>[
-                BoxShadow(
-                    color: Colors.black54,
-                    blurRadius: 15.0,
-                    offset: Offset(0.0, 0.75))
-              ], borderRadius: BorderRadius.circular(35), color: Colors.white),
-              height: 400,
-              child: Column(
-                children: [
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Container(
-                        margin: const EdgeInsets.symmetric(
-                            horizontal: 5, vertical: 4),
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(35),
-                            color: myTheme.secondaryHeaderColor),
-                        child: IconButton(
-                            onPressed: () {
-                              Navigator.pop(context);
-                            },
-                            icon:
-                                Icon(Icons.close, color: myTheme.primaryColor)),
-                      ),
-                      Align(
-                        alignment: Alignment.topRight,
-                        child: Padding(
-                          padding: const EdgeInsets.all(10.0),
-                          child: Text(
-                            ListItemCard.itemscard[index].productsName,
-                            style: TextStyle(
-                                color: Theme.of(context).primaryColor,
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  Align(
-                    alignment: Alignment.topRight,
-                    child: Padding(
-                      padding: const EdgeInsets.all(10),
-                      child: Text(
-                        ListItemCard.itemscard[index].productsDetails,
-                        style: TextStyle(
-                            color: Theme.of(context).primaryColor,
-                            fontSize: 16),
-                      ),
-                    ),
-                  ),
-                  Center(
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 70),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.all(20.0),
-                            child: Container(
-                              height: 50,width: 50,
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(35),
-                                  color: myTheme.secondaryHeaderColor),
-                              child: IconButton(
-                                  onPressed: () {
-                                    _controller.DeIncrement(index);
-                                  },
-                                  tooltip: "نقصان المنتج",
-                                  icon: Icon(Icons.remove,
-                                      size: 25,
-                                      color: myTheme.primaryColor)),
-                            ),
-                          ),
-                          Container(
-                              height: 50,width: 70,
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(35),
-                                  color: myTheme.secondaryHeaderColor),
-                              child: Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    vertical: 15),
-                                child: GetBuilder<ShoppingCardController>(
-                                    builder: (_controller) {
-                                  return Text(
-                                    ListItemCard.itemscard[index].count
-                                        .toString(),
-                                    textAlign: TextAlign.center,
-                                    style: const TextStyle(fontSize: 14),
-                                  );
-                                }),
-                              )),
-                          Padding(
-                            padding: const EdgeInsets.all(20.0),
-                            child: Container(
-                            height: 50,width: 50,
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(35),
-                                  color: myTheme.secondaryHeaderColor),
-                              child: IconButton(
-                                  onPressed: () {
-                                    _controller.Increment(index);
-                                  },
-                                  tooltip: "زيادة المنتج",
-                                  icon: Icon(Icons.add,
-                                      size: 25,
-                                      color: myTheme.primaryColor)),
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
-                  GetBuilder<ShoppingCardController>(builder: (_controller) {
-                    return Text(
-                      ' د.ع ${(ListItemCard.itemscard[index].price! *
-                                  ListItemCard.itemscard[index].count)
-                              .toString()
-                              .replaceAll(regex, '')}',
-                      textAlign: TextAlign.right,
-                      style: TextStyle(
-                          color: Theme.of(context).primaryColor,
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold),
-                    );
-                  })
-                ],
-              ),
-            ));
-  }
-
   // ignore: non_constant_identifier_names
-  AppBar MyAppBar() {
+  PreferredSizeWidget MyAppBar() {
     return AppBar(
-        actions: <Widget>[
-          Container(
-            margin: const EdgeInsets.symmetric(horizontal: 5, vertical: 4),
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(35),
-                color: myTheme.secondaryHeaderColor),
-            child: IconButton(
+        actions: [
+          GetBuilder<ShoppingCardController>(
+            builder: (controller) => IconButton(
                 onPressed: () {
+                  if (ListItemCard.itemscard.isEmpty) return;
                   AwesomeDialog(
                           buttonsBorderRadius:
                               const BorderRadius.all(Radius.circular(5)),
@@ -415,33 +314,28 @@ class _shoppingcard extends State<shoppingcard> {
                           dialogType: DialogType.warning,
                           headerAnimationLoop: true,
                           animType: AnimType.bottomSlide,
-                          title: 'حذف السلة',
+                          title: 'تفريغ السلة',
                           reverseBtnOrder: true,
                           showCloseIcon: true,
                           btnOkText: 'نعم',
                           btnCancelText: 'الغاء',
                           btnOkIcon: Icons.check_circle,
                           btnCancelIcon: Icons.cancel,
-                          btnOkOnPress: () {
-                            _controller.ClearCard();
-                          },
+                          btnOkOnPress: () => controller.ClearCard(),
                           btnCancelOnPress: () {},
-                          desc: 'هل تريد حذف السلة حقا؟')
+                          desc: 'هل تريد تفريغ السلة؟')
                       .show();
                 },
                 tooltip: "حذف السلة",
                 icon: Icon(Icons.remove_shopping_cart,
-                    size: 30, color: Theme.of(context).primaryColor)),
+                    size: 28, color: Theme.of(context).primaryColor)),
           ),
         ],
         leading: IconButton(
-            onPressed: () {
-              Get.back();
-            },
+            onPressed: () => navigator?.pop(),
             icon: Icon(Icons.arrow_back_ios,
                 color: Theme.of(context).primaryColor)),
         elevation: 2,
-        // ignore: deprecated_member_use
         backgroundColor: Colors.white,
         centerTitle: true,
         title: Text(
@@ -451,5 +345,105 @@ class _shoppingcard extends State<shoppingcard> {
               fontWeight: FontWeight.bold,
               color: Theme.of(context).primaryColor),
         ));
+  }
+
+  // ignore: non_constant_identifier_names
+  void ErrorLogin() {
+    AwesomeDialog(
+            buttonsBorderRadius: const BorderRadius.all(Radius.circular(5)),
+            context: context,
+            dialogType: DialogType.warning,
+            headerAnimationLoop: true,
+            animType: AnimType.bottomSlide,
+            title: 'تسجيل الدخول',
+            reverseBtnOrder: true,
+            showCloseIcon: true,
+            btnOkText: 'نعم',
+            btnCancelText: 'الغاء',
+            btnOkIcon: Icons.check_circle,
+            btnCancelIcon: Icons.cancel,
+            btnOkOnPress: () {
+              Get.to(() => const Login(),
+                  duration: const Duration(milliseconds: 500),
+                  transition: Transition.fade);
+            },
+            desc:
+                'يجب تسجيل حساب جديد او تسجيل دخول للتطبيق لتتمكن من اضافة طلبك')
+        .show();
+  }
+}
+
+class _QtyStepper extends StatelessWidget {
+  const _QtyStepper({
+    required this.count,
+    required this.onMinus,
+    required this.onPlus,
+  });
+
+  final int count;
+  final VoidCallback onMinus;
+  final VoidCallback onPlus;
+
+  @override
+  Widget build(BuildContext context) {
+    final primary = Theme.of(context).primaryColor;
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
+      decoration: BoxDecoration(
+        color: primary.withValues(alpha: 0.08),
+        borderRadius: BorderRadius.circular(24),
+        border: Border.all(color: primary.withValues(alpha: 0.25)),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          _qtyBtn(icon: Icons.remove_rounded, onTap: onMinus, color: primary),
+          AnimatedSwitcher(
+            duration: const Duration(milliseconds: 220),
+            transitionBuilder: (child, anim) => ScaleTransition(
+              scale: anim,
+              child: FadeTransition(opacity: anim, child: child),
+            ),
+            child: Padding(
+              key: ValueKey(count),
+              padding: const EdgeInsets.symmetric(horizontal: 12),
+              child: Text(
+                '$count',
+                style: GoogleFonts.cairo(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                  color: primary,
+                ),
+              ),
+            ),
+          ),
+          _qtyBtn(
+              icon: Icons.add_rounded,
+              onTap: onPlus,
+              color: primary,
+              filled: true),
+        ],
+      ),
+    );
+  }
+
+  Widget _qtyBtn({
+    required IconData icon,
+    required VoidCallback onTap,
+    required Color color,
+    bool filled = false,
+  }) {
+    return Material(
+      color: filled ? color : Colors.transparent,
+      shape: const CircleBorder(),
+      child: InkWell(
+        customBorder: const CircleBorder(),
+        onTap: onTap,
+        child: Padding(
+          padding: const EdgeInsets.all(6),
+          child: Icon(icon, size: 18, color: filled ? Colors.white : color),
+        ),
+      ),
+    );
   }
 }
