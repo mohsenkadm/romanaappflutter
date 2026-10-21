@@ -14,6 +14,7 @@ class OrdersModel {
 	double? netAmount;
   double?costDelivery;
 	bool? isCancel;
+  bool? isUserCancel;
 	bool? isApporve;
 	bool? isDone;
 	String? userName;
@@ -51,6 +52,7 @@ class OrdersModel {
   OrdersModel({ this.orderId, this.orderNo,required this.orderDate,
   required this.restaurantId, this.userId,required this.total,
   required this.totalDiscount,required this.netAmount, this.isCancel,
+   this.isUserCancel,
    this.isApporve, this.isDone, this.notes,this.promoCode,this.Reason,this.userName, this.phone, this.address, this.functionPoint, 
     this.lat, this.long, this.logo, this.restaurantName,
     this.categoriesName, this.orderDetails,this.usersModel,this.SaleManId,this.IsSaleManApprove,
@@ -67,7 +69,9 @@ class OrdersModel {
     return OrdersModel(orderId: json['orderId'] ?? json['OrderId'], orderNo: json['orderNo'] ?? json['OrderNo'], 
     orderDate: parsedDate, restaurantId: json['restaurantId'] ?? json['RestaurantId'] ?? 0, userId: json['userId'] ?? json['UserId'],
      total:double.tryParse(json['total']?.toString() ?? ''), totalDiscount:double.tryParse( json['totalDiscount']?.toString() ?? ''), netAmount: double.tryParse(json['netAmount']?.toString() ?? ''),
-      isCancel: json['isCancel'] ?? json['IsCancel'], isApporve: json['isApporve'] ?? json['IsApporve'], isDone: json['isDone'] ?? json['IsDone'],notes:json['notes'],promoCode:json['promoCode'],
+      isCancel: json['isCancel'] ?? json['IsCancel'],
+      isUserCancel: json['isUserCancel'] ?? json['IsUserCancel'],
+      isApporve: json['isApporve'] ?? json['IsApporve'], isDone: json['isDone'] ?? json['IsDone'],notes:json['notes'],promoCode:json['promoCode'],
        Reason: (json['reason'] ?? json['Reason'])?.toString(),
        userName: json['userName'], phone: json['phone'],
         address: json['address'], functionPoint: json['functionPoint'],
@@ -101,7 +105,7 @@ class OrdersModel {
 
 	Map<String, dynamic> toJson(){
       List<Map<String,dynamic>> details=orderDetails!.map((e) => e.toJson()).toList();
-   return { 'restaurantId':restaurantId,'userId':userId,'total':total,'notes':notes,'functionPoint':functionPoint,
+   return { 'restaurantId':restaurantId,'userId':userId,'total':total,'notes':notes,'functionPoint':functionPoint,'promoCode':promoCode,
     'totalDiscount':totalDiscount,'netAmount':netAmount,'costDelivery':costDelivery,'users':usersModel?.toJson(),'orderDetails':details
   };}
 }

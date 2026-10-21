@@ -11,6 +11,7 @@ import 'package:romanaappflutter/Controller/ProfileuserController.dart';
 import 'package:romanaappflutter/Model/UsersModel.dart';
 import 'package:romanaappflutter/core/api/api_client.dart';
 import 'package:romanaappflutter/linkapi.dart';
+import 'package:romanaappflutter/views/ForceProfileCompletionDialog.dart';
 
 class ConfirmPhoneChangeController extends GetxController {
   ConfirmPhoneChangeController({required this.pendingPhone});
@@ -109,6 +110,8 @@ class ConfirmPhoneChangeController extends GetxController {
             ? parsed.Token
             : current.Token,
         CityId: parsed.CityId ?? current.CityId,
+        needsProfileCompletion: parsed.needsProfileCompletion ??
+            current.needsProfileCompletion,
       );
 
       if (Get.isRegistered<ProfileuserController>()) {
@@ -122,6 +125,7 @@ class ConfirmPhoneChangeController extends GetxController {
       if (!isClosed) isLoading.value = false;
       Get.back();
       Get.back();
+      ForceProfileCompletion.closeIfComplete();
     } catch (_) {
       ErrorMessage.SnackMessage('login.verify_error'.tr, Colors.red[400]!);
     } finally {

@@ -36,7 +36,24 @@ class EditProfileController extends GetxController {
   }
 
   String? validateName(String? value) {
-    if ((value ?? '').trim().isEmpty) return 'profile.name_required'.tr;
+    final name = (value ?? '').trim();
+    if (name.isEmpty) return 'profile.name_required'.tr;
+    final phone = phoneController.text.trim();
+    if (name == phone || RegExp(r'^\d+$').hasMatch(name)) {
+      return 'profile.name_not_phone'.tr;
+    }
+    return null;
+  }
+
+  String? validateAddress(String? value) {
+    if ((value ?? '').trim().isEmpty) return 'profile.address_required'.tr;
+    return null;
+  }
+
+  String? validateFunctionPoint(String? value) {
+    if ((value ?? '').trim().isEmpty) {
+      return 'profile.function_point_required'.tr;
+    }
     return null;
   }
 
@@ -73,7 +90,7 @@ class EditProfileController extends GetxController {
     }
   }
 
-  Future<void> save() async {
+  Future<void> save({bool popOnSuccess = true, bool requireComplete = false}) async {
     if (isSaving.value) return;
     final name = nameController.text.trim();
     final phone = phoneController.text.trim();
@@ -84,6 +101,19 @@ class EditProfileController extends GetxController {
     if (validatePhone(phone) != null) {
       ErrorMessage.SnackMessage(validatePhone(phone)!, Colors.red[400]!);
       return;
+    }
+    if (requireComplete) {
+      if (validateAddress(addressController.text) != null) {
+        ErrorMessage.SnackMessage(
+            validateAddress(addressController.text)!, Colors.red[400]!);
+        return;
+      }
+      if (validateFunctionPoint(functionPointController.text) != null) {
+        ErrorMessage.SnackMessage(
+            validateFunctionPoint(functionPointController.text)!,
+            Colors.red[400]!);
+        return;
+      }
     }
 
     final client = _clientOrLogout();
@@ -131,7 +161,7 @@ class EditProfileController extends GetxController {
       await _applyUser(UsersModel.fromJson(data));
       ErrorMessage.SnackMessage(
           msg.isNotEmpty ? msg : 'common.success'.tr, Colors.green[400]!);
-      Get.back();
+      if (popOnSuccess) Get.back();
     } catch (_) {
       ErrorMessage.SnackMessage('error.fetch'.tr, Colors.red[400]!);
     } finally {

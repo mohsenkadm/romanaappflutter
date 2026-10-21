@@ -99,12 +99,61 @@ class _CoverageGateState extends State<CoverageGate> {
     }
   }
 
-  void _showOnMap(double lat, double lng) {
+  void _showOnMap(double lat, double lng, {double? zoom}) {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (!mounted) return;
       try {
-        _mapController.move(LatLng(lat, lng), 16);
+        final z = zoom ?? _safeZoom(fallback: 16);
+        _mapController.move(LatLng(lat, lng), z);
       } catch (_) {}
+    });
+  }
+
+  double _safeZoom({double fallback = 16}) {
+    try {
+      return _mapController.camera.zoom;
+    } catch (_) {
+      return fallback;
+    }
+  }
+
+  void _zoomBy(double delta) {
+    try {
+      final camera = _mapController.camera;
+      final next = (camera.zoom + delta).clamp(3.0, 19.0);
+      _mapController.move(camera.center, next);
+    } catch (_) {}
+  }
+
+  Future<void> _goToMyLocation() async {
+    setState(() {
+      _phase = _GatePhase.loadingGps;
+      _message = null;
+    });
+
+    final coords = await LocationGuard.ensureCoordinates(
+      showSnackbar: true,
+      allowSavedFallback: false,
+      preferSaved: false,
+    );
+
+    if (!mounted) return;
+
+    if (coords == null) {
+      setState(() {
+        _phase = _GatePhase.mapReady;
+        _message = 'تعذر قراءة موقعك الحالي — فعّل GPS أو اضغط على الخريطة';
+      });
+      return;
+    }
+
+    _pinMoved = true;
+    _zoneName = null;
+    _applyCoords(coords.lat, coords.lng);
+    _showOnMap(coords.lat, coords.lng, zoom: 16);
+    setState(() {
+      _phase = _GatePhase.mapReady;
+      _message = null;
     });
   }
 
@@ -215,6 +264,18 @@ class _CoverageGateState extends State<CoverageGate> {
                   )
                 else
                   const Center(child: CircularProgressIndicator()),
+                if (_lat != null && _lng != null) ...[
+                  Positioned(
+                    right: 12,
+                    bottom: 16,
+                    child: _mapZoomControls(primary),
+                  ),
+                  Positioned(
+                    left: 12,
+                    bottom: 16,
+                    child: _myLocationButton(primary),
+                  ),
+                ],
                 if (_phase == _GatePhase.loadingGps ||
                     _phase == _GatePhase.checking)
                   Container(
@@ -245,6 +306,84 @@ class _CoverageGateState extends State<CoverageGate> {
           ),
           _bottomPanel(primary),
         ],
+      ),
+    );
+  }
+
+  Widget _mapZoomControls(Color primary) {
+    return Material(
+      elevation: 4,
+      borderRadius: BorderRadius.circular(12),
+      color: Colors.white,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          _mapIconButton(
+            icon: Icons.add,
+            tooltip: 'تكبير',
+            onTap: () => _zoomBy(1),
+            primary: primary,
+          ),
+          Container(width: 36, height: 1, color: Colors.grey.shade200),
+          _mapIconButton(
+            icon: Icons.remove,
+            tooltip: 'تصغير',
+            onTap: () => _zoomBy(-1),
+            primary: primary,
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _myLocationButton(Color primary) {
+    return Material(
+      elevation: 4,
+      borderRadius: BorderRadius.circular(12),
+      color: Colors.white,
+      child: InkWell(
+        onTap: _phase == _GatePhase.loadingGps || _phase == _GatePhase.checking
+            ? null
+            : _goToMyLocation,
+        borderRadius: BorderRadius.circular(12),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(Icons.my_location, color: primary, size: 20),
+              const SizedBox(width: 6),
+              Text(
+                'موقعي الحالي',
+                style: GoogleFonts.cairo(
+                  fontSize: 13,
+                  fontWeight: FontWeight.bold,
+                  color: primary,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _mapIconButton({
+    required IconData icon,
+    required String tooltip,
+    required VoidCallback onTap,
+    required Color primary,
+  }) {
+    return Tooltip(
+      message: tooltip,
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(12),
+        child: SizedBox(
+          width: 44,
+          height: 44,
+          child: Icon(icon, color: primary),
+        ),
       ),
     );
   }

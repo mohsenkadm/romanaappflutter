@@ -12,6 +12,7 @@ class UsersModel {
   String? Password;
   int? CityId;
   bool? isConfirm;
+  bool? needsProfileCompletion;
 
   UsersModel({
     required this.userId,
@@ -25,6 +26,7 @@ class UsersModel {
     this.Password,
     this.CityId,
     this.isConfirm,
+    this.needsProfileCompletion,
   });
 
   factory UsersModel.fromJson(Map<String, dynamic> json) {
@@ -50,6 +52,13 @@ class UsersModel {
           : parseId(json['cityId'] ?? json['CityId']),
       isConfirm: () {
         final v = json['isConfirm'] ?? json['IsConfirm'];
+        if (v is bool) return v;
+        if (v == null) return null;
+        return v.toString().toLowerCase() == 'true';
+      }(),
+      needsProfileCompletion: () {
+        final v = json['needsProfileCompletion'] ??
+            json['NeedsProfileCompletion'];
         if (v is bool) return v;
         if (v == null) return null;
         return v.toString().toLowerCase() == 'true';

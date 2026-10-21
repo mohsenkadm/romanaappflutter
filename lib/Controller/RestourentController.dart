@@ -84,7 +84,7 @@ class RestourentController extends GetxController {
           AppLink.apiUrl,
           AppLink.getRestaurantByLocation,
           RestaurantLocationQuery.build()));
-      if (response.statusCode == 200) {
+      if (response. statusCode == 200) {
         final result = json.decode(response.body);
         var data = result['data'] as List? ?? [];
         itemsresAll.value =

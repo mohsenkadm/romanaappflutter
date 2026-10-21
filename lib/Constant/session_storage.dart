@@ -30,6 +30,8 @@ class SessionStorage {
     await box.write('Address', user.Address);
     await box.write('FunctionPoint', user.FunctionPoint);
     if (user.CityId != null) await box.write('CityId', user.CityId);
+    final needs = user.needsProfileCompletion ?? computeNeedsCompletion(user);
+    await box.write('needsProfileCompletion', needs);
   }
 
   static UsersModel userFromBox(GetStorage box) {
@@ -41,7 +43,28 @@ class SessionStorage {
       FunctionPoint: box.read('FunctionPoint')?.toString() ?? '',
       Token: token(box),
       CityId: box.read('CityId') as int?,
+      needsProfileCompletion: box.read('needsProfileCompletion') == true,
     );
+  }
+
+  static bool computeNeedsCompletion(UsersModel user) {
+    final name = user.Name.trim();
+    final phone = user.Phone.trim();
+    final address = (user.Address ?? '').trim();
+    final point = user.FunctionPoint.trim();
+    if (name.isEmpty || name == phone || RegExp(r'^\d+$').hasMatch(name)) {
+      return true;
+    }
+    if (address.isEmpty) return true;
+    if (point.isEmpty) return true;
+    return false;
+  }
+
+  static bool needsCompletion(GetStorage box) {
+    if (!isLoggedIn(box)) return false;
+    final stored = box.read('needsProfileCompletion');
+    if (stored is bool) return stored;
+    return computeNeedsCompletion(userFromBox(box));
   }
 
   /// يبني [UsersModel] من استجابة VerifyOtp / ConfirmCode (شكل مختصر أو كامل).
@@ -58,6 +81,8 @@ class SessionStorage {
       'functionPoint': data['functionPoint'] ?? data['FunctionPoint'] ?? '',
       'cityId': data['cityId'] ?? data['CityId'],
       'isConfirm': data['isConfirm'] ?? data['IsConfirm'],
+      'needsProfileCompletion':
+          data['needsProfileCompletion'] ?? data['NeedsProfileCompletion'],
     });
   }
 }

@@ -122,6 +122,30 @@ class _Orderdeitals extends State<orderdeitals>
       final cancelled =
           ord?.isCancel == true || (ord?.statusCode ?? -1) == 9;
       if (reason.isEmpty && !cancelled) return const SizedBox.shrink();
+      final title = ord?.isUserCancel == true
+          ? 'orders.cancelled_by_you'.tr
+          : (reason.isEmpty ? 'orders.status_cancelled_banner'.tr : 'سبب الرفض');
+      if (reason.isEmpty && cancelled) {
+        return Container(
+          width: double.infinity,
+          margin: const EdgeInsets.fromLTRB(12, 0, 12, 8),
+          padding: const EdgeInsets.all(14),
+          decoration: BoxDecoration(
+            color: Colors.red.shade50,
+            borderRadius: BorderRadius.circular(14),
+            border: Border.all(color: Colors.red.shade200),
+          ),
+          child: Text(
+            title,
+            textAlign: TextAlign.right,
+            style: GoogleFonts.cairo(
+              fontWeight: FontWeight.bold,
+              fontSize: 14,
+              color: Colors.red[800],
+            ),
+          ),
+        );
+      }
       if (reason.isEmpty) return const SizedBox.shrink();
       return Container(
         width: double.infinity,
@@ -142,7 +166,7 @@ class _Orderdeitals extends State<orderdeitals>
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   Text(
-                    'سبب الرفض',
+                    title,
                     style: GoogleFonts.cairo(
                       fontWeight: FontWeight.bold,
                       fontSize: 14,
@@ -739,10 +763,6 @@ class _Orderdeitals extends State<orderdeitals>
       ),
     );
     if (ok != true) return;
-    final success = await _ctrl.cancelOrderByCustomer();
-    if (success) {
-      ErrorMessage.SnackMessage('orders.cancelled_ok'.tr, Colors.orange[400]!);
-      await _ctrl.fetchData();
-    }
+    await _ctrl.cancelOrderByCustomer();
   }
 }

@@ -542,7 +542,9 @@ class _LatestOrderCard extends StatelessWidget {
   }
 
   String _getStatusText(OrdersModel order) {
-    if (order.isCancel == true) return 'مرفوض';
+    if (order.isCancel == true) {
+      return order.isUserCancel == true ? 'orders.cancelled_by_you'.tr : 'مرفوض';
+    }
     if (order.isDone == true) return 'منتهي';
     if (order.isApporve == true) return 'مقبول';
     return 'انتظار';
@@ -793,8 +795,11 @@ class _CancelledOrderCard extends StatelessWidget {
                       color: Colors.red.withOpacity(0.1),
                       borderRadius: BorderRadius.circular(8),
                     ),
-                    child: const Text('مرفوض',
-                        style: TextStyle(
+                    child: Text(
+                        order.isUserCancel == true
+                            ? 'orders.cancelled_by_you'.tr
+                            : 'مرفوض',
+                        style: const TextStyle(
                             fontSize: 12,
                             color: Colors.red,
                             fontWeight: FontWeight.bold)),

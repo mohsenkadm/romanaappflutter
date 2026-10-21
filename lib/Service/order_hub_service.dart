@@ -112,6 +112,11 @@ class OrderHubService extends GetxService {
         return 'تم تأكيد استلام الطلب';
       case 'approved':
         return 'تمت موافقة المطعم على طلبك';
+      case 'cancel':
+      case 'cancelled':
+      case 'canceled':
+      case 'cancel_print':
+        return 'تم إلغاء الطلب';
       default:
         return 'تم تحديث حالة طلبك';
     }

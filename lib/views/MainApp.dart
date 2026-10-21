@@ -15,6 +15,7 @@ import 'package:romanaappflutter/Controller/AppBadgeController.dart';
 import 'package:romanaappflutter/Controller/NetworkController.dart';
 import 'package:romanaappflutter/Controller/AppSplashController.dart';
 import 'package:romanaappflutter/Service/order_hub_service.dart';
+import 'package:romanaappflutter/views/ForceProfileCompletionDialog.dart';
 import 'package:romanaappflutter/Constant/cart_badge.dart';
 import 'package:romanaappflutter/core/locale/locale_service.dart';
 
@@ -65,6 +66,7 @@ class _MainAppState extends State<MainApp> with TickerProviderStateMixin {
       _badges.refreshCart();
       await AppSplashController.showIfNeeded();
       await ZoneGuard.ensureZoneSelected();
+      await ForceProfileCompletion.ensureShown();
       if (!Get.isRegistered<OrderHubService>()) {
         await Get.putAsync<OrderHubService>(() async {
           final s = OrderHubService();

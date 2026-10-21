@@ -6,6 +6,7 @@ import 'package:http/http.dart' as http;
 import 'package:romanaappflutter/Constant/api_auth.dart';
 import 'package:romanaappflutter/Constant/session_storage.dart';
 import 'package:romanaappflutter/Controller/ProfileuserController.dart';
+import 'package:romanaappflutter/Model/UsersModel.dart';
 import 'package:romanaappflutter/linkapi.dart';
 import 'package:romanaappflutter/views/login.dart';
 
@@ -43,6 +44,33 @@ class TokenRefreshService {
       String? newToken;
       if (data is Map) {
         newToken = (data['token'] ?? data['Token'])?.toString();
+        final user = UsersModel.fromJson(Map<String, dynamic>.from(data));
+        if (user.userId > 0) {
+          final merged = UsersModel(
+            userId: user.userId,
+            Name: user.Name.isNotEmpty
+                ? user.Name
+                : (box.read('Name')?.toString() ?? ''),
+            Phone: user.Phone.isNotEmpty
+                ? user.Phone
+                : (box.read('Phone')?.toString() ?? ''),
+            Address: user.Address ?? box.read('Address')?.toString(),
+            FunctionPoint: user.FunctionPoint.isNotEmpty
+                ? user.FunctionPoint
+                : (box.read('FunctionPoint')?.toString() ?? ''),
+            Token: newToken ?? SessionStorage.token(box),
+            CityId: user.CityId ?? box.read('CityId') as int?,
+            needsProfileCompletion: user.needsProfileCompletion,
+          );
+          if (Get.isRegistered<ProfileuserController>()) {
+            await Get.find<ProfileuserController>().applySession(merged);
+          } else {
+            await SessionStorage.persistUser(box, merged);
+          }
+        } else if (user.needsProfileCompletion != null) {
+          await box.write(
+              'needsProfileCompletion', user.needsProfileCompletion);
+        }
       } else if (data is String) {
         newToken = data;
       }

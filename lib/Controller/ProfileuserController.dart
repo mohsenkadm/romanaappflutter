@@ -55,6 +55,7 @@ class ProfileuserController extends GetxController {
     await box.write('Phone', '');
     await box.write('Address', '');
     await box.write('FunctionPoint', '');
+    await box.write('needsProfileCompletion', false);
     await box.write('Password', '');
     OneSignal.logout();
     user.value = null;

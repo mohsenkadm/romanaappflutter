@@ -32,6 +32,7 @@ class OrderStatusHelper {
     'cancel': 9,
     'cancelled': 9,
     'canceled': 9,
+    'cancel_print': 9,
   };
 
   static String labelAr(int? code) => labelFor(code ?? -1);

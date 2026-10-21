@@ -65,7 +65,9 @@ class AppLink {
   static String getOrderFullDetails(int orderId) =>
       "Orders/GetOrderFullDetails/$orderId";
 
-  /// إلغاء الطلب — متاح للزبون قبل موافقة المطعم.
+  /// إلغاء الطلب من الزبون قبل خروجه للتوصيل / التسليم.
+  static String cancelByUser(int orderId) => "Orders/CancelByUser/$orderId";
+  /// لا تستخدم من تطبيق الزبون — للمطعم/الأدمن فقط.
   static String setIsCancel(int orderId) => "Orders/SetIsCancel/$orderId";
 
   /// Live driver position for an order (customer JWT). Backend pending.

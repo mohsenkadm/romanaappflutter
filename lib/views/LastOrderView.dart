@@ -4,7 +4,6 @@ import 'package:get/get.dart';
 import 'package:romanaappflutter/core/locale/locale_service.dart';
 import 'package:get_time_ago/get_time_ago.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:romanaappflutter/Constant/ErrorMessage.dart';
 import 'package:romanaappflutter/Constant/order_status_helper.dart';
 import 'package:romanaappflutter/Constant/order_status_resolver.dart';
 import 'package:romanaappflutter/Controller/MyOrderController.dart';
@@ -561,7 +560,6 @@ class _ExpandableOrderCardState extends State<_ExpandableOrderCard> {
     ctrl.OrderId = (ord.orderId ?? 0).toString();
     final success = await ctrl.cancelOrderByCustomer();
     if (success) {
-      ErrorMessage.SnackMessage('orders.cancelled_ok'.tr, Colors.orange[400]!);
       await widget.onCancelled();
     }
   }

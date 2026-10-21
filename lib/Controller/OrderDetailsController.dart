@@ -125,6 +125,7 @@ class OrderDetailsController extends GetxController {
       netAmount:     double.tryParse(f('netAmount', 'NetAmount')?.toString() ?? ''),
       costDelivery:  double.tryParse(f('costDelivery', 'CostDelivery')?.toString() ?? ''),
       isCancel:      f('isCancel', 'IsCancel') as bool?,
+      isUserCancel:  f('isUserCancel', 'IsUserCancel') as bool?,
       isApporve:     f('isApporve', 'IsApporve') as bool?,
       isDone:        f('isDone', 'IsDone') as bool?,
       restaurantName:f('restaurantName', 'RestaurantName') as String?,
@@ -213,19 +214,20 @@ class OrderDetailsController extends GetxController {
   bool get isTrackable =>
       statusCode.value >= 3 && statusCode.value < 8;
 
-  /// الزبون يلغي فقط قبل موافقة المطعم.
-  static bool canCustomerCancel(OrdersModel? ord) {
+  /// الزبون يلغي قبل الخروج للتوصيل / التسليم / التأكيد.
+  static bool canCustomerCancel(OrdersModel? ord, [int? liveCode]) {
     if (ord == null) return false;
     if (ord.isCancel == true) return false;
     if (ord.isDone == true) return false;
-    if (ord.isApporve == true) return false;
-    final code = OrderStatusResolver.effectiveCode(ord, ord.statusCode);
-    return code <= 0;
+    final code = (liveCode != null && liveCode >= 0)
+        ? liveCode
+        : OrderStatusResolver.effectiveCode(ord, ord.statusCode);
+    if (code == 9 || code == 6 || code == 7 || code == 8) return false;
+    return true;
   }
 
   bool get canCancelAsCustomer =>
-      canCustomerCancel(order.value) &&
-      (statusCode.value < 0 || statusCode.value <= 0);
+      canCustomerCancel(order.value, statusCode.value);
 
   final RxBool isCancelling = false.obs;
 
@@ -238,7 +240,7 @@ class OrderDetailsController extends GetxController {
     isCancelling.value = true;
     try {
       final response = await OrderApiHttp.delete(
-        Uri.https(AppLink.apiUrl, AppLink.setIsCancel(oid)),
+        Uri.https(AppLink.apiUrl, AppLink.cancelByUser(oid)),
         headers: ApiAuth.headers(),
       );
       if (response.statusCode != 200) {
@@ -252,11 +254,29 @@ class OrderDetailsController extends GetxController {
             data['msg']?.toString() ?? 'error.cancel_order_fail'.tr, Colors.red[400]!);
         return false;
       }
+      if (data is Map && (data['msg']?.toString() ?? '').trim().isNotEmpty) {
+        ErrorMessage.SnackMessage(
+            data['msg'].toString(), Colors.green[400]!);
+      }
+      final payload = data is Map ? data['data'] : null;
+      if (payload != null) {
+        final parsed = OrderFullDetailsParser.parse(payload);
+        if (parsed?.order != null) {
+          order.value = parsed!.order;
+          if (parsed.details.isNotEmpty) itemscurrent.value = parsed.details;
+          statusCode.value = OrderStatusResolver.effectiveCode(
+            parsed.order,
+            parsed.statusCode ?? 9,
+          );
+        }
+      }
       if (order.value != null) {
         order.value!.isCancel = true;
+        order.value!.isUserCancel = true;
         order.refresh();
       }
       statusCode.value = 9;
+      await fetchData(silent: true);
       if (Get.isRegistered<MyOrderController>()) {
         await MyOrderController.instance.fetchData();
       }

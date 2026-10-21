@@ -265,7 +265,10 @@ class _OrderCard extends StatelessWidget {
     final code = OrderStatusResolver.effectiveCode(items, items.statusCode);
     final label = OrderStatusHelper.labelFor(code);
     if (code == 9 || items.isCancel == true) {
-      return _StatusInfo(label, Colors.red, Icons.cancel_rounded);
+      final cancelLabel = items.isUserCancel == true
+          ? 'orders.cancelled_by_you'.tr
+          : label;
+      return _StatusInfo(cancelLabel, Colors.red, Icons.cancel_rounded);
     }
     if (code >= 7 || items.isDone == true) {
       return _StatusInfo(label, Colors.green, Icons.check_circle_rounded);

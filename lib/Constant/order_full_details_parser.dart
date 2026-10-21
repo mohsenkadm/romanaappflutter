@@ -92,6 +92,7 @@ class OrderFullDetailsParser {
       costDelivery:
           double.tryParse(f('costDelivery', 'CostDelivery')?.toString() ?? ''),
       isCancel: f('isCancel', 'IsCancel') as bool?,
+      isUserCancel: f('isUserCancel', 'IsUserCancel') as bool?,
       isApporve: f('isApporve', 'IsApporve') as bool?,
       isDone: f('isDone', 'IsDone') as bool?,
       isPreparing: f('isPreparing', 'IsPreparing') as bool?,
